@@ -10,14 +10,19 @@ se déplacer sur la nouvelle branch `git checkout nomDeBranch`
 
 pour vérifier sur quel branche on se trouve `git branch`
 
-une fois toute nos modif effectuer on add/commit et :
- - soit on `git push` sur notre branch, c'est bien de commiter des petits changement de code, quitte à avoir 150 commit, ça aide en cas de cassage de code de pouvoir remonter les modifications petit à petit. Genre tous les fonctions, ou partie de code lié.
- - soit on `git merge nomDeBranch` ce qui va recoler notre branche nomDeBranch à la branche principal master. Cette commande est un peu sensible et peux générer des conflits, si c'est le cas, laisser tomber le merge. 
+une fois toute nos modif effectuer on add/commit et on `git push` sur notre branch, c'est bien de commiter des petits changement de code, quitte à avoir 150 commit, ça aide en cas de cassage de code de pouvoir remonter les modifications petit à petit. Genre tous les fonctions, ou partie de code lié.
+
+Pour que les autre branches soit à jour, on doit recoler (merge) nos branch. Pour ce faire :
+ - retourner sur la branch principal `git checkout main`
+ - on merge notre branche `git merge nomDeBranch`. C'est à dire que l'on merge la branche préciser dans la commande sur la branche où l'on se trouve.
+ - on peut vérifier avec un git log --graph, les modif de nomDeBranch sont maintenant présente sur la branche main
+
+C'est pour cela qu'il faut toujours faire un pull du repo distant avant toutes modification de code. Si des modifications on été faites et qu'on a pas pull, on aura des conflits au moment du push car on n'aura pas la même base.
 
 ```
 	  A---B---C  nomDeBranch
 	 /         \
-    D---E---F---G---H master
+    D---E---F---G---H main
 ```
 
 ### git commande utiles
