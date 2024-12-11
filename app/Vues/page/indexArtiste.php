@@ -20,13 +20,6 @@
                             <p>".$artistes[$i]['nomartiste']." ".$artistes[$i]['prenomartiste']."</p>
                         </div>";
                     }
-                    // for ($i=0; $i < 7; $i++) { 
-                    //     // var_dump_pre($artistes[$i]);
-                    //     echo "
-                    //     <div>
-                    //         <p>".$artistes[$i]['nomartiste']." ".$artistes[$i]['prenomartiste']."</p>
-                    //     </div>";
-                    // }
                     ?>
             </div>
         </div>

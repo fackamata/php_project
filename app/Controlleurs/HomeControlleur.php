@@ -3,14 +3,24 @@
 // le controlleur sert à envoyer du contenu aux vues
 // S'il as besoin de données en BDD, il appel les fonctions dans les modèles 
 
-echo "le home controlleur fonctionne ";
+echo "home controlleur OK ";
 
 
 
-function index(){
-    echo 'fonction index dans le controlleur home';
+function index($id){
+    echo 'fonction index '.$id;
     return $data = [
-        'page' => "home", 
+        'page' => "home",
+        'title' => 'Home',
+        'indice' => $id,
+    ];
+}
+
+function notFound404(){
+    print('fonction 404') ;
+    return $data = [
+        'page' => "404", 
+        'title' => '404'
     ];
 }
 
