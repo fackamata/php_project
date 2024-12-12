@@ -1,17 +1,16 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title><?php $title ?></title>
+    <title><?php $data["title"] ?></title>
 </head>
 
 <body>
 
 <header>
+    <!-- navbar commune à toutes les pages -->
     <nav>
         <ul>
             <li><a href="?c=home&f=index">Home</a></li>
@@ -26,7 +25,7 @@
     <!--            VIEW CONTENT HERE !! -->
     <?=  
             $view_content;
-            var_dump($data["title"]);
+            // var_dump($data["title"]);
          ?>
     </div>
 

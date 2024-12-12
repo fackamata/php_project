@@ -1,8 +1,25 @@
 <?php
-require_once "app/Config/Utils.php"; // pour faire des beau var dump
+require_once "app/Config/Utils.php"; // pour faire de beau var dump <pre>
+/* 
+           index.php
 
-// var_dump_pre($_SERVER['REQUEST_URI']);
-var_dump_pre($_GET);
+   page par laquelle passe tous l'affichage de notre site web
+
+   pour que les vues soient chargées dynamiquement:
+    - on utilise les variables :
+        c pour controlleur
+        f pour fonction
+        i pour indice
+    - dans l'uri sous la forme :
+        notreSite/?c=nomControlleur&f=nomFonction&i=numéroIndice
+    - récupérable avec la variable spéciales $_GET ( $_GET['i'])
+    - on require le controller
+    - on appelle la fonctionle controller
+
+
+*/ 
+
+// var_dump_pre($_GET);
 
 // on récupère le controlleur demander dans l'uri sinon Home
 $c = isset($_GET['c']) ? $_GET['c'] : "HomeControlleur" ;
@@ -14,20 +31,32 @@ $c = ucfirst($c);
 $c = $c."Controlleur";
 // var_dump_pre($c);
 $controlleur = is_file("./app/Controlleurs/$c.php") ? "./app/Controlleurs/$c.php" : "./app/Controlleurs/HomeControlleur.php";
-var_dump_pre($controlleur);
+// var_dump_pre($controlleur);
 
 // on include le controlleur pour utiliser les fonctions de celui-ci
 require_once $controlleur;
 
 // on récupère la fonction du controlleur à exécuter
-// du coup il nous faut une fonction dans chaque controlleur
+// du coup il nous faut une fonction index dans chaque controlleur
+// la page d'acceuil du controlleur en gros
 $fonction = isset($_GET['f']) ? $_GET['f'] : "index" ; 
 
-// on récupère l'id si besoin
-$indice = isset($_GET['i']) ? $_GET['i'] : 0 ; 
+switch ($fonction) {
+    case 'index':
+        $data = $fonction($id);
+        break;
+    case 'update':
+        $data = $fonction($id, $_POST); // TODO voir quel param entrer
+        break;
+}
 
-//code...
+// on récupère l'id si besoin
+$id = isset($_GET['i']) ? $_GET['i'] : 0 ; 
+// var_dump_pre($id);
+
+// on sait jamais...
 try {
+    // On appel la fonction demander avec comme paramètre l'id
     $data = $fonction($id);
     // var_dump_pre($data);
     $page = $data['page'];
@@ -38,6 +67,12 @@ try {
     $page = "404";
     $title = "perdu !";
 }
+
+// // test des images en cours
+// $img = __DIR__."assets/img/default_sm.png";
+// // var_dump_pre($img);
+// $img_alt = "alternative à l'image";
+
 
 // on récupère la vue
 $view = is_file("./app/Vues/page/$page.php") ? "./app/Vues/page/$page.php" : "./app/Vues/page/404.php";

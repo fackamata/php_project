@@ -1,8 +1,20 @@
 <?php
-
-// include "./fonctionsConnection.php";
 require __DIR__.  "/fonctionsConnexion.php";
+/* 
+           Artiste Modele
 
+   toutes les fonctions qui communique avec la table Artiste en Base de données :
+   
+   en général une fonction :
+     - insertion de données en base de données:
+         TODO finir la doc
+   
+     - demande d'info à la base de données:
+         TODO finir la doc
+
+ c'est le controlleur qui interroge le modèle pour
+ récupérer des information
+*/ 
 
 function enregistreArtiste($nom, $prenom) {
    /* ------------------------------------------------
@@ -14,7 +26,7 @@ function enregistreArtiste($nom, $prenom) {
    */
   $connex=connexionBDD(); 
   
-  $sql="INSERT INTO ARTISTES (NomArtiste, PrenomArtiste ) VALUES ('".$nom."', '".$prenom."') RETURNING idArtiste";    // déclaration de la variable appelée $sql.
+  $sql="INSERT INTO artistes (nomartiste, prenomartiste ) VALUES ('".$nom."', '".$prenom."') RETURNING idArtiste";    // déclaration de la variable appelée $sql.
   $res=$connex->query($sql);				// demande d'execution de la requête sur la base via le connecteur $connex. Le resultat est dans la variable $res au format structuré PDO
   $lire = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
   deconnexionBDD($connex);
@@ -44,7 +56,7 @@ $connex=connexionBDD();
 }
 
 
-function ListerUnArtiste($id_art) {
+function listerUnArtiste($id_art) {
 /*--------------------------------
 récupère un Artiste à partir de son $id_art
 paramètres d'entrées :
@@ -54,9 +66,9 @@ retourne la liste d'un Artiste
 -----------------------------*/
    $connex=connexionBDD(); 
    try {
-      $sql="SELECT NomArtiste, PrenomArtiste FROM ARTISTES WHERE idArtiste LIKE '".$id_art."' ";				// déclaration de la variable appelee $sql.
+      $sql="SELECT idartiste, nomartiste, prenomartiste FROM artistes WHERE idArtiste LIKE '".$id_art."' ";				// déclaration de la variable appelee $sql.
       $res=$connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
-      $resu=$res->fetchOne();
+      $resu=$res->fetch();
    } catch (PDOException $e) { // si échec
       print "Erreur pour récupérer tous les artistes : " . $e->getMessage();
       die(""); // Arrêt du script - sortie.
@@ -66,7 +78,7 @@ retourne la liste d'un Artiste
    return $resu;								// retourne a l'appelant le resultat.
 }
 
-function addArtistes($nomA, $prenomA) {
+function addArtistes($nomA, $prenomA): void {
    /*--------------------------------
    
    -----------------------------*/
@@ -84,3 +96,25 @@ function addArtistes($nomA, $prenomA) {
    deconnexionBDD($connex);
    // return $resu;								// retourne a l'appelant le resultat.
 }
+
+function enregistremodif_artiste($idartiste, $var): void {
+   //Enregistre les modifications sur un artiste par son id_artiste
+
+   $connex=connexionBDD(); 
+   try {
+      $sql=" UPDATE artistes SET (nomartiste, prenomartiste, descriptionartiste, villeartiste, paysartiste, emailartiste) 
+            VALUES ('".$description."','". $nom."','". $prenom."','". $ville."','". $pays."','". $email."') 
+            WHERE idartiste = '".$idartiste."'";
+      var_dump($sql);
+      $res=$connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
+      // $resu=$res->fetchOne();
+      } catch (PDOException $e) { // si échec
+         print "Erreur pour la modification d'un artiste : " . $e->getMessage();
+         die(""); // Arrêt du script - sortie.
+      }
+      
+      deconnexionBDD($connex);
+      // return $res;					
+      }
+?>
+
