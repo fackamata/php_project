@@ -41,6 +41,10 @@ require_once $controlleur;
 // la page d'acceuil du controlleur en gros
 $fonction = isset($_GET['f']) ? $_GET['f'] : "index" ; 
 
+// on récupère l'id si besoin
+$id = isset($_GET['i']) ? $_GET['i'] : 0 ; 
+// var_dump_pre($id);
+
 switch ($fonction) {
     case 'index':
         $data = $fonction($id);
@@ -50,14 +54,13 @@ switch ($fonction) {
         break;
 }
 
-// on récupère l'id si besoin
-$id = isset($_GET['i']) ? $_GET['i'] : 0 ; 
-// var_dump_pre($id);
+
 
 // on sait jamais...
 try {
-    // On appel la fonction demander avec comme paramètre l'id
-    $data = $fonction($id);
+    // remplacer par le switch plus haut
+                // On appel la fonction demander avec comme paramètre l'id
+                // $data = $fonction($id);
     // var_dump_pre($data);
     $page = $data['page'];
     $title = $data['title'];
