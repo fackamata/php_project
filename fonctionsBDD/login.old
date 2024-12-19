@@ -1,0 +1,19 @@
+<?php
+function login_artiste($login, $connex){
+    //Fonction qui récupère les login d'un utilisateur avant de le logguer.
+    $sql="SELECT motdepasseartiste, pseudoartiste, idartiste FROM artistes WHERE pseudoartiste='".$login."'";
+    print $sql;
+    $res=$connex->query($sql);
+    $resu=$res->fetch();
+    return $resu;
+}
+
+function login_client($login, $connex){
+    //Fonction qui récupère les login d'un utilisateur avant de le logguer.
+    $sql="SELECT motdepasseclient, pseudoclient, idclient FROM clients WHERE pseudoclient='".$login."'";
+    print $sql;
+    $res=$connex->query($sql);
+    $resu=$res->fetch();
+    return $resu;
+}
+?>
