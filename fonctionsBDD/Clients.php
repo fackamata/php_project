@@ -45,6 +45,9 @@ function get_client_by_id(int $id): array
   retourne l'identifiant qui a été choisi par le sgbd lors de l'insertion
   */
   $connex=connectionBDD(); // on se connect
+  
+  $id = pg_escape_string($id);
+
   try {
     $sql="SELECT * FROM clients WHERE idclient = '".$id."'";
       $res=$connex->query($sql);
@@ -70,7 +73,10 @@ function add_client(array $data): int
     
     retourne l'identifiant qui a été choisi par le sgbd lors de l'insertion
     */
-    
+   
+  foreach ($data as $key => $value) {
+    $value = pg_escape_string($value);
+  } 
     $connex=connectionBDD(); // on se connect
     try {
       $sql="INSERT INTO clients (nomclient, prenomclient, paysclient, villeclient, emailclient, motdepasseclient)
@@ -101,7 +107,10 @@ function update_client_db(array $data): int
   
   // TODO : REMOVE
   // $sql="UPDATE artistes SET ".$var." WHERE idartiste = '".$idartiste."'";
-
+  
+  foreach ($data as $key => $value) {
+    $value = pg_escape_string($value);
+  }
   $connex=connectionBDD(); // on se connect
   try {
     $sql="UPDATE clients 
@@ -132,6 +141,7 @@ function delete_client($idclient): void
   //Enregistre les modifications sur un client par son id_client
   
   $connex=connectionBDD(); 
+  $idclient = pg_escape_string($idclient);
   try {
     $sql=" DELETE FROM clients WHERE idclient = '".$idclient."'";
     $res=$connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
@@ -149,8 +159,11 @@ function login_client($login){
   //Fonction qui récupère les login d'un client avant de le logguer.
 
   $connex=connectionBDD();
+  
+  $login = pg_escape_string($login);
   try{
-    $sql="SELECT motdepasseclient, pseudoclient, idclient FROM clients WHERE pseudoclient='".$login."'";
+    // connexion client à partir de son adresse mail car elle est unique
+    $sql="SELECT motdepasseclient, pseudoclient, idclient FROM clients WHERE emailclient='".$login."'";
     print $sql;
     $res=$connex->query($sql);
     $resu=$res->fetch();

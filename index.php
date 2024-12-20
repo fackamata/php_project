@@ -17,6 +17,7 @@ require  "./config.php";
     <header>
       <?php include "./View/templates/navbar.php" ?>
     </header>
+    
     <h1>Bienvenue dans notre galeri'alt</h1>
     
     

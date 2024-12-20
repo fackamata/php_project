@@ -7,6 +7,7 @@ require_once './../Utils/marlene_fonction.php';
 // ini_set('upload_tmp_dir', '/var/www/RT/2ALT5/image/');
 
 ?>
+<!doctype html>
 <html lang="fr">
 
 <head>

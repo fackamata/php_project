@@ -1,5 +1,6 @@
 <header>
   <?php $host = "http://".$_SERVER['HTTP_HOST']."/RT/2ALT5/"; ?>
+  <?php $host = "http://".$_SERVER['HTTP_HOST']."/"; ?>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href=<?php echo $host."index.php" ; ?> 
