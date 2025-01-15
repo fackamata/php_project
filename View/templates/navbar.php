@@ -1,6 +1,5 @@
 <header>
   <?php $host = "http://".$_SERVER['HTTP_HOST']."/RT/2ALT5/"; ?>
-  <?php $host = "http://".$_SERVER['HTTP_HOST']."/"; ?>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href=<?php echo $host."index.php" ; ?> 
@@ -42,7 +41,7 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
           
-          <a  href=<?php echo $host."Comment/login_account.php"; ?> 
+          <a  href=<?php echo $host."./connection_account.php"; ?> 
             class="btn btn-info"
             role="button">
             connexion

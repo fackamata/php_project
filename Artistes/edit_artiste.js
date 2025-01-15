@@ -20,3 +20,11 @@ function samepass(){
 
 FIRST.addEventListener('input', samepass);
 SECOND.addEventListener('input', samepass);
+
+
+const PSEUDO = document.getElementById('list');
+
+function checkpseudo(){
+    if(PSEUDO.value in PSEUDO){}
+}
+PSEUDO.addEventListener('input', checkpseudo);

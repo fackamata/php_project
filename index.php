@@ -18,8 +18,10 @@ require  "./config.php";
       <?php include "./View/templates/navbar.php" ?>
     </header>
     
-    <h1>Bienvenue dans notre galeri'alt</h1>
-    
+    <!-- <h1>Bienvenue dans notre galeri'alt</h1> -->
+    <?php 
+    //var_dump($_ENV);
+    ?>
     
     <!-- améliorer pour que les vues soit envoyé ici pour ne pas avoir à recopier le html d'encadrement à chaque fois -->
     <footer>

@@ -1,3 +1,7 @@
+<?php 
+require "./../config.php";
+require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
+?>
 <html>
 <head>
   <!-- Affichage du parametre dans le titre dela page -->
@@ -24,7 +28,15 @@
               <label for="prenom">Prénom : </label>
               <input type='text' name='prenom' value='<?php echo $info["prenomartiste"]?>'></br>
               <label for='pseudo'>Pseudo : </label>
-              <input type='text' name='pseudo' value='<?php echo $info["pseudoartiste"] ?>'></br>
+              <input type='text' name='pseudo' id='pseudo' pattern='' value='<?php echo $info["pseudoartiste"] ?>'></br>
+              <?php
+              $listpseudo = get_all_artiste_pseudo();
+              $list = '';
+              foreach ($listpseudo as $pseudo){
+                $list = $list.$pseudo[0].',';
+              }
+              ?>
+              <div id='list' style="display: none;"><?php echo $list;?></div>
               <label for="email">Email : </label>
               <input type='text' name='email' value='<?php echo $info["emailartiste"] ?>'></br>
               <label for="pays">Pays : </label>

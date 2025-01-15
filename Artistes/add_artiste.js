@@ -18,5 +18,7 @@ function samepass(){
     }
 }
 
+function pseudoexiste(){};
+
 FIRST.addEventListener('input', samepass);
 SECOND.addEventListener('input', samepass);

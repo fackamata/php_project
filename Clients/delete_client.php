@@ -4,7 +4,7 @@ require_once './../fonctionsBDD/Clients.php';
 // require_once "./../Utils/marlene_fonction.php"
 
 ?>
-<!doctype html>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -22,8 +22,7 @@ require_once './../fonctionsBDD/Clients.php';
     <?php
         if (isset($_GET["id"])) {
             // ajouter des vérification et sécurité
-            delete_client($_GET['id']);
-            // deleteClient($_GET['id']);
+            deleteClient($_GET['id']);
             ?>
             <p>tu as supprimer le client</p>
 

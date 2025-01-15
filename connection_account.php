@@ -12,7 +12,7 @@
         <br/><br/>
 		<table border=1 bgcolor="#CCCCCC">
 		<!--<form id='connexion' method="get" action="./Artistes/artiste_account.php">-->
-		<form id='connexion' method="get" action="./login_account.php">
+		<form id='connexion' method="post" action="./login_account.php">
 				<tr>
 					<fieldset id='type_compte'>
 						<legend>Choisir votre type de compte</legend>

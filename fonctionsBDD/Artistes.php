@@ -19,6 +19,24 @@ function get_all_artiste(): array{
   return $resu;
 }
 
+function get_all_artiste_pseudo(){//: array{
+  //Récupère toute les infos de tout les artistes
+  $connex=connectionBDD(); //Connexion à la BDD
+  try{
+    $sql="SELECT pseudoartiste FROM artistes";
+    print $sql;
+    $res=$connex->query($sql);
+    $resu=$res->fetchAll();
+  }
+  catch (PDOException $e) { //Si échec
+    print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
+    $resu = [];
+    die(""); //Arrêt du script
+  }
+  disconnectionBDD($connex);
+  return $resu;
+}
+
 function get_info_artiste(int $idartiste): array{
   //Récupère dans la  base de donnée les informations liées à un artiste en utilisant son id
   //Fonction utiliser pour l'affichage du compte de l'artiste
@@ -95,7 +113,7 @@ function add_artiste(string $var, string $pseudo): int{
   try{
     $sql="INSERT INTO artistes (nomartiste, prenomartiste, villeartiste, 
     paysartiste, emailartiste, descriptionartiste, motdepasseartiste, 
-    pseudoartiste) VALUES ".$var.$pseudo;
+    pseudoartiste) VALUES ".$var."'".$pseudo."')";
     print $sql;
     $res=$connex->query($sql);
   }
@@ -106,7 +124,6 @@ function add_artiste(string $var, string $pseudo): int{
   }
   disconnectionBDD($connex);
   $id = login_artiste($pseudo);
-  echo $id;
-  return $id;
+  return $id["idartiste"];
 }
 ?>

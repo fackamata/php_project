@@ -23,29 +23,29 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; // déclare fichier galerie a
     </header>
     <h1>Galeries</h1>
 
-        <?php	
-			// $galeries = get_all_galerie();
-            // echo "<pre>";
-			// print_r($galeries);
-			// echo "</pre>";
-			// foreach($artises as $galerie) {
-			// 	echo "<div class='card' style='width: 18rem;'>";
-			// 	echo "<img src='...' class='card-img-top' alt='...'>";
-			// 	echo "<div class='card-body'>";
-			// 		echo "<h5 class='card-title'>".$artise[""]"</h5>";
-			// 		echo "<p class='card-text'>Some quick example text to build on the card title and make up the bulk of the cards content.</p>";
-			// 	echo "</div>";
-			// 	echo "<ul class='list-group list-group-flush'>";
-			// 		echo "<li class='list-group-item'>An item</li>";
-			// 		echo "<li class='list-group-item'>A second item</li>";
-			// 		echo "<li class='list-group-item'>A third item</li>";
-			// 	echo "</ul>";
-			// 	echo "<div class='card-body'>";
-			// 		echo "<a href='#' class='card-link'>Card link</a>";
-			// 		echo "<a href='#' class='card-link'>Another link</a>";
-			// 	echo "</div>";
-			// 	echo "</div>";
-			// }
+        <?php
+			$galeries = get_all_galerie();
+            echo "<pre>";
+			print_r($galeries);
+			echo "</pre>";
+			foreach($artises as $galerie) {
+				echo "<div class='card' style='width: 18rem;'>";
+				echo "<img src='...' class='card-img-top' alt='...'>";
+				echo "<div class='card-body'>";
+					echo "<h5 class='card-title'>".$artise[""]"</h5>";
+					echo "<p class='card-text'>Some quick example text to build on the card title and make up the bulk of the cards content.</p>";
+				echo "</div>";
+				echo "<ul class='list-group list-group-flush'>";
+					echo "<li class='list-group-item'>An item</li>";
+					echo "<li class='list-group-item'>A second item</li>";
+					echo "<li class='list-group-item'>A third item</li>";
+				echo "</ul>";
+				echo "<div class='card-body'>";
+					echo "<a href='#' class='card-link'>Card link</a>";
+					echo "<a href='#' class='card-link'>Another link</a>";
+				echo "</div>";
+				echo "</div>";
+			}
 			$galerie = "galeries";
 		?>
 			

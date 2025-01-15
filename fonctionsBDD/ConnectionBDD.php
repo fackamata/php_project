@@ -1,5 +1,5 @@
 <?php
-function connectionBDD($fichierParametre='./../Utils/paramCon.php'): PDO {
+function connectionBDD($fichierParametre=BASE_PATH.'/Utils/paramCon.php'): PDO {
 /*---------------------------------------------
 Création de la connexion à la base de données
 retourne la ressource connecteur à la base de données

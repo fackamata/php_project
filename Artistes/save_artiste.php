@@ -10,7 +10,7 @@ $var = $var."'".$_POST["paysartiste"]."', ";
 $var = $var."'".$_POST["emailartiste"]."', ";
 $var = $var."'".$_POST["descriptionartiste"]."', ";
 $var = $var."'".password_hash($_POST["firstpass"], PASSWORD_DEFAULT)."', ";
-$pseudo = "'".$_POST["pseudoartiste"]."')";
+$pseudo = $_POST["pseudoartiste"];
 $res = add_artiste($var, $pseudo);
 session_start();
 $_SESSION['idartiste'] = $res;
