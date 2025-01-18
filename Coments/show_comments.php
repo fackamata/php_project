@@ -11,8 +11,8 @@ require_once './../fonctionsBDD/Comments.php'; // déclaration du fichier conten
 	</head>
 	<body>
         <?php
-			print_r($_GET);
-			$listcom = get_info_comment($_GET["id_oeuvre"]);
+			print_r($_POST);
+			$listcom = get_info_comment($_POST["id_oeuvre"]);
 			echo "<pre>";
 			print_r($listcom);
 			echo "</pre>";

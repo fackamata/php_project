@@ -1,7 +1,7 @@
 <?php
-require "./config.php";
-require_once BASE_PATH."/fonctionsBDD/Artistes.php";
-//require_once BASE_PATH."/fonctionsBDD/Clients.php";
+// require "./config.php";
+require_once __DIR__."/fonctionsBDD/Artistes.php";
+require_once __DIR__."/Client/Modeles/Clients.php";
 echo "Test";
 echo "<pre>";
 print_r($_POST);
@@ -22,7 +22,6 @@ if ($_POST['type_compte'] == "artistes"){
         $_SESSION['pseudoartiste'] = $res['pseudoartiste'];
         header('Location: ./Artistes/artiste_account.php');
     }
-    else{}
 }
 else{
     $res = login_client($pseudo);

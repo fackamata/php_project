@@ -15,11 +15,11 @@ require_once './../fonctionsBDD/Artistes.php'; // déclare fichier Artiste avec 
             echo "<pre>";
 			print_r($artistes);
 			echo "</pre>";
-			foreach($artises as $artiste) {
+			foreach($artistes as $artiste) {
 				echo "<div class='card' style='width: 18rem;'>";
 				echo "<img src='...' class='card-img-top' alt='...'>";
 				echo "<div class='card-body'>";
-					echo "<h5 class='card-title'>".$artise[""]"</h5>";
+//					echo "<h5 class='card-title'>".$artise[""]"</h5>";
 					echo "<p class='card-text'>Some quick example text to build on the card title and make up the bulk of the cards content.</p>";
 				echo "</div>";
 				echo "<ul class='list-group list-group-flush'>";
@@ -34,19 +34,6 @@ require_once './../fonctionsBDD/Artistes.php'; // déclare fichier Artiste avec 
 				echo "</div>";
 			}
 		?>
-
-			<div>
-				<h3>artiste : <?php echo $artiste ?> </h3>
-			</div>
-		</br>
-		<a href=" <?php echo "./Artistes/artiste_compte.php?id=".$artistes[$i]['idartiste'] ?>"></a>
-		<?php 
-	}
-		?>
-			<div>
-				<h3>artiste : <?php echo $artiste ?> </h3>
-			</div>
-		</br>
 		<a href="javascript:history.back()">Retour à la page d'acceuil</a>
 	</body>
 </html>

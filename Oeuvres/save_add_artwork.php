@@ -30,23 +30,19 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
             }
         }
         $var=$var."'".$idtype."', ";
+        if (!(move_uploaded_file($_FILES['image']['tmp_name'], "../upload/".$_FILES['image']['name']))){
+            $_FILES["image"]["name"] = 'no_img.png';
+        }
 
-        if (is_array($_FILES['image']['name'])){
-            foreach (array_combine($_FILES['image']['tmp_name'], $_FILES['image']['name']) as $tmp => $name){
-                move_uploaded_file($tmp, BASE_PATH.'/upload/'.$name);
-            }
-        }
-        else{
-            move_uploaded_file($_FILES['image']['tmp_name'], BASE_PATH.'/upload/'.$_FILES['image']['name']);
-        }
-        $var=$var."'".serialize($_FILES["image"]["name"])."', ";
+        $var=$var."'".$_FILES["image"]["name"]."', ";
 
         $idartiste = $_SESSION["idartiste"];
         $var=$var."'".$idartiste."'";
         echo "</br> c'est var : ".$var."</br>";
         add_artwork($var);
+        header('Location: ./../Artistes/artiste_account.php');
     ?>
 	<p>Ajout pris en compte ! </p>
-    <a href="javascript:history.back()">Retour à la page de création</a>
+    
 </body>
 </html>

@@ -41,6 +41,14 @@ require_once './../fonctionsBDD/Clients.php';
           <label for="emailclient">email client :</label>
           <input type="text" class="form-control" name="emailclient" >
         <div class="form-group">
+          <label for="firstpass">mot de passe :</label>
+          <input type="password" class="form-control" name="firstpass" id="firstpass" required>
+        </div>
+        <div class="form-group">
+          <label for="secondpass">Confirmer le passe :</label>
+          <input type="password" class="form-control" name="secondpass" id="secondpass" required>
+          <p id='validate'></p>
+        <div class="form-group">
           <label for="motdepasseclient">mot de passe :</label>
           <input type="text" class="form-control" name="motdepasseclient">
         </div>

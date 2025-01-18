@@ -27,8 +27,8 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
             <input type='text' name='nomoeuvre' placeholder='La Joconde' required></br>
             <label for="description">Description de l'oeuvre : </label>
             <input type='text' name='description' placeholder='Tableau de Léonard de Vinci...'></br>
-            <label for="image[]">Images de l'oeuvre : </label>
-            <input type='file' name='image[]' accept='image/*' multiple></br>
+            <label for="image">Images de l'oeuvre : </label>
+            <input type='file' name='image' accept='image/*'></br>
             <label for="date">Date de l'oeuvre : </label>
             <input type='date' name='date' value='".date("Y-m-d")."'></br>
             <label for="type">Type de l'oeuvre : </label>

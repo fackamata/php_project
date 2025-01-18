@@ -25,6 +25,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
             print_r($info);
             echo "</pre>";
         ?>
+        <img src="./../upload/artiste".<?php echo $info["imageartiste"] ?> alt='<?php echo $info["pseudoartiste"]?>'>
         <p> Nom : <?php echo $info["nomartiste"] ?></p>
         <p> Prénom : <?php echo $info["prenomartiste"] ?></p>
         <p> Pseudo : <?php echo $info["pseudoartiste"] ?></p>
@@ -40,17 +41,13 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
 			<?php
                 $collection=get_info_artwork($_SESSION['idartiste']);
                 foreach ($collection as $oeuvre){
-                    foreach (unserialize($oeuvre["imageoeuvre"]) as $image){
-                        echo "
-                        <tr><td>
-                        <img src='./../image/".$image."' alt='".$oeuvre["nomoeuvre"]."'/>
-                        </td>
-                        </br>";
-                    }
+                    echo $oeuvre['imageoeuvre'];
+                    echo "<tr><td><img src='./../upload/".$oeuvre["imageoeuvre"]."' alt='".$oeuvre["nomoeuvre"]."'/></td></br>";
                     echo "<td>Nom : </td><td>".$oeuvre["nomoeuvre"]."</td></br>";
                     echo "<td>Description : </td><td>".$oeuvre["descriptionoeuvre"]."</td></tr></br>";
                     echo "<form method='POST' action='./../Oeuvres/edit_artwork.php'><button name='id_oeuvre' value='".serialize($oeuvre)."'>modifier</button></form>";
-                    echo "<form method='get' action='./../Coments/show_comments.php'><button name='id_oeuvre' value='".$oeuvre["idoeuvre"]."'>commentaire</button></form>";
+                    echo "<form method='POST' action='./../Coments/show_comments.php'><button name='id_oeuvre' value='".$oeuvre["idoeuvre"]."'>commentaire</button></form>";
+                    echo "<form method='POST' action='./../Oeuvres/delete_artwork.php'><button name='id_oeuvre' value='".$oeuvre["idoeuvre"]."'>Supprimer</button></form>";
                     echo "<pre>";
                     print_r($oeuvre);
                     echo "</pre>";
@@ -59,7 +56,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
                 echo "<form method='get' action='./../Oeuvres/add_artwork.php'><button name='idartiste' value='".$info["idartiste"]."'>Ajouter</button></form>";
             ?>
 		</table>
-        <!-- <a href="<?php //header('location:connexion_compte.php');?>">tyjukiylo</a> -->
+        <a href="./../index.php">Home</a>
 	</center>
 </body>
 </html>

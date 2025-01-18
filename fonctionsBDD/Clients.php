@@ -73,19 +73,21 @@ function add_client(array $data): int
     
     $connex=connectionBDD(); // on se connect
     try {
-      $sql="INSERT INTO clients (nomclient, prenomclient, paysclient, villeclient, emailclient, motdepasseclient)
-    VALUES ('".$data['nom']."', '".$data['prenom']."', '".$data['pays']."', '".$data['ville']."', '".$data['email']."', '".$data['motdepasse']."') 
-    RETURNING idclient";
-    $res=$connex->query($sql);
-    $retour = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
-  } catch (PDOException $e) { // si échec
-    print "Erreur pour ajouter le clients " . $data['nom'] ."  : " . $e->getMessage();
-    $retour = 1;
-    die(""); // Arrêt du script - sortie.
+      $sql="INSERT INTO clients (nomclient, prenomclient, paysclient, villeclient, emailclient, motdepasseclient, pseudoclient,  imageclient)
+      VALUES (
+      '".$data['nom']."', '".$data['prenom']."', '".$data['pays']."', '".$data['ville']."', '".$data['email'].
+      "', '".$data['motdepasse']."', '".$data['pseudoclient']."', '".$data['imageclient']."') 
+      RETURNING idclient";
+      $res=$connex->query($sql);
+      $retour = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
+    } catch (PDOException $e) { // si échec
+      print "Erreur pour ajouter le clients " . $data['nom'] ."  : " . $e->getMessage();
+      $retour = 1;
+      die(""); // Arrêt du script - sortie.
+    }
+    disconnectionBDD($connex);
+    return $retour;
   }
-  disconnectionBDD($connex);
-  return $retour;
-}
 
 function update_client_db(array $data): int 
 {
@@ -111,6 +113,8 @@ function update_client_db(array $data): int
         villeclient = '".$data['ville']."', 
         emailclient = '".$data['email']."', 
         motdepasseclient = '".$data['motdepasse']."'
+        pseudoclient = '".$data['pseudoclient']."'
+        imageclient = '".$data['imageclient']."'
     WHERE idclient = '".$data['id']."' 
     RETURNING idclient";
 
@@ -145,23 +149,23 @@ function delete_client($idclient): void
       // return $res;					
 }
 
-function login_client($login){
-  //Fonction qui récupère les login d'un client avant de le logguer.
+// function login_client($login){
+//   //Fonction qui récupère les login d'un client avant de le logguer.
 
-  $connex=connectionBDD();
-  try{
-    $sql="SELECT motdepasseclient, pseudoclient, idclient FROM clients WHERE pseudoclient='".$login."'";
-    print $sql;
-    $res=$connex->query($sql);
-    $resu=$res->fetch();
-  }
-  catch (PDOException $e) { // si échec
-    print "Erreur pour la modification d'un client : " . $e->getMessage();
-    die(""); // Arrêt du script - sortie.
-  }
-  disconnectionBDD($connex);
-  return $resu;
-}
+//   $connex=connectionBDD();
+//   try{
+//     $sql="SELECT motdepasseclient, pseudoclient, idclient FROM clients WHERE pseudoclient='".$login."'";
+//     print $sql;
+//     $res=$connex->query($sql);
+//     $resu=$res->fetch();
+//   }
+//   catch (PDOException $e) { // si échec
+//     print "Erreur pour la modification d'un client : " . $e->getMessage();
+//     die(""); // Arrêt du script - sortie.
+//   }
+//   disconnectionBDD($connex);
+//   return $resu;
+// }
     
 ?>
 

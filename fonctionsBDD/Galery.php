@@ -1,6 +1,27 @@
 <?php
 
-require_once BASE_PATH.'/fonctionsBDD/ConnectionBDD.php';
+require_once './../fonctionsBDD/ConnectionBDD.php';
+
+function get_all_galery(){
+    /**
+     * Récupère dans la base de donnée toutes les infos de toutes les galeries.
+    * 
+    */
+    $connex=connectionBDD(); //Connexion à la BDD
+    try {
+    $sql="SELECT * FROM galeries"; // Requette envoyer à la BDD pour récupérer des infos
+    print $sql;
+    $res=$connex->query($sql);
+    $resu=$res->fetchAll();
+    }
+    catch (Exception $e) { //Si échec
+        print "Erreur pour retourner les infos de la galerie : " . $e->getMessage();
+        $resu = [];
+        die(""); //Arrêt du script
+    }
+    disconnectionBDD($connex); //Deconnexion de la BDD
+    return $resu;
+}
 
 function get_galery_by_id($idgalerie,$connex){
     /**
@@ -60,7 +81,7 @@ function delete_galery($nom,$connex){
     return $resu;
 }
 
-function add_galerie($data){
+function add_galery($data){
     /** Fonction qui enregiste une new galerie dans la bdd 
      *
      *  Retourne l'identifiant choisit lors de l'injection et le nom de la galerie fraichement ajoutée

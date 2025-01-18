@@ -21,22 +21,29 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
             print_r($oeuvre);
             echo "</pre>";
             $listtype=get_info_type();
+            echo "<pre>";
+            print_r($listtype);
+            echo "</pre>";
         ?>
             <form method='POST' action='./save_edit_artwork.php' enctype='multipart/form-data'>
                 <label for="nomoeuvre">Nom de l'oeuvre : </label>
                 <input type='text' name='nomoeuvre' value='<?php echo $oeuvre["nomoeuvre"]?>'></br>
                 <label for="description">Description de l'oeuvre : </label>
                 <input type='text' name='description' value='<?php echo $oeuvre["descriptionoeuvre"]?>'></br>
-                <label for="image[]">Image de l'oeuvre : </label>
-                <input type='file' name='image' accept='image/*' multiple></br>
+                <label for="image">Remplacer l'image de l'oeuvre : </label>
+                <input type='file' name='image' accept='image/*' value='<?php echo $oeuvre["imageoeuvre"]?>'></br>
                 <label for="date">Date de l'oeuvre : </label>
                 <input type='date' name='date' value='<?php echo $oeuvre["dateoeuvre"]?>'></br>
                 <label for="type">Type de l'oeuvre : </label>
                 <select name='type' required>
-                    <option value='' selected></option>
                     <?php foreach ($listtype as $type) {
-                        echo "<option value='".$type["nomtype"]."'>".$type["nomtype"]."</option>";
-                    }?>
+                        if ($type['idtype'] == $oeuvre['refidtype']){
+                            echo "<option value='".$type["nomtype"]."' selected>".$type["nomtype"]."</option>";
+                        }
+                        else{
+                            echo "<option value='".$type["nomtype"]."'>".$type["nomtype"]."</option>";
+                        }
+                        }?>
                 </select></br>
                 <input type='hidden' name='idoeuvre' value='<?php echo $oeuvre["idoeuvre"]?>'>
                 <input type='submit' value='Modifier'>

@@ -11,8 +11,13 @@ $var = $var."'".$_POST["emailartiste"]."', ";
 $var = $var."'".$_POST["descriptionartiste"]."', ";
 $var = $var."'".password_hash($_POST["firstpass"], PASSWORD_DEFAULT)."', ";
 $pseudo = $_POST["pseudoartiste"];
-$res = add_artiste($var, $pseudo);
+add_artiste($var, $pseudo);
+$res = login_artiste($pseudo);
+echo "<pre>";
+print_r($res);
+echo "</pre>";
 session_start();
-$_SESSION['idartiste'] = $res;
+$_SESSION['pseudoartiste'] = $res['pseudoartiste'];
+$_SESSION['idartiste'] = $res['idartiste'];
 header('Location: ./artiste_account.php')
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once BASE_PATH.'/fonctionsBDD/ConnectionBDD.php';
+require_once __DIR__.'/ConnectionBDD.php';
 
 function get_all_artiste(): array{
   //Récupère toute les infos de tout les artistes
@@ -20,7 +20,7 @@ function get_all_artiste(): array{
 }
 
 function get_all_artiste_pseudo(){//: array{
-  //Récupère toute les infos de tout les artistes
+  //Récupère le pseudo de tout les artistes
   $connex=connectionBDD(); //Connexion à la BDD
   try{
     $sql="SELECT pseudoartiste FROM artistes";
@@ -72,22 +72,22 @@ function edit_artiste(string $var, int $idartiste): void{
     disconnectionBDD($connex);
   }
 
-  function login_artiste(string $login): array{
-    //Fonction qui récupère les login d'un artiste avant de le logguer.
-    $connex=connectionBDD();
-    try{
-    $sql="SELECT motdepasseartiste, pseudoartiste, idartiste FROM artistes WHERE pseudoartiste='".$login."'";
-    print $sql;
-    $res=$connex->query($sql);
-    $resu=$res->fetch();
-    }
-    catch (PDOException $e) { //Si échec
-      print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
-      $resu = [];
-      die(""); //Arrêt du script
-    }
-    disconnectionBDD($connex);
-    return $resu;
+function login_artiste(string $login): array{
+  //Fonction qui récupère les login d'un artiste avant de le logguer.
+  $connex=connectionBDD();
+  try{
+  $sql="SELECT motdepasseartiste, pseudoartiste, idartiste FROM artistes WHERE pseudoartiste='".$login."'";
+  print $sql;
+  $res=$connex->query($sql);
+  $resu=$res->fetch();
+  }
+  catch (PDOException $e) { //Si échec
+    print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
+    $resu = [];
+    die(""); //Arrêt du script
+  }
+  disconnectionBDD($connex);
+  return $resu;
 }
 
 function change_password(string $password, string $pseudo): void{
@@ -125,5 +125,21 @@ function add_artiste(string $var, string $pseudo): int{
   disconnectionBDD($connex);
   $id = login_artiste($pseudo);
   return $id["idartiste"];
+}
+
+function delete_artiste(string $login): void{
+  //Fonction qui supprime un artiste de la BDD.
+  $connex=connectionBDD();
+  try{
+  $sql=" DELETE FROM Artistes WHERE pseudoartiste = '".$login."'";
+  print $sql;
+  $res=$connex->query($sql);
+  }
+  catch (PDOException $e) { //Si échec
+    print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
+    $resu = [];
+    die(""); //Arrêt du script
+  }
+  disconnectionBDD($connex);
 }
 ?>

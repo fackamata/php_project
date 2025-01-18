@@ -23,7 +23,11 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; // déclaration du fichier 
         $var=$var."villeartiste = '".$_POST["ville"]."', "; //Ajoute la ville de l'artiste modifier
         $var=$var."paysartiste = '".$_POST["pays"]."', "; //Ajoute le pays de l'artiste modifier
         $var=$var."emailartiste = '".$_POST["email"]."', "; //Ajoute l'email de l'artiste modifier
-        $var=$var."pseudoartiste = '".$_POST["pseudo"]."'"; //Ajoute l'email de l'artiste modifier
+        $var=$var."pseudoartiste = '".$_POST["pseudo"]."', "; //Ajoute l'email de l'artiste modifier
+        if (!(move_uploaded_file($_FILES['image']['tmp_name'], "../upload/".$_FILES['image']['name']))){
+            $_FILES["image"]["name"] = 'no_img.png';
+        }
+        $var=$var."imageartiste = '".$_FILES["image"]["name"]."'";
         edit_artiste($var, $_POST["idartiste"]);
     ?>
 	<p>Modification prises en compte ! </p>

@@ -1,7 +1,7 @@
 <?php
 require './../config.php';
 
-require_once BASE_PATH.'/fonctionsBDD/Galery.php'; // déclare fichier galerie avec nos fonction db relative à l'galerie
+require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec nos fonction db relative à l'galerie
 /** En cours de réalisation */
 ?>
 
@@ -13,8 +13,7 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; // déclare fichier galerie a
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <title>Accueil</title>
+
   </head>
   <body>
 
@@ -24,28 +23,30 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; // déclare fichier galerie a
     <h1>Galeries</h1>
 
         <?php
-			$galeries = get_all_galerie();
+			$galeries = get_all_galery();
             echo "<pre>";
 			print_r($galeries);
 			echo "</pre>";
-			foreach($artises as $galerie) {
-				echo "<div class='card' style='width: 18rem;'>";
-				echo "<img src='...' class='card-img-top' alt='...'>";
-				echo "<div class='card-body'>";
-					echo "<h5 class='card-title'>".$artise[""]"</h5>";
-					echo "<p class='card-text'>Some quick example text to build on the card title and make up the bulk of the cards content.</p>";
-				echo "</div>";
-				echo "<ul class='list-group list-group-flush'>";
-					echo "<li class='list-group-item'>An item</li>";
-					echo "<li class='list-group-item'>A second item</li>";
-					echo "<li class='list-group-item'>A third item</li>";
-				echo "</ul>";
-				echo "<div class='card-body'>";
-					echo "<a href='#' class='card-link'>Card link</a>";
-					echo "<a href='#' class='card-link'>Another link</a>";
-				echo "</div>";
-				echo "</div>";
-			}
+			foreach($galeries as $galerie) {
+				?>
+				<br>
+				<div class='card' style='width: 20rem;'>
+				<img src='./../image/no_img.png' class='card-img-top' alt='Image'>
+				<div class='card-body'>
+					<h5 class="card-title"><?php echo $galerie["villegalerie"] ?></h5>
+					<p class='card-text'><?php echo $galerie["descriptiongalerie"] ?></p>
+				</div>
+				<ul class='list-group list-group-flush'>
+					<li class='list-group-item'>An item</li>
+					<li class='list-group-item'>A second item</li>
+				</ul>
+				<div class='card-body'>
+					<a href="./../Galery/add_galery.php" class='card-link'>Voir la galerie</a>
+				<!-- Lien pointant vers la page dynamique de présentation de la galerie choisit -->
+				</div>
+			</div>
+			<?php
+		}
 			$galerie = "galeries";
 		?>
 			
@@ -53,11 +54,7 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; // déclare fichier galerie a
 				<h3>galerie : <?php echo $galerie ?> </h3>
 			</div>
 		</br>
-			<div>
-				<h3>galerie : <?php echo $galerie ?> </h3>
-			</div>
-		</br>
-		<!-- <a href="javascript:history.back()">Retour à la page d'acceuil</a> -->
+		<a href="./../index.php">Retour à la page d'acceuil</a>
 
 	<footer>
         <?php include "./../View/templates/footer.php" ?>

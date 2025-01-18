@@ -90,6 +90,16 @@ require_once "./../fonctionsBDD/Clients.php";
         class="btn btn-success">
         ajout client
     </a>
+    <?php 
+    /* Redirect to a different page in the current directory that was requested */
+    // $host  = $_SERVER['HTTP_HOST'];
+    // $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+    // var_dump($host.$uri);
+    // $extra = 'mypage.php';   
+    // header("Location: https://$host$uri/$extra");
+    // exit;
+    ?>
+
     <footer>
         <?php include "./../View/templates/footer.php" ?>
     </footer>

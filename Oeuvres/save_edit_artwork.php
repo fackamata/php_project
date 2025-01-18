@@ -12,14 +12,13 @@ echo "</pre>";
 echo "<pre>";
 print_r($_FILES['image']);
 echo "</pre>";
-if (is_array($_FILES['image']['name'])){
-    foreach (array_combine($_FILES['image']['tmp_name'], $_FILES['image']['name']) as $tmp => $name){
-        move_uploaded_file($tmp, BASE_PATH."/upload/".$name);
-    }
+echo "../image/".$_FILES['image']['name'];
+echo "</br>";
+echo $_FILES['image']['tmp_name'];
+if (!(move_uploaded_file($_FILES['image']['tmp_name'], "../upload/".$_FILES['image']['name']))){
+    $_FILES["image"]["name"] = 'no_img.png';
 }
-else{
-    move_uploaded_file($_FILES['image']['tmp_name'], BASE_PATH."/upload/".$_FILES['image']['name']);
-}
+
 $var=$var."nomoeuvre = '".$_POST["nomoeuvre"]."', ";
 $var=$var."descriptionoeuvre = '".$_POST["description"]."', ";
 $var=$var."dateoeuvre = '".$_POST["date"]."', ";
@@ -30,8 +29,8 @@ $listtype=get_info_type();
         }
     }
 $var=$var."refidtype = '".$idtype."', ";
-$var=$var."imageoeuvre = '".serialize($_FILES["image"]["name"])."'";
+$var=$var."imageoeuvre = '".$_FILES["image"]["name"]."'";
 edit_artwork($var, $_POST["idoeuvre"]);
+header('Location: ./../Artistes/artiste_account.php');
 ?>
 <p>Modification prises en compte ! </p>
-<a href="javascript:history.go(-2)">Retour à la page de l'artiste</a>

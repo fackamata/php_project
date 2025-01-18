@@ -16,12 +16,19 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
 <body>
     <div class="container">
       <!-- <script defer src="./client_compte.js"></script> -->
-
+      <?php
+        $pseudo = get_all_artiste_pseudo();
+        echo "<script>let pseudo = ".json_encode($pseudo)."</script>";
+      ?>
 
       <!-- formulaire -->
 
       <form action="<?php echo "./save_artiste.php"?>" method="post">
-     
+
+        <div class="form-group">
+          <label for="imageartiste">Photo de profil :</label>
+          <input type="file" class="form-control" accept="image/*" nom="imageartiste" >
+        <div class="form-group">
         <div class="form-group">
           <label for="nomartiste">Nom artiste :</label>
           <input type="text" class="form-control" name="nomartiste" >
@@ -32,7 +39,8 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
         <div class="form-group">
         </div>
           <label for="pseudoartiste">Pseudo artiste :</label>
-          <input type="text" class="form-control" name="pseudoartiste" required>
+          <input type="text" class="form-control" name="pseudoartiste" id="pseudoconfirm" required>
+          <p id="msgconfirmpseudo"></p>
         <div class="form-group">
         </div>  
           <label for="paysartiste">Pays artiste :</label>
