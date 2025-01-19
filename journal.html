@@ -82,23 +82,17 @@
         <div class="container">
             <ul class="list-group">
 
-                <li class="mt-1 list-group-item list-group-item-warning">
-                    <p>J'ai une navbar dans View/navbar.php -> on peut l'inclure dans n'importe quel page pour l'avoir</p>
-                    <p> avec un footer standar dans View/navbar.php -> on peut l'inclure dans n'importe quel page pour l'avoir</p>
+                <li class="mt-1 list-group-item list-group-item-success">
+                    <p>la navbar et le footer peuvent être importer de toutes les pages</p>
+                    <p> dans /View/templates</p>
                 </li>
 
-                <li class="mt-1 list-group-item list-group-item-warning">
-                    <p>J'ai ajouter une valeur par défaut à fichierParametre dans /fonctionBDD/ConnexionBDD.php:connexionBDD()</p>
-                    <p>function connexionBDD($fichierParametre='./..Utils/paramCon.php')</p>
-                    <p>- paramCon.php est importé dans /fonctionBDD/ConnexionBDD.php</p>
-                    <p>- donc plus besoin de require paraCon à chaque utilisation de connexionBDD()</p>
+                <li class="mt-1 list-group-item list-group-item-success">
+                    J'ai refais ma partie en MVC
                 </li>
 
-                <li class="mt-1 list-group-item list-group-item-warning">
-                    <p>je me suis ajouter /Utils/marlene_fonction.php</p>
-                    <p>pour stocker les fonctions dont j'ai besoins</p>
-                    <p>on pourra regrouper nos fonctions plus tard</p>
-                </li>
+                <!-- <li class="mt-1 list-group-item list-group-item-warning">
+                </li> -->
 
             </ul>
         </div>
@@ -166,9 +160,9 @@
                         </ul>
                 </li>
                 <li class="mt-1 list-group-item list-group-item-warning">
-                    Home, header, footer standardisée. Attention les liens sont par rapport à l'emplacement du fichier
+                    Home, header, footer standardisée. 
                     <ul>
-                        <li>on peut importer les header mais les liens sont à fixer, en fonction de la localisation du fichier</li>
+                        <li>à include dans chaque page</li>
                         <li>header : /View/templates/header</li>
                         <li>footer : /View/templates/footer</li>
                     </ul> 
@@ -226,34 +220,7 @@
         <div class="container">
             <ul class="list-group">
                 <li class="mt-1 list-group-item list-group-item-light">
-                    Ajouter un artiste 
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    modifier un artiste
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    supprimer un artiste
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    lister un artiste
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    lister tous les artiste
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    Ajouter un comment 
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    modifier un comment
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    supprimer un comment
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    lister un comment
-                </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    lister tous les comment
+                    Artiste
                 </li>
             </ul>
         </div>
@@ -263,16 +230,31 @@
         <div class="container">
             <ul class="list-group">
                 <li class="mt-1 list-group-item list-group-item-light">
-                    enchérir :  page pour enchérir > enregistre en BDD > affiche page enchérir si OK avec actualisation du prix
+                    enchérir :  vue
                 </li>
                 <li class="mt-1 list-group-item list-group-item-light">
-                    acheter : voir process
+                    enchérir : Controlleur
                 </li>
                 <li class="mt-1 list-group-item list-group-item-light">
-                    pour la mise en page j'utilise bootrap, je dois finir de le mettre correctement
+                    acheter :  vue
                 </li>
                 <li class="mt-1 list-group-item list-group-item-light">
-                    je vais mettre en place un genre de mvc, sur ma partie
+                    acheter :  Controlleur
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    vérifier les commentaires
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    voir fonction login
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    voir pour les images
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    rassembler les fonction généraliste dans Config ou le HomeControlleur ?
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    optimiser les images, webp et taille
                 </li>
             </ul>
         </div>
@@ -294,6 +276,21 @@
                 </li>
                 <li class="mt-1 list-group-item list-group-item-success">
                     lister tous les objet
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    Ajouter un type 
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    modifier un type
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    supprimer un type
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    lister un type
+                </li>
+                <li class="mt-1 list-group-item list-group-item-light">
+                    lister tous les type
                 </li>
                 <li class="mt-1 list-group-item list-group-item-success">
                     Ajouter une galery 
@@ -337,46 +334,34 @@
         
         <h3 class="h3">marius</h3>
         <div class="container">
-            <ul class="list-group">
+            <!-- <ul class="list-group">
                 <li class="list-group-item">
                     la table enchérir -> ça va pas, à modifier
                 </li>
-            </ul>
+            </ul> -->
         </div>
         
         <h3 class="h3">marlene</h3>
         <div class="container">
-            <ul class="list-group">
+            <!-- <ul class="list-group">
                 <li class="list-group-item">
                     définir correctement la table galery et comment elle est relié au autre
                 </li>
-            </ul>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <p>Ils aiments bien quand c'est standards, et ça fait utiliser les types dans les formulaires, les regex et le contrôle d'input</p>
-                    <p>Tables : Clients ajouter des champs plus standard :</p>
-                    <ul>
-                        <li>id</li>
-                        <li>nom</li>
-                        <li>prenom</li>
-                        <li>adresse</li>
-                        <li>telephone</li>
-                        <li>email</li>
-                        <li>password (vue du hash)</li>
-                    </ul>
-                </li>
-            </ul>
+            </ul> -->
         </div>
         
         <h3 class="h3">terry</h3>
         <div class="container">
             <ul class="list-group">
-                <li class="list-group-item-warning">
+                <li class="list-group-item list-group-item-warning">
                     <p>Faire les liens avec artistes pour savoir comment on sait quels artistes 
                     exposent dans quelle(s) galerie(s) ???</p>
                     <p>Prendre une décission sur la façon dont on récupère les infos de toutes les galeries, soit avec "idgalerie"
                     soit avec "cpgalerie"</p>
                     <p></p>
+                </li>
+                <li class="list-group-item list-group-item-success">
+                    On récupère toujours les informations par rapport à un id, c'est l'élément unique de référence
                 </li>
             </ul>
         </div>

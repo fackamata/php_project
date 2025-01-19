@@ -7,6 +7,25 @@
  *      toutes les fonctions qui ne sont pas lié au traitement
  */
 
+/**
+ * fonction vérifie que le bon utilisateur soit connecté au serveur
+*/
+function is_auth_as($srv_user = "lizzim"): bool
+{
+        
+    if (isset($_SERVER['PHP_AUTH_USER']) And $_SERVER['PHP_AUTH_USER'] == $srv_user) {
+        ?>
+        <p>Hello <?php echo $_SERVER['PHP_AUTH_USER']?>.</p>
+        <?php
+    } else {
+        ?>
+        <p>Hello <?php echo $_SERVER['PHP_AUTH_USER']?>.</p>
+        <p>Vous n'êtes pas autoriser à acceder à cette ressources</p>
+        <p>Seulement </p>
+        <?php
+    }
+}
+    
 
 function root_dir_name(): string {
     $srv = $_SERVER . "RT/2ALT5/";

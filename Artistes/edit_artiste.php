@@ -5,7 +5,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
 <html>
 <head>
   <!-- Affichage du parametre dans le titre dela page -->
-   <script defer src="./edit_artiste.js"></script>
+   <script defer src="./edit_artiste.js"></script>    
   <title>Saisie d'un artiste</title>
   <meta charset="utf-8"/>
 </head>
