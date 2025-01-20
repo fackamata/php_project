@@ -1,5 +1,5 @@
 <?php
-require_once BASE_PATH."/ConnectionBDD.php";
+require_once BASE_PATH."/fonctionsBDD/ConnectionBDD.php";
 
 function add_artwork(string $var): void{
     //Enregistre dans la base de donnée l'ajout d'une nouvelle oeuvre par un artiste.
@@ -35,7 +35,7 @@ function add_artwork(string $var): void{
     return $res;
   }
 
-  function get_info_artwork(int $idartiste): array{
+  function get_info_artwork_by_artist(int $idartiste): array{
     //Récupère dans la base de donnée les oeuvres par le nom de l'artiste qui les à faites.
     $connex=connectionBDD(); //Connexion à la BDD
     try{
@@ -46,6 +46,27 @@ function add_artwork(string $var): void{
       print $sql;
       $res=$connex->query($sql);
       $resu=$res->fetchAll();
+    }
+    catch (PDOException $e) { //Si échec
+      print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
+      $resu = [];
+      die(""); //Arrêt du script
+    }
+    disconnectionBDD($connex);
+    return $resu;
+  }
+
+  function get_info_artwork(int $idoeuvre): array{
+    //Récupère dans la base de donnée les infos d'une oeuvre par son idoeuvre.
+    $connex=connectionBDD(); //Connexion à la BDD
+    try{
+      $sql="SELECT oeuvres.idoeuvre, oeuvres.nomoeuvre, oeuvres.dateoeuvre, 
+      oeuvres.descriptionoeuvre, oeuvres.refidtype, oeuvres.refidartiste, 
+      oeuvres.imageoeuvre, artistes.pseudoartiste, artistes.idartiste FROM oeuvres INNER JOIN artistes ON artistes.idartiste
+      = oeuvres.refidartiste WHERE oeuvres.idoeuvre = '".$idoeuvre."'";
+      print $sql;
+      $res=$connex->query($sql);
+      $resu=$res->fetch();
     }
     catch (PDOException $e) { //Si échec
       print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();

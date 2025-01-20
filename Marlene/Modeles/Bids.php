@@ -23,6 +23,8 @@ function get_all_bids(): array
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "SELECT * FROM encherir ORDER BY idencherir";
+        // JOIN Clients ON Clients.idclient = Encherir.refidclientencherir
+        // JOIN Objects ON Objects.idobject = Encherir.refidobjetencherir
     $res = $connex->query($sql);
     $resu = $res->fetchall();
   } catch (PDOException $e) { // si échec

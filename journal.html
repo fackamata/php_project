@@ -295,7 +295,7 @@
                 <li class="mt-1 list-group-item list-group-item-success">
                     Ajouter une galery 
                 </li>
-                <li class="mt-1 list-group-item list-group-item-light">
+                <li class="mt-1 list-group-item list-group-item-warning">
                     modifier une galery
                 </li>
                 <li class="mt-1 list-group-item list-group-item-success">
@@ -307,15 +307,22 @@
                 <li class="mt-1 list-group-item list-group-item-success">
                     lister toutes les galery
                 </li>
-                <li class="mt-1 list-group-item list-group-item-light">
+                <li class="mt-1 list-group-item list-group-item-warning">
                     Faire page de présentation dynamique des galeries lors du click du lien sur les cartes
                 </li>
-                <li class="mt-1 list-group-item list-group-item-light">
+                <li class="mt-1 list-group-item list-group-item-warning">
                     Faire page de présentation dynamique des objets lors du click du lien sur les cartes
                 </li>
-                <li class="mt-1 list-group-item list-group-item-light">
-                    
+                <li class="mt-1 list-group-item list-group-item-warning">
+                    Pour la modif d'un galerie, faire une requête pour récup toute les infos sur la 
+                        galerie qu'on souhaite modif puis dans les input du formulaire, renseigner les 
+                        champs 'value' en récupérant les infos reçu de la 1ère requête récup infos.
                 </li>
+                <li class="mt-1 list-group-item list-group-item-warning">
+                    Revoir la fonction get_galery_by_id($idgalerie) pour continuer la requête 
+                    avec un INNER JOIN pour récup également l'idartiste de la table EXPOSER en lien avec l'idgalerie.
+                </li>
+                
             </ul>
         </div>
         

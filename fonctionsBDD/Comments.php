@@ -23,4 +23,25 @@ function get_info_comment($id){
     disconnectionBDD($connex);
     return $resu;
 }
+
+function save_comment($message, $idoeuvre, $idartiste, $date){
+  //Récupère tout les commentaires d'une oeuvre par son id_oeuvre
+  $connex=connectionBDD(); //Connexion à la BDD
+  $message = pg_escape_string($message);
+  try{
+    $sql="INSERT INTO Commenter (message, refidoeuvre, 
+    refidclient, datecommentaire) VALUES ('".$message."', '".$idoeuvre."', 
+    '".$idartiste."', '".$date."')";
+    print $sql;
+    $res=$connex->query($sql);
+  }
+  catch  (PDOException $e) { //Si échec
+    echo "ECHEC DE LA BDD ATTENTION ";
+    print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
+    $resu = [];
+    die(""); //Arrêt du script
+  }
+  disconnectionBDD($connex);
+  return $res;
+}
 ?>

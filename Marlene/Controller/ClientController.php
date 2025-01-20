@@ -79,6 +79,12 @@ function index_client(): array
 function display_show_client(int $id):array
 {
     $clients = get_client_by_id($id);
+    // session_start();
+    if(isset($_SESSION)){
+        var_dump($_SESSION);
+    }else{
+        echo 'pas de session';
+    }
     
     if (is_file($clients['imageclient'])) {
         $image = $clients['imageclient'];
@@ -99,6 +105,7 @@ function display_update_client(int $id): array
 {
     $clients = get_client_by_id($id);
 
+    if(isset($_POST)){ echo "on a les post dans display update_client";}
     if (isset($clients['imageclient'])) {
         $image = $clients['imageclient'];
     }else{
@@ -112,6 +119,42 @@ function display_update_client(int $id): array
         'clients' => $clients,
     ];
 }
+
+function display_login_client(): array
+{
+    return [
+        'page' => 'form_login_client',
+        'title' => "Login client",
+    ];
+}
+
+function login_client()
+{
+    // echo "dans login client";
+    if(isset($_POST["pseudoclient"]) && isset($_POST["motdepasseclient"])){
+
+        $passwd_form= $_POST['motdepasseclient'];
+        $passwd_db = get_client_passwd_by_pseudo($_POST['pseudoclient']);
+        
+        $test = password_verify($passwd_form, $passwd_db);
+
+        if ($test) {
+            $id = login_client_in_db($_POST["pseudoclient"], $passwd_db);
+            $_SESSION['idclient'] = $id;
+            $_SESSION['pseudoclient'] = $_POST['pseudoclient'];
+            header("location: ".MARLENE_PATH."/home.php/c?ctrl=client&fct=display_show_client&id=".$id);
+        }
+        else
+        {
+            echo 'le mot de passe ne correspond pas';
+            header("location: ".MARLENE_PATH."/home.php/?ctrl=client&fct=display_login_client");
+        }
+    }
+    else{
+        header("location: ".MARLENE_PATH."/home.php/?ctrl=client&fct=display_login_client");
+    }
+}
+
 
 function display_add_client(): array
 {
@@ -127,13 +170,16 @@ function display_add_client(): array
  * @param string $id du client.
  * @return array $data données pour la page form_passwd
 */
-function display_form_psswd_client(int $id): array
+function display_form_psswd_client(int $id, string $msg =""): array
 {
-    
+    // echo " on passe par display_form";
     $clients = get_client_by_id($id);
+
+    if( $msg !== ""){
+        echo $msg;
+    }
     
     return [
-        // 'clients' => $clients,
         'page' => 'form_passwd_client',
         'title' => 'Changement de mot de passe',
         'clients' => $clients,
@@ -142,31 +188,41 @@ function display_form_psswd_client(int $id): array
 
 function update_client(int $id): void
 {
-    echo "on est dans la fonction update client";
-    var_dump($_POST);
-    update_client_db($_POST, $id);
-    display_show_client($id);
-    // header("location:".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
-    // die;
+    // echo "on est dans la fonction update client";
+    // var_dump($_POST);
+    if(isset($_POST[''])) {
+        echo "le post est bien dans le update";
+    }
+        update_client_db($_POST, $id);
+    // display_show_client($id);
+    header("location:".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
+    die;    
 }
 
-function new_client(): array
+
+function new_client(): void
 {
     $data = $_POST;
+    // var_dump_pre($data);
     // $file = $_FILES;
     // upload_image();
     // var_dump($file);
-    var_dump($data);
+    // var_dump($data['motdepasseclient']);
+    $data['motdepasseclient'] = password_hash($data['motdepasseclient'], PASSWORD_DEFAULT);
+    // var_dump($data['motdepasseclient']);
     try {
         $id = add_new_client($data);
         header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
         // display_show_client($id);
+        
     } catch (\Throwable $th) {
-        return [
-            'page' => 'index_client',
-            'title' => 'Admin client',
-            'clients' => $data
-        ]; 
+        
+        header("location: ".SRV_PATH);
+        // return [
+        //     'page' => 'home',
+        //     'title' => 'Admin client',
+        //     'clients' => $data
+        // ]; 
     }
            
 }
@@ -214,16 +270,13 @@ function upload_image(): void{
  * 
  * 
  * @param string $password mot de passe à comparer.
- * @param string $id id d'un client
+ * @param int $id id d'un client
  * @return bool Returns `true` si le hash du mot de passe correspond,
  *                      `false` sinon.
 */
-function check_old_password_client($passwd, $id): bool{
-
-// c'est le hash du passwd qui est enregistrer en BDD, on doit donc le comparer à un hash
-$hash_passwd = password_hash($passwd, PASSWORD_DEFAULT);
-
-if(get_client_passwd($id) == $hash_passwd){
+function check_password_client(string $passwd,int $id): bool{
+    // $passwd est un hash car c'est un hash qui est enregistrer en BDD
+if(get_client_passwd($id) == $passwd){
     echo "c'est le même mot de passe";
     $is_same_password = true;
 }else{
@@ -245,7 +298,7 @@ return $is_same_password;
  * @return int $id id du client ou 0
 */
 
-function pwd_change($id): int{
+function pwd_change($id): void{
     /* fonction qui update le mot de passe d'un client 
 
     récupérer l'ancien et le nouveau mot de passe
@@ -255,30 +308,40 @@ function pwd_change($id): int{
     
     retourne l'identifiant du client modifier
     */
-
-    
+    var_dump_pre($_POST);
     // si on a les données nécessaire, on change le mot de passe
-    if(isset($_POST['old_passwd'])
-    And $_POST['new_passwd'] !== null )
+    if(isset($_POST['old_passwd']) && $_POST['motdepasseclient'] !== null )
      {
-         $hash_passwd = password_hash($_POST['new_passwd'] , PASSWORD_DEFAULT);
-        // on vérifie que l'ancien password est correct
-         if(check_old_password_client($hash_passwd, $id))
+         $hash_passwd_old = password_hash($_POST['old_passwd'] , PASSWORD_DEFAULT);
+         // on vérifie que l'ancien password est correct
+         if(check_password_client($hash_passwd_old, $id))
          {
+             $hash_passwd = password_hash($_POST['motdepasseclient'] , PASSWORD_DEFAULT);
             // on créé un hash de passwd pour l'enregistrement en BDD
             // on change le mot de passe en BDD
             
-            var_dump("le hash du mot de passe est :".$hash_passwd);
+            // var_dump("le hash du mot de passe est :".$hash_passwd);
 
             change_password($hash_passwd, $id);
-            $msg = "le nouveau mot de passe à bien été enregistrer";
-        } else {
-            $msg = "l'ancien mot de passe ne correspond pas avec le mot de passe renseigné";
-            $id = 0;
-        }
-    };
 
-    return $id;
+            echo " OK changement mot de passe";
+
+            header("location: ".MARLENE_PATH."/?ctrl=client&fct=display_form_psswd_client&id=".$id);    
+        } else {
+            echo " problème changement mot de passe";
+        }
+        
+    }else{
+        display_form_psswd_client($id);
+    }
+        
+    // return [
+    //     'page' => 'form_passwd_client',
+    //     'title' => 'Changement de mot de passe',
+    //     'clients' => $clients,
+    // ];
+
+
 }
 
 

@@ -20,9 +20,23 @@
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $host."Artistes/all_artistes.php"; ?> >Artistes</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href=<?php echo $host."Marlene/home.php"; ?> >Clients</a>
-        </li>
+        <?php 
+          if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] == 'lizzim') {
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href=<?php echo $host."Marlene/home.php"; ?> >Clients</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href=<?php echo $host."Marlene/home.php/?ctrl=buy&fct=index_buy"; ?> >Achats</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href=<?php echo $host."Marlene/home.php/?ctrl=bid&fct=index_bid"; ?> >Enchères</a>
+            </li>
+              
+        <?php 
+          }
+            
+        ?>
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $host."Oeuvres/all_artwork.php"; ?> >Oeuvres</a>
         </li>
@@ -38,21 +52,35 @@
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $host."Goodies/all_goodies.php"; ?> >Goodies</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href=<?php echo $host."Marlene/home.php/?ctrl=buy&fct=index_buy"; ?> >Achats</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href=<?php echo $host."Marlene/home.php/?ctrl=bid&fct=index_bid"; ?> >Enchères</a>
-        </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
           
-          <a  href=<?php echo $host."./connection_account.php"; ?> 
-            class="btn btn-info"
-            role="button">
-            connexion
-          </a>
-          
+          <?php 
+            if( isset($_SESSION['idclient']) && $_SESSION['idclient'] !== null 
+                || isset($_SESSION['idartiste']) && $_SESSION['idartiste'] !== null ) {
+              ?>
+                <a class="btn btn-success" role="button" href=<?php echo $host."Utils/logout.php"; ?>
+                  >Se déconnecter</a>  
+                  
+              <?php
+              
+              if( isset($_SESSION['idartiste']) && $_SESSION['idartiste'] !== null ) { 
+                ?>
+                <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >compte Artiste</a>
+                <?php
+
+              }else{
+                ?>
+                <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >compteds client</a>
+<?php
+              }
+              } else {
+              ?>
+                <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >Connexion Artiste</a>
+                <a class="btn btn-success" role="button" href=<?php echo $host."Marlene/home.php/?ctrl=client&fct=display_login_client"; ?> >Connexion Client</a>
+              <?php 
+            }
+          ?>
           <a  href=<?php echo $host."Artistes/add_artiste.php"; ?> 
             class="btn btn-info"
             role="button">
@@ -71,8 +99,6 @@
               création galerie
           </a>
 
-        <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-        <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
       </form>
     </div>
   </nav>

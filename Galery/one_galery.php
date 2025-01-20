@@ -1,8 +1,8 @@
 <?php
 require './../config.php';
 
-require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec nos fonction db relative à l'galerie
-/** En cours de réalisation */
+require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec les fonction db relative à la galerie
+/** En cours de réalisation 20-01-25 */
 ?>
 
 <!DOCTYPE html>
@@ -16,13 +16,20 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec no
 
   </head>
   <body>
-      	<?php include "./../View/templates/navbar.php" ?>
-    <h1>Galeries</h1>
+
+    <header>
+      <?php include "./../View/templates/navbar.php" ?>
+    </header>
+    <h1>Galerie</h1>
+	<!-- <div>
+		<h3>galerie :  <?php/** echo $galerie */?> </h3>
+	</div> -->
+	
         <?php
-			$galeries = get_all_galery();
-            // echo "<pre>";
-			// print_r($galeries);
-			// echo "</pre>";
+			$galeries = get_galery_by_id($_GET["idgalerie"]);
+            echo "<pre>";
+			print_r($galeries);
+			echo "</pre>";
 			foreach($galeries as $galerie) {
 				?>
 				<br>
@@ -37,21 +44,21 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec no
 					<li class='list-group-item'>A second item</li>
 				</ul>
 				<div class='card-body'>
-					<a href="./../Galery/one_galery.php?idgalerie=<?php echo $galerie["idgalerie"]?>" class='card-link'>Voir la galerie</a> <!-- Lien pointant vers la page dynamique de présentation de la galerie choisit -->
+					<a href="./../Artistes/show_artiste.php?idartiste=<?php echo ["idartiste"]?>" class='card-link'>Voir l'artiste</a>
+				<!-- Lien pointant vers la page dynamique de présentation de l'artiste choisit -->
 				</div>
 			</div>
 			<?php
-			}	
+		}
 			$galerie = "galeries";
 		?>
 			
-			<div>
-				<h3>galerie : <?php echo $galerie ?> </h3>
-			</div>
 		</br>
 		<a href="./../index.php">Retour à la page d'acceuil</a>
 
+	<footer>
         <?php include "./../View/templates/footer.php" ?>
+    </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"

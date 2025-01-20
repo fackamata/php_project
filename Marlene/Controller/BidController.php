@@ -64,67 +64,82 @@ function index_bid(): array
 }
     
 
-// function display_show_bid(int $id):array
-// {
-//     $bids = get_bid_by_id($id);
+function display_show_bid(int $id):array
+{
+    $bids = get_bid_by_id($id);
 
-//     if (is_file($bids['imagebid'])) {
-//         $image = $bids['imagebid'];
-//     }else{
-//         $image = "no_img.png";
-//     }
+    if (is_file($bids['imagebid'])) {
+        $image = $bids['imagebid'];
+    }else{
+        $image = "no_img.png";
+    }
 
-//     return [
-//         // 'bids' => $bids,
-//         'page' => 'show_bid',
-//         'title' => $bids['pseudobid'],
-//         'image' => $image,
-//         'bids' => $bids,
-//     ];
-// }
-
-
-// function display_update_bid(int $id): array
-// {
-//     $bids = get_bid_by_id($id);
-
-//     if (is_file($bids['imagebid'])) {
-//         $image = $bids['imagebid'];
-//     }else{
-//         $image = "no_img.png";
-//     }
-
-//     return [
-//         'page' => 'show_bid',
-//         'title' => "Mise à jour ".$bids['pseudobid'],
-//         'image' => $image,
-//         'bids' => $bids,
-//     ];
-// }
+    return [
+        // 'bids' => $bids,
+        'page' => 'show_bid',
+        'title' => $bids['pseudobid'],
+        'image' => $image,
+        'bids' => $bids,
+    ];
+}
 
 
-// function update_bid(int $id): void
-// {
-//     var_dump($id);
-//     var_dump($_POST);
-//     // $id = update_bid_db($data);
-//     display_show_bid($id);
-// }
+function display_add_bid(): array
+{
+    include "./../../fonctionsBDD";
 
-// function new_bid(): array
-// {
-//     return [
-//         'page' => 'add_bid',
-//         'title' => 'Nouveau bid',
-//     ];        
-// }
+    $artworks = get_all_artwork();
+    $clients = get_all_clients();
+    // $client= get_client_by_id($id);
+    return [
+        'page' => 'add_bid',
+        'artworks' => $artworks,
+        'clients' => $clients,
+        'title' => "Ajout bid",
+    ];
+}
 
-// function remove_bid($id):void
-// {
-//     // delete_bid($id);
-//     // index();
-//     index_bid();
-// }
+function display_update_bid(int $id): array
+{
+    $bids = get_bid_by_id($id);
+
+    if (is_file($bids['imagebid'])) {
+        $image = $bids['imagebid'];
+    }else{
+        $image = "no_img.png";
+    }
+
+    return [
+        'page' => 'show_bid',
+        'title' => "Mise à jour ".$bids['pseudobid'],
+        'image' => $image,
+        'bids' => $bids,
+    ];
+}
+
+
+function update_bid(int $id): void
+{
+    var_dump($id);
+    var_dump($_POST);
+    // $id = update_bid_db($data);
+    display_show_bid($id);
+}
+
+function new_bid(): array
+{
+    return [
+        'page' => 'add_bid',
+        'title' => 'Nouveau bid',
+    ];        
+}
+
+function remove_bid($id):void
+{
+    // delete_bid($id);
+    // index();
+    index_bid();
+}
 
 
 /**

@@ -1,5 +1,5 @@
 <?php
-//require "./../config.php";
+// require "./../config.php";
 function connectionBDD($fichierParametre=BASE_PATH."/Utils/paramCon.php"): PDO {
 /*---------------------------------------------
 Création de la connexion à la base de données

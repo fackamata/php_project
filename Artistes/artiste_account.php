@@ -39,7 +39,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
         <br/><br/>
 		<table border=1 bgcolor="#CCCCCC">
 			<?php
-                $collection=get_info_artwork($_SESSION['idartiste']);
+                $collection=get_info_artwork_by_artist($_SESSION['idartiste']);
                 foreach ($collection as $oeuvre){
                     echo $oeuvre['imageoeuvre'];
                     echo "<tr><td><img src='./../upload/".$oeuvre["imageoeuvre"]."' alt='".$oeuvre["nomoeuvre"]."'/></td></br>";

@@ -3,8 +3,9 @@ require_once __DIR__."/Config/Utils.php";
 require_once __DIR__."/Controller/HomeController.php";
 
 
+session_start();
 
-// var_dump_pre($_SERVER["REQUEST_URI"]); 
+var_dump_pre($_SERVER["PHP_AUTH_USER"]); 
 // var_dump_pre($_GET);
 // redirect_on_page("index_client");
 

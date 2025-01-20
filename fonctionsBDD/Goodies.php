@@ -90,4 +90,5 @@ function add_goodies($data){
     disconnectionBDD($connex); //Deconnexion de la BDD
     return $resu;
 }
+
 ?>
