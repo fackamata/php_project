@@ -1,7 +1,11 @@
 <div class="container">
-  <form action="<?php echo "./home.php?fct=new_client"?>" 
+  <form action="<?php echo "./home.php?ctrl=client&fct=new_client"?>" 
         method="post" enctype="multipart/form-data">
   
+    <div class="form-group">
+      <label for="pseudoclient">Pseudo :</label>
+      <input type="text" class="form-control" name="pseudoclient" >
+    </div>
     <div class="form-group">
       <label for="nomclient">Nom :</label>
       <input type="text" class="form-control" name="nomclient" >
@@ -28,21 +32,25 @@
     </div>
     <div class="form-group">
       <label for="imageclient">Image de profil :</label>
-      <input type="file" class="form-control" name="imageclient" >
+      <input type="text" class="form-control" name="imageclient" >
     </div>
+    <!-- <div class="form-group">
+      <label for="imageclient">Image de profil :</label>
+      <input type="file" class="form-control" name="imageclient" >
+    </div> -->
     <div class="form-group">
       <label for="firstpasswd">mot de passe :</label>
       <input type="password" class="form-control" 
             name="firstpasswd" id="firstpass" required>
     </div>
     <div class="form-group">
-      <label for="confirpasswd">Confirmer le passe :</label>
+      <label for="motdepasseclient">Confirmer le passe :</label>
       <input type="password" class="form-control"
-              name="confirpasswd" id="secondpass" required>
+              name="motdepasseclient" id="motdepasseclient" required>
     </div>
 
       <button class="btn btn-success" type="submit">Envoyer</button>
   </form>
 
-    <a href="./all_client.php" class="btn btn-primary">Retour à la page du client</a>
+    <a href="home.php/?ctrl=client&fct=index_client" class="btn btn-primary">Retour à la page du client</a>
 </div>

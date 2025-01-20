@@ -18,7 +18,7 @@ require_once __DIR__."/../Config/ConnexionDB.php";
  * 
  * @return array $resu list de toutes les informations de toutes les encheres
 */
-function get_all_enchere(): array
+function get_all_bids(): array
 {
   $connex = connectionBDD(); // on se connect
   try {

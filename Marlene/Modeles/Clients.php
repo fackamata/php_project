@@ -14,6 +14,7 @@ function get_all_clients(): array
     $sql = "SELECT * FROM clients ORDER BY idclient";
     $res = $connex->query($sql);
     $resu = $res->fetchall();
+    // var_dump( $resu[0]);
   } catch (PDOException $e) { // si échec
     print "Erreur pour retourner tous les clients : " . $e->getMessage();
     $resu = [];
@@ -30,7 +31,7 @@ function get_all_clients(): array
  * @param int $id id d'un client
  * @return array $resu liste de toutes les informations d'un client
 */
-function get_client_by_id(int $id): array
+function get_client_by_id(int $id)
 {
   $connex = connectionBDD(); // on se connect
   try {
@@ -51,15 +52,14 @@ function get_client_by_id(int $id): array
  *      ( fonction SELECT  )
  * 
  * @param int $id id d'un client
- * @return hash $passwd list de toutes les informations de tous les clients
+ * @return string $passwd list de toutes les informations de tous les clients
 */
-function get_client_passwd(int $id): hash
+function get_client_passwd(int $id): string
 {
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "SELECT motdepasseclient FROM clients WHERE idclient = '" . $id . "'";
     $res = $connex->query($sql);
-    var_dump($res);
     $resu = $res->fetch();
     echo "le mot de passe récupe en BDD: " . $resu;
   } catch (PDOException $e) { // si échec
@@ -82,7 +82,7 @@ function get_client_passwd(int $id): hash
 */
 function add_new_client(array $data): int
 {
-  // var_dump_pre($data);
+  var_dump_pre($data);
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "INSERT INTO clients 
@@ -91,10 +91,11 @@ function add_new_client(array $data): int
       )
       VALUES 
       (
-        '" . $data['nom'] . "', '" . $data['prenom'] . "', '" . $data['adresse'] . "', '" . $data['ville'] . "', '" . $data['email'] .
-      "', '" . $data['motdepasse'] . "', '" . $data['pseudoclient'] . "', '" . $data['imageclient'] . "', '" . $data['cpclient'] . "'
+        '" . $data['nomclient'] . "', '" . $data['prenomclient'] . "', '" . $data['adresseclient'] . "', '" . $data['villeclient'] . "', '" . $data['emailclient'] .
+      "', '" . $data['motdepasseclient'] . "', '" . $data['pseudoclient'] . "', '" . $data['imageclient'] . "', '" . $data['cpclient'] . "'
       ) 
       RETURNING idclient";
+    print $sql;
     $res = $connex->query($sql);
     $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
   } catch (PDOException $e) { // si échec
@@ -140,11 +141,11 @@ function add_new_client(array $data): int
  *      ( fonction UPDATE  )
  * 
  * 
- * @param hash $password mot de passe à comparer.
+ * @param string $password mot de passe à comparer.
  * @param int $id id d'un client
  * @return void
 */
-function change_password(hash $password, int $id): void
+function change_password(string $password, int $id): void
 {
   $connex = connectionBDD();
   try {
@@ -165,33 +166,33 @@ function change_password(hash $password, int $id): void
  * @param string $password mot de passe à comparer.
  * @return int $id id du client
 */
-function update_client_db(array $data): int
+function update_client_db(array $data, int $id): void
 {
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "UPDATE clients 
-    SET nomclient = '" . $data['nom'] . "', 
-        prenomclient = '" . $data['prenom'] . "', 
-        adresseclient = '" . $data['adresse'] . "', 
-        villeclient = '" . $data['ville'] . "', 
-        emailclient = '" . $data['email'] . "', 
-        motdepasseclient = '" . $data['motdepasse'] . "'
-        pseudoclient = '" . $data['pseudoclient'] . "'
-        imageclient = '" . $data['imageclient'] . "'
-        cpclient = '" . $data['cpclient'] . "'
-    WHERE idclient = '" . $data['id'] . "' 
-    RETURNING idclient";
+    SET nomclient = '" . $data['nomclient'] . "', 
+        prenomclient = '" . $data['prenomclient'] . "', 
+        adresseclient = '" . $data['adresseclient'] . "', 
+        villeclient = '" . $data['villeclient'] . "', 
+        emailclient = '" . $data['emailclient'] . "', 
+        pseudoclient = '" . $data['pseudoclient'] . "',
 
-    $res = $connex->query($sql);
-    $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
+        cpclient = '" . $data['cpclient'] . "'
+    WHERE idclient = '" . $id . "'";
+
+    // $res = $connex->query($sql);
+    $connex->query($sql);
+    // $res = 
+    // $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
   } catch (PDOException $e) 
   { // si échec
     print "Erreur pour ajouter le clients " . $data['nom'] . "  : " . $e->getMessage();
-    $id = 0;
-    die(""); // Arrêt du script - sortie.
+    // $id = 0;
+    die(""); // Arrêt du script - sortie.             imageclient = '" . $data['imageclient'] . "'
   }
   disconnectionBDD($connex);
-  return $id;
+  // return $id;
 }
 
 

@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 /**
  * fonction pour envoyer la bonne page en fonction de l'uri
  *      - la liste de tous les clients
@@ -48,22 +45,5 @@ function is_auth_as($srv_user = "lizzim"): bool
 }
     
 
-/**
- * fonction qui retourne $data avec :
- *      - la liste de tous les clients
- *      - la page à afficher
- *      - le titre de la page
-*/
-function index2(): array
-{
-    $clients = get_all_clients();
 
-    return [
-        // 'clients' => $clients,
-        'page' => 'index_client',
-        'title' => 'Admin Clients',
-        'count' => count($clients),
-        'clients' => $clients,
-    ];
-}
     

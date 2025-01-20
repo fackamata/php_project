@@ -1,8 +1,6 @@
 <?php
-// require_once __DIR__."/../Config/Utils.php";
 require_once __DIR__."/../Modeles/Clients.php";
 
-echo "Client controlleur included";
 /**
  * 
  *                    Client Controlleur
@@ -51,6 +49,7 @@ echo "Client controlleur included";
 */
 
 
+
 /**
  * fonction qui retourne $data avec :
  *      - la liste de tous les clients
@@ -80,7 +79,7 @@ function index_client(): array
 function display_show_client(int $id):array
 {
     $clients = get_client_by_id($id);
-
+    
     if (is_file($clients['imageclient'])) {
         $image = $clients['imageclient'];
     }else{
@@ -96,22 +95,29 @@ function display_show_client(int $id):array
     ];
 }
 
-
 function display_update_client(int $id): array
 {
     $clients = get_client_by_id($id);
 
-    if (is_file($clients['imageclient'])) {
+    if (isset($clients['imageclient'])) {
         $image = $clients['imageclient'];
     }else{
         $image = "no_img.png";
     }
 
     return [
-        'page' => 'show_client',
+        'page' => 'update_client',
         'title' => "Mise à jour ".$clients['pseudoclient'],
         'image' => $image,
         'clients' => $clients,
+    ];
+}
+
+function display_add_client(): array
+{
+    return [
+        'page' => 'add_client',
+        'title' => "Ajout client",
     ];
 }
 
@@ -136,18 +142,33 @@ function display_form_psswd_client(int $id): array
 
 function update_client(int $id): void
 {
-    var_dump($id);
+    echo "on est dans la fonction update client";
     var_dump($_POST);
-    // $id = update_client_db($data);
+    update_client_db($_POST, $id);
     display_show_client($id);
+    // header("location:".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
+    // die;
 }
 
 function new_client(): array
 {
-    return [
-        'page' => 'add_client',
-        'title' => 'Nouveau client',
-    ];        
+    $data = $_POST;
+    // $file = $_FILES;
+    // upload_image();
+    // var_dump($file);
+    var_dump($data);
+    try {
+        $id = add_new_client($data);
+        header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
+        // display_show_client($id);
+    } catch (\Throwable $th) {
+        return [
+            'page' => 'index_client',
+            'title' => 'Admin client',
+            'clients' => $data
+        ]; 
+    }
+           
 }
 
 function remove_client($id):void
@@ -170,6 +191,23 @@ function remove_client($id):void
  * 
 */
 
+function upload_image(): void{
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["imageclient"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["imageclient"]["tmp_name"]);
+    
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+  }
+  
 /**
  *      fonction qui compare un mot de passe en paramètre au mot de passe
  *      client enregistrer en BDD  
@@ -253,42 +291,3 @@ function pwd_change($id): int{
  * @param string $hash A hash created by password_hash().
  * @return bool Returns `true` if the password and hash match, or `false` otherwise.
 */
-
-
-
-// function get_view(): array{
-
-    
-//     // echo 'dump get :';
-//     // var_dump_pre($_GET); 
-
-
-//     // si on veut différents controlleur on rajoute une variable $ctrl
-//     // $ctrl = isset($_GET['ctrl']) ? $_GET['ctrl'] : "Home" ;
-//     // $ctrl = ucfirst($ctrl);
-//     // if ($ctrl == "Client") {
-//         //     include __DIR__."/Controller/".$ctrl."Controller.php";
-//         // }
-
-//     // on récupère la fonction de notre controlleur à exécuter
-//     $fonction = isset($_GET['fct']) ? $_GET['fct'] : "index" ; 
-    
-//     // si on à un id, on le passe dans la fonction
-//     if (isset($_GET["id"])) {
-//         $id = $_GET["id"];
-//         $data = $fonction($id);
-//         // $view = "./Views/page/$page.php/?id=$id";
-//     } else {
-//         $data = $fonction();
-//         // var_dump_pre($data);
-//     }
-    
-//     $page = ($data["page"]) ? $data["page"] : 'index' ;
-
-//     $view = is_file("./Views/page/$page.php") ? "./Views/page/$page.php" : "./Views/page/index.php";
-    
-//     return [
-//         'view' => $view,
-//         'data' => $data,
-//     ];
-// }

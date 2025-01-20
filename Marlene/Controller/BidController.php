@@ -1,8 +1,6 @@
 <?php
-// require_once __DIR__."/../Config/Utils.php";
-require_once "/Marlene/Modeles/bids.php";
+require_once __DIR__."/../Modeles/Bids.php";
 
-echo "bid controlleur included";
 /**
  * 
  *                    Bid Controlleur
@@ -66,67 +64,67 @@ function index_bid(): array
 }
     
 
-function display_show_bid(int $id):array
-{
-    $bids = get_bid_by_id($id);
+// function display_show_bid(int $id):array
+// {
+//     $bids = get_bid_by_id($id);
 
-    if (is_file($bids['imagebid'])) {
-        $image = $bids['imagebid'];
-    }else{
-        $image = "no_img.png";
-    }
+//     if (is_file($bids['imagebid'])) {
+//         $image = $bids['imagebid'];
+//     }else{
+//         $image = "no_img.png";
+//     }
 
-    return [
-        // 'bids' => $bids,
-        'page' => 'show_bid',
-        'title' => $bids['pseudobid'],
-        'image' => $image,
-        'bids' => $bids,
-    ];
-}
-
-
-function display_update_bid(int $id): array
-{
-    $bids = get_bid_by_id($id);
-
-    if (is_file($bids['imagebid'])) {
-        $image = $bids['imagebid'];
-    }else{
-        $image = "no_img.png";
-    }
-
-    return [
-        'page' => 'show_bid',
-        'title' => "Mise à jour ".$bids['pseudobid'],
-        'image' => $image,
-        'bids' => $bids,
-    ];
-}
+//     return [
+//         // 'bids' => $bids,
+//         'page' => 'show_bid',
+//         'title' => $bids['pseudobid'],
+//         'image' => $image,
+//         'bids' => $bids,
+//     ];
+// }
 
 
-function update_bid(int $id): void
-{
-    var_dump($id);
-    var_dump($_POST);
-    // $id = update_bid_db($data);
-    display_show_bid($id);
-}
+// function display_update_bid(int $id): array
+// {
+//     $bids = get_bid_by_id($id);
 
-function new_bid(): array
-{
-    return [
-        'page' => 'add_bid',
-        'title' => 'Nouveau bid',
-    ];        
-}
+//     if (is_file($bids['imagebid'])) {
+//         $image = $bids['imagebid'];
+//     }else{
+//         $image = "no_img.png";
+//     }
 
-function remove_bid($id):void
-{
-    // delete_bid($id);
-    // index();
-    index_bid();
-}
+//     return [
+//         'page' => 'show_bid',
+//         'title' => "Mise à jour ".$bids['pseudobid'],
+//         'image' => $image,
+//         'bids' => $bids,
+//     ];
+// }
+
+
+// function update_bid(int $id): void
+// {
+//     var_dump($id);
+//     var_dump($_POST);
+//     // $id = update_bid_db($data);
+//     display_show_bid($id);
+// }
+
+// function new_bid(): array
+// {
+//     return [
+//         'page' => 'add_bid',
+//         'title' => 'Nouveau bid',
+//     ];        
+// }
+
+// function remove_bid($id):void
+// {
+//     // delete_bid($id);
+//     // index();
+//     index_bid();
+// }
 
 
 /**

@@ -14,7 +14,7 @@
     <li class="nav-item"><a href=<?php echo $host."index.php"?> class="nav-link px-2 text-muted">Home</a></li>
     <li class="nav-item"><a href=<?php echo $host."Artistes/all_artistes.php"?> class="nav-link px-2 text-muted">Artistes</a></li>
     <li class="nav-item"><a href=<?php echo $host."Marlene/home.php"?> class="nav-link px-2 text-muted">Clients</a></li>
-    <li class="nav-item"><a href=<?php echo $host."Marlene/home.php/?ctrl=client&fct=display_client&id=7"?> class="nav-link px-2 text-muted">Client 7</a></li>
+    <li class="nav-item"><a href=<?php echo $host."Marlene/home.php/?ctrl=client&fct=display_show_client&id=7"?> class="nav-link px-2 text-muted">Client 7</a></li>
     <li class="nav-item"><a href=<?php echo $host."Oeuvres/all_artwork.php"?> class="nav-link px-2 text-muted">Oeuvres</a></li>
     <li class="nav-item"><a href=<?php echo $host."Type/all_type.php"?> class="nav-link px-2 text-muted">Types</a></li>
     <li class="nav-item"><a href=<?php echo $host."Goodies/all_goodies.php"?> class="nav-link px-2 text-muted">Objets</a></li>

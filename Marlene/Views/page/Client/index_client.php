@@ -3,7 +3,7 @@
     <h1 class="mb-3">Page d'administration des client</h1>
 
     <div class="d-flex justify-content-end">
-        <a href="<?php echo MARLENE_PATH."?ctrl=client&fct=new_client" ?>" 
+        <a href="<?php echo MARLENE_PATH."home.php/?ctrl=client&fct=display_add_client" ?>" 
                             class="btn btn-success mx-3" 
                             role="button" >
                             Créer Client
@@ -26,10 +26,16 @@
         </thead>
         <tbody> 
             <?php
-            $client = $data['clients'];
+            $client = $data['clients']; 
+            // if(isset($data["client"])) {
+            //     $client = $data['clients']; 
+            // } else {
+            //     $client =
+            // }
 
-            for ($i = 0; $i < count($client) - 1; $i++) {
-                $id = $clients[$i]['idclient'];
+            for ($i = 0; $i < count($client); $i++) {
+                $id = $client[$i]['idclient'];
+                echo $id;
                 ?>
 
                 <tr> 

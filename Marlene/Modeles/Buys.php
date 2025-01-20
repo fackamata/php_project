@@ -21,8 +21,9 @@ function get_all_buys(): array
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT * FROM buys ORDER BY idenchere";
+    $sql = "SELECT * FROM acheter ORDER BY idacheter";
     $res = $connex->query($sql);
+    // echo $res->fetch_all(MYSQLI_ASSOC);
     $resu = $res->fetchall();
   } catch (PDOException $e) { // si échec
     print "Erreur pour retourner tous les achats : " . $e->getMessage();
@@ -40,11 +41,11 @@ function get_all_buys(): array
  * @param int $id id d'une achat
  * @return array $resu liste de toutes les informations d'une achat
 */
-function get_bid_by_id(int $id): array
+function get_buy_by_id(int $id): array
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT * FROM buys WHERE idenchere = '" . $id . "'";
+    $sql = "SELECT * FROM acheter WHERE idacheter = '" . $id . "'";
     $res = $connex->query($sql);
     $resu = $res->fetch();
   } catch (PDOException $e) { // si échec
@@ -64,21 +65,21 @@ function get_bid_by_id(int $id): array
  * @param array $data données achat
  * @return int $id id de l'achat nouvellement créé
 */
-function add_new_bid(array $data): int
+function add_new_buy(array $data): int
 {
   // var_dump_pre($data);
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "INSERT INTO buys 
       (
-        nombid, prenombid, adressebid, villebid, emailbid, motdepassebid, pseudobid, imagebid, cpbid
+        nombuy, prenombuy, adressebuy, villebuy, emailbuy, motdepassebuy, pseudobuy, imagebuy, cpbuy
       )
       VALUES 
       (
         '" . $data['nom'] . "', '" . $data['prenom'] . "', '" . $data['adresse'] . "', '" . $data['ville'] . "', '" . $data['email'] .
-      "', '" . $data['motdepasse'] . "', '" . $data['pseudobid'] . "', '" . $data['imagebid'] . "', '" . $data['cpbid'] . "'
+      "', '" . $data['motdepasse'] . "', '" . $data['pseudobuy'] . "', '" . $data['imagebuy'] . "', '" . $data['cpbuy'] . "'
       ) 
-      RETURNING idenchere";
+      RETURNING idacheter";
     $res = $connex->query($sql);
     $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
   } catch (PDOException $e) { // si échec
@@ -98,17 +99,17 @@ function add_new_bid(array $data): int
  * @param array $data données de l'achat
  * @return int $id id de l'achat
 */
-function update_bid_db(array $data): int
+function update_buy_db(array $data): int
 {
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "UPDATE buys 
-    SET nombid = '" . $data['nom'] . "', 
-        prenombid = '" . $data['prenom'] . "', 
-        imagebid = '" . $data['imagebid'] . "'
-        cpbid = '" . $data['cpbid'] . "'
-    WHERE idenchere = '" . $data['id'] . "' 
-    RETURNING idenchere";
+    SET nombuy = '" . $data['nom'] . "', 
+        prenombuy = '" . $data['prenom'] . "', 
+        imagebuy = '" . $data['imagebuy'] . "'
+        cpbuy = '" . $data['cpbuy'] . "'
+    WHERE idacheter = '" . $data['id'] . "' 
+    RETURNING idacheter";
 
     $res = $connex->query($sql);
     $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
@@ -131,13 +132,13 @@ function update_bid_db(array $data): int
  * @param string $id id d'une achat
  * @return void
 */
-function delete_bid($id): void
+function delete_buy($id): void
 {
-  //Enregistre les modifications sur un achat par son id_bid
+  //Enregistre les modifications sur un achat par son id_buy
 
   $connex = connectionBDD();
   try {
-    $sql = " DELETE FROM buys WHERE idenchere = '" . $id . "'";
+    $sql = " DELETE FROM acheter WHERE idacheter = '" . $id . "'";
     $res = $connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
     // $resu=$res->fetchOne();
   } catch (PDOException $e) { // si échec

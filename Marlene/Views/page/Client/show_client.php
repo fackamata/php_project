@@ -36,9 +36,9 @@
                             </p>
                             <p class="card-text"><?php echo $clients['cpclient'];?>
                             </p>
-                            <a href="<?php echo SRV_PATH."Marlene/home.php/?fct=pwd_change&id=".$id ;?>"
+                            <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=client&fct=pwd_change&id=".$id ;?>"
                             class="btn btn-info">Modifier mot de passe</a>
-                            <a href="<?php echo "?fct=update_client&id=".$id ;?>"
+                            <a href="<?php echo "?ctrl=client&fct=display_update_client&id=".$id ;?>"
                                 class="btn btn-warning">Modifier mes infos</a>
                             </div>  
                     </div>
