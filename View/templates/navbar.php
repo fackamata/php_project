@@ -10,10 +10,10 @@
         role="button">
         Home
     </a>
-    <!-- <a class="navbar-brand" href="index.php" >Home</a> -->
+    <!-- <a class="navbar-brand" href="index.php" >Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </button> -->
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
@@ -35,7 +35,7 @@
               
         <?php 
           }
-            
+
         ?>
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $host."Oeuvres/all_artwork.php"; ?> >Oeuvres</a>
@@ -52,54 +52,81 @@
         <li class="nav-item">
           <a class="nav-link" href=<?php echo $host."Goodies/all_goodies.php"; ?> >Goodies</a>
         </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
+      
+        <li class="nav-item">
+              <a  href=<?php echo $host."Artistes/add_artiste.php"; ?> 
+                  class="btn btn-info"
+                  role="button">
+                  création artiste
+              </a>
+          </li>
+          <li class="nav-item">
+              <a  href=<?php echo $host."Clients/add_client.php"; ?> 
+                  class="btn btn-info"
+                  role="button">
+                  création client
+              </a>
+          </li>
+          <li class="nav-item">
+              <a  href=<?php echo $host."Galery/add_galery.php"; ?> 
+                  class="btn btn-info"
+                  role="button">
+                  création galerie
+              </a>
+          </li>
           
-          <?php 
+        <?php 
             if( isset($_SESSION['idclient']) && $_SESSION['idclient'] !== null 
-                || isset($_SESSION['idartiste']) && $_SESSION['idartiste'] !== null ) {
-              ?>
-                <a class="btn btn-success" role="button" href=<?php echo $host."Utils/logout.php"; ?>
-                  >Se déconnecter</a>  
+                || isset($_SESSION['idartiste']) && $_SESSION['idartiste'] !== null ) 
+                {
+                  ?>
+                          
+                    <li class="nav-item">
+                        <a class="btn btn-outline-danger" role="button" href=<?php echo $host."Utils/logout.php"; ?>
+                        >Se déconnecter</a>  
+                    </li>
+
+                  <?php
                   
-              <?php
-              
-              if( isset($_SESSION['idartiste']) && $_SESSION['idartiste'] !== null ) { 
-                ?>
-                <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >compte Artiste</a>
-                <?php
+                  if( isset($_SESSION['idartiste']) && $_SESSION['idartiste'] !== null ) { 
+                    ?>
+                        <li class="nav-item">
+                          <a 
+                              class="btn btn-outline-success" 
+                              role="button" 
+                              href=<?php echo $host . "Artistes/artiste_account.php?"; ?>
+                              >
+                              Mon Compte
+                          </a>
+                          </li>
+                    <?php
 
-              }else{
+                  }elseif (isset($_SESSION['idclient']) && $_SESSION['idclient'] !== null) {
+                    ?>
+                        <li class="nav-item">
+
+                            <a 
+                                class="btn btn-outline-success" 
+                                role="button" 
+                                href=<?php echo $host . "Marlene/home.php/?ctrl=client&fct=display_show_client&id=" . $_SESSION['idclient']; ?>
+                                >
+                                Mon Compte
+                            </a>
+                        </li>
+                    <?php
+                  }
+                } else 
+                {
                 ?>
-                <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >compteds client</a>
-<?php
-              }
-              } else {
-              ?>
-                <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >Connexion Artiste</a>
-                <a class="btn btn-success" role="button" href=<?php echo $host."Marlene/home.php/?ctrl=client&fct=display_login_client"; ?> >Connexion Client</a>
-              <?php 
-            }
+                    <li class="nav-item">
+                        <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >Connexion Artiste</a>
+                        <a class="btn btn-success" role="button" href=<?php echo $host."Marlene/home.php/?ctrl=client&fct=display_login_client"; ?> >Connexion Client</a>
+                    </li>
+                <?php 
+                }
           ?>
-          <a  href=<?php echo $host."Artistes/add_artiste.php"; ?> 
-            class="btn btn-info"
-            role="button">
-            création artiste
-          </a>
-          
-          <a  href=<?php echo $host."Clients/add_client.php"; ?> 
-              class="btn btn-info"
-              role="button">
-              création client
-          </a>
 
-          <a  href=<?php echo $host."Galery/add_galery.php"; ?> 
-              class="btn btn-info"
-              role="button">
-              création galerie
-          </a>
-
-      </form>
+      </ul>
     </div>
   </nav>
    

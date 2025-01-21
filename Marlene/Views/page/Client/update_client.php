@@ -43,7 +43,7 @@ $client = $data["clients"];
                 name="villeclient" >
         </div> 
         <div class="form-group">
-            <label for="emailclient">adresse :</label>
+            <label for="emailclient">Emailclient :</label>
             <input type="text" class="form-control" 
                 value=<?php echo $client['emailclient'];?> 
                 name="emailclient" >

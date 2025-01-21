@@ -7,36 +7,37 @@ require_once './../fonctionsBDD/Galery.php';
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script defer src="./add_artiste.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        <title>Ajout d'une galerie</title>
+        <title>Modification d'une galerie</title>
     </head>
     <body>
-        <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
+    <?php $galeries = get_all_galery() ?> 
+
         <div class="container">
         <!-- formulaire -->
-        <form action="<?php echo "./save_galery.php"?>" method="post">
+        <form action="<?php echo "./to_update_galery.php"?>" method="post">
         
             <div class="form-group">
                 <label for="imagegalerie">Photo de présentation :</label>
-                <input type="file" class="form-control" accept="image/*" name="imagegalerie" >
+                <input type="file" class="form-control" accept="image/*" nom="imagegalerie" >
             <div class="form-group">
-            </div>
                 <label for="nomgalerie">Nom galerie :</label>
                 <input type="text" class="form-control" name="nomgalerie" required>
             <div class="form-group">
             </div>
                 <label for="paysgalerie">Descritpion galerie :</label>
-                <input type="text" class="form-control" name="descriptiongalerie" required>
-            <div class="form-group">
-                </div>
+                <input type="text" class="form-control" name="descriptiongalerie" >
+                <div class="form-group">
+            </div>
                 <label for="villegalerie">Ville galerie :</label>
                 <input type="text" class="form-control" name="villegalerie" required>
             <div class="form-group">
             </div>
-                <label for="adressegalerie">Addresse galerie :</label>
-                <input type="text" class="form-control" name="adressegalerie" required>
+                <label for="addressegalerie">Addresse galerie :</label>
+                <input type="text" class="form-control" name="addressegalerie" >
             <div class="form-group">
             </div>  
                 <label for="cpgalerie">Code postal galerie :</label>
@@ -44,15 +45,14 @@ require_once './../fonctionsBDD/Galery.php';
             <div class="form-group">
             </div>
                 <label for="paysgalerie">Pays galerie :</label>
-                <input type="text" class="form-control" name="paysgalerie" required>
+                <input type="text" class="form-control" name="paysgalerie" >
             <div class="form-group">
             </div>
                         
-            <button class="btn btn-success" type="submit" id="submit">Envoyer</button>
+            <button class="btn btn-success" type="submit" id="submit">Modifier</button>
         </form>
 
             <a href="./../index.php" class="btn btn-primary">Retour à la page d'acceuil</a>
         </div>
-        <?php include "./../View/templates/footer.php" ?>
     </body>
 </html>

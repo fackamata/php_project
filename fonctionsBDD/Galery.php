@@ -8,9 +8,9 @@ function get_all_galery(){
     * 
     */
     $connex=connectionBDD(); //Connexion à la BDD
-    try {
+    try { // Essaye de faire les actions suivantes
     $sql="SELECT * FROM galeries"; // Requette envoyer à la BDD pour récupérer des infos
-    print $sql;
+    // print $sql;
     $res=$connex->query($sql);
     $resu=$res->fetchAll();
     }

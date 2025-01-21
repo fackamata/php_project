@@ -1,3 +1,13 @@
+
+<?php
+  var_dump_pre($data["message"]);
+  if($data["message"] != null){
+      ?>
+      <h3 class="h3"><?php echo $data['message'];?></h3>
+  <?php   
+  }
+?>
+
 <form method="post" action="<?php echo MARLENE_PATH."home.php/?ctrl=client&fct=login_client" ?>" >
   <div class="form-group">
     <label for="pseudoclient">Identifiant</label>

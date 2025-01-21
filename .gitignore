@@ -1,2 +1,6 @@
 app
 .deleted_files
+.git.bak
+.htaccess
+.Trash-0
+test.php

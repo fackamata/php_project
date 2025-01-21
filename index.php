@@ -1,5 +1,6 @@
 <?php 
 require  "./config.php";
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,7 +21,7 @@ require  "./config.php";
     
     <!-- <h1>Bienvenue dans notre galeri'alt</h1> -->
     <?php 
-    //var_dump($_ENV);
+    //var_dump($_SESSION);
     ?>
     
     <!-- améliorer pour que les vues soit envoyé ici pour ne pas avoir à recopier le html d'encadrement à chaque fois -->

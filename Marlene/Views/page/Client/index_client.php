@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
 
-    <h1 class="mb-3">Page d'administration des client</h1>
+    <h1 class="my-3 text-center">Page d'administration des client</h1>
 
     <div class="d-flex justify-content-end">
         <a href="<?php echo MARLENE_PATH."home.php/?ctrl=client&fct=display_add_client" ?>" 
@@ -18,7 +18,6 @@
                 <th scope="col">Nom</th>
                 <th scope="col">Prenom</th>
                 <th scope="col">Email</th>
-                <th scope="col">Password</th>
                 <th scope="col">Adresse</th>
                 <th scope="col">CP</th>
                 <th scope="col">Ville</th>
@@ -27,26 +26,18 @@
         <tbody> 
             <?php
             $client = $data['clients']; 
-            // if(isset($data["client"])) {
-            //     $client = $data['clients']; 
-            // } else {
-            //     $client =
-            // }
 
             for ($i = 0; $i < count($client); $i++) {
                 $id = $client[$i]['idclient'];
-                echo $id;
-                ?>
+                ?> 
 
                 <tr> 
                 <th scope="row"><?php echo $client[$i]['idclient'] ?></th>
 
-                <td><?php echo $client[$i]['idclient'] ?></td>
                 <td><?php echo $client[$i]['pseudoclient'] ?></td>
                 <td><?php echo $client[$i]['nomclient'] ?></td>
                 <td><?php echo $client[$i]['prenomclient'] ?></td>
                 <td><?php echo $client[$i]['emailclient'] ?></td>
-                <td><?php echo $client[$i]['motdepasseclient'] ?></td>
                 <td><?php echo $client[$i]['adresseclient'] ?></td>
                 <td><?php echo $client[$i]['cpclient'] ?></td>
                 <td><?php echo $client[$i]['villeclient'] ?></td>

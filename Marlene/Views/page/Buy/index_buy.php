@@ -15,28 +15,28 @@
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">ref Client</th>
-                <th scope="col">ref Oeuvres</th>
+                <th scope="col">ref object</th>
                 <th scope="col">prix</th>
                 <th scope="col">date</th>
             </tr>
         </thead>
         <tbody> 
             <?php
-            $bid = $data['bids']; 
+            $bid = $data['buys']; 
             // }
 
             for ($i = 0; $i < count($bid); $i++) {
-                $id = $bid[$i]['idencherir'];
+                $id = $bid[$i]['idachat'];
                 echo $id;
                 ?>
 
                 <tr> 
                 <th scope="row"><?php echo $client[$i]['idclient'] ?></th>
 
-                <td><?php echo $client[$i]['refidclientencherir'] ?></td>
-                <td><?php echo $client[$i]['refidoeuvresencherir'] ?></td>
-                <td><?php echo $client[$i]['quantiteencherir'] ?></td>
-                <td><?php echo $client[$i]['dateencherir'] ?></td>
+                <td><?php echo $client[$i]['refidclientachat'] ?></td>
+                <td><?php echo $client[$i]['refidobjectachat'] ?></td>
+                <td><?php echo $client[$i]['quantiteachat'] ?></td>
+                <td><?php echo $client[$i]['dateachat'] ?></td>
                 <!-- <td> -->
                     <?php 
                 //echo $client[$i]['imageclient'] ?>

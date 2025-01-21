@@ -16,10 +16,7 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 
   </head>
   <body>
-
-    <header>
-      <?php include "./../View/templates/navbar.php" ?>
-    </header>
+      <?php include "./../View/templates/navbar.php" ?> <!-- Intégration de la navbar a la page -->
     <h1>Galerie</h1>
 	<!-- <div>
 		<h3>galerie :  <?php/** echo $galerie */?> </h3>
@@ -44,7 +41,7 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 					<li class='list-group-item'>A second item</li>
 				</ul>
 				<div class='card-body'>
-					<a href="./../Artistes/show_artiste.php?idartiste=<?php echo ["idartiste"]?>" class='card-link'>Voir l'artiste</a>
+					<a href="./../Artistes/show_artiste.php?idartiste=<?php echo $galeries["idartiste"]?>" class='card-link'>Voir l'artiste</a>
 				<!-- Lien pointant vers la page dynamique de présentation de l'artiste choisit -->
 				</div>
 			</div>
@@ -56,9 +53,7 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 		</br>
 		<a href="./../index.php">Retour à la page d'acceuil</a>
 
-	<footer>
-        <?php include "./../View/templates/footer.php" ?>
-    </footer>
+        <?php include "./../View/templates/footer.php" ?>	<!-- Intégration du footer a la page -->
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"

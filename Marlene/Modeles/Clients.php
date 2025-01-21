@@ -54,12 +54,12 @@ function get_client_by_id(int $id)
  * @param string $pseudo le pseudo ou l'email du client
  * @return string $passwd le mot de passe du clients
 */
-function get_client_passwd_by_pseudo(string $pseudo): string
+function get_client_id(string $pseudo): string
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT motdepasseclient FROM clients WHERE emailclient = '" . $pseudo . "' OR pseudoclient = '".$pseudo."'";
-    // print($sql);
+    $sql = "SELECT idclient FROM clients WHERE emailclient = '" . $pseudo . "' OR pseudoclient = '".$pseudo."'";
+    print($sql);
     $res = $connex->query($sql);
     $resu = $res->fetch()[0];
     // echo "le mot de passe récupe en BDD: " . $resu;
@@ -86,7 +86,8 @@ function get_client_passwd(int $id): string
   try {
     $sql = "SELECT motdepasseclient FROM clients WHERE idclient = '" . $id . "'";
     $res = $connex->query($sql);
-    $resu = $res->fetch();
+    $resu = $res->fetch()[0];
+    print($resu);
     echo "le mot de passe récupe en BDD: " . $resu;
   } catch (PDOException $e) { // si échec
     print "Erreur pour récupérer le mot de passe du clients : " . $e->getMessage();
@@ -97,6 +98,51 @@ function get_client_passwd(int $id): string
   // TODO VOIR si c'est bien le hash ou 1er élément
   return $resu;
 }
+
+// /**
+//  *      fonction qui retourne tous les artiste préféré d'un client 
+//  *      ( fonction SELECT  )
+//  * 
+//  * @param int $id id d'un client
+//  * @return array $passwd list de toutes les informations de tous les clients
+// */
+// function get_client_favorite_artiste(int $id): string
+// {
+//   $connex = connectionBDD(); // on se connect
+//   try {
+//     $sql = "SELECT
+//               clients.idclient AS idclient,
+//               -- clients.pseudoclient AS pseudoclient,
+//               artistes.idartiste AS idartiste,
+//               artistes.pseudoartiste AS pseudoartiste,
+//               artistes.imageartiste AS imageartiste
+//             FROM clients
+//             INNER JOIN prefererartiste
+//               ON clients.idclient = prefererartiste.idclient
+//             INNER JOIN artistes
+//               ON prefererartiste.idartiste = artistes.idartiste
+//             ORDER BY artistes.idartiste;
+//     -- SELECT idclient FROM clients WHERE idclient = '" . $id . "'
+//     --         JOIN clients
+//     --         ON clients.idclient = prefererartiste.idclient
+//     --         JOIN artiste
+//     --         ON artiste.idartiste = prefererartiste.idartiste
+//     --         JOIN prefererartiste
+//     --         ON prefererartiste.idartiste = artiste.idartiste
+//             ";
+//     $res = $connex->query($sql);
+//     $resu = $res->fetch()[0];
+//     print($resu);
+//     echo "le mot de passe récupe en BDD: " . $resu;
+//   } catch (PDOException $e) { // si échec
+//     print "Erreur pour récupérer le mot de passe du clients : " . $e->getMessage();
+//     $resu = "";
+//     die(""); // Arrêt du script - sortie.
+//   }
+//   disconnectionBDD($connex);
+//   // TODO VOIR si c'est bien le hash ou 1er élément
+//   return $resu;
+// }
 
 
 /**

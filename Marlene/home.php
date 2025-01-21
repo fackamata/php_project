@@ -5,9 +5,8 @@ require_once __DIR__."/Controller/HomeController.php";
 
 session_start();
 
-var_dump_pre($_SERVER["PHP_AUTH_USER"]); 
+// var_dump_pre($_SERVER["PHP_AUTH_USER"]); 
 // var_dump_pre($_GET);
-// redirect_on_page("index_client");
 
 // on récupère le controlleur demandé
 $ctrl = isset($_GET['ctrl']) ? $_GET['ctrl'] : "Home" ;
@@ -38,7 +37,6 @@ if ($ctrl == "Client") {
 
 // on récupère la fonction de notre controlleur à exécuter
 $fonction = isset($_GET['fct']) ? $_GET['fct'] : "index_home" ; 
-// var_dump($fonction);
 
 // si on à un id, on le passe dans la fonction
 if (isset($_GET["id"])) {
@@ -49,21 +47,27 @@ if (isset($_GET["id"])) {
 }
 
 $page = ($data["page"]) ? $data["page"] : 'index_home' ;
-// var_dump($page);
+
+// on récupère le message s'il on en a un
+$msg = (isset($_GET["msg"])) ? $_GET["msg"] : null ;
+
 
 if (is_file("./Views/page/$ctrl/$page.php")) {
     $view = "./Views/page/$ctrl/$page.php";
 } else {
     $view = "./Views/page/Home/index_home.php";
 }
-$view = is_file("./Views/page/$ctrl/$page.php")
- ? "./Views/page/$ctrl/$page.php" : "./Views/page/Home/index_home.php";
 
-//  var_dump($data);
+// $view = is_file("./Views/page/$ctrl/$page.php")
+//  ? "./Views/page/$ctrl/$page.php" : "./Views/page/Home/index_home.php";
+
+
 // démarre la temporisation de sortie
 ob_start(); 
 // on extraie nos data pour les utliser dans la vue
 $data = ($data) ? $data : ['title' => 'Admin Marlène'] ;
+// on ajoute le message
+$data["message"] = $msg;
 extract($data);
 require_once $view;
 // fait le get content et le nettoie la mémoire tampon
