@@ -18,22 +18,11 @@ if ($ctrl == "Client") {
     include_once __DIR__ ."/Controller/ClientController.php";
 } else if ($ctrl == "Bid") {
     include_once __DIR__ ."/Controller/BidController.php";
-} else if ($ctrl == "Buy") {
-    include_once __DIR__ ."/Controller/BuyController.php";
+} else if ($ctrl == "Preferredartiste") {
+    include_once __DIR__ ."/Controller/PreferredartisteController.php";
+} else if ($ctrl == "Preferredoeuvre") {
+    include_once __DIR__ ."/Controller/PreferredoeuvreController.php";
 }
-// switch ($ctrl) {
-//     case "Client":
-//         echo "dans le cas client\n";
-//         include_once __DIR__ ."/Controller/ClientController.php";
-//     case "Bid":
-//         include_once __DIR__ ."/Controller/BidController.php";
-//         echo "dans le cas bid\n";
-//     case "Buy":
-//         include_once __DIR__ ."/Controller/BuyController.php";
-//         echo "dans le cas buy\n";
-//     default:
-//         echo "pas de controlleur préciser";
-// }
 
 // on récupère la fonction de notre controlleur à exécuter
 $fonction = isset($_GET['fct']) ? $_GET['fct'] : "index_home" ; 
@@ -42,7 +31,19 @@ $fonction = isset($_GET['fct']) ? $_GET['fct'] : "index_home" ;
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
     $data = $fonction($id);
-} else {
+// si on a un idclient
+} elseif (isset($_GET["idclient"])) {
+    $idclient = isset($_GET["idclient"]);
+    // si on a un idclient, on a soit un idartiste ou un idoeuvre
+    if (isset($_GET["idartiste"])) {
+        $idartiste = isset($_GET["idartiste"]);
+        $data = $fonction($idclient, $idartiste);
+    }elseif (isset($_GET["idoeuvre"])) {
+        $idoeuvre = isset($_GET["idoeuvre"]);
+        $data = $fonction($idclient, $oeuvre);
+    }
+}
+else {
     $data = $fonction();
 }
 

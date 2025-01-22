@@ -3,6 +3,11 @@
     height: 200px;
 }
 
-.mar-h-75{
-    height: 75vh;
+main{
+    min-height: 75vh;
+}
+
+.card{
+    width: 18rem;
+    min-height: 10rem;
 }

@@ -16,8 +16,11 @@ $res = login_artiste($pseudo);
 echo "<pre>";
 print_r($res);
 echo "</pre>";
+echo "<pre>";
+print_r($_FILES);
+echo "</pre>";
 session_start();
 $_SESSION['pseudoartiste'] = $res['pseudoartiste'];
 $_SESSION['idartiste'] = $res['idartiste'];
-header('Location: ./artiste_account.php')
+//header('Location: ./artiste_account.php')
 ?>

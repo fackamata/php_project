@@ -26,10 +26,17 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec no
 			foreach($galeries as $galerie) {
 				?>
 				<br>
-				<div class='card' style='width: 20rem;'>
-				<img src='./../image/no_img.png' class='card-img-top' alt='Image'>
+				<div class='card' style='width: 40rem;'>	
+				<img <?php if (is_file("./../image/".$galerie['imagegalerie'])){ ?>
+					src='<?php echo "./../image/".$galerie['imagegalerie'] ?>'
+					<?php 
+				} 
+				else{ ?>
+					src = "./../image/no_img.png" ;
+					<?php
+				} ?> class='card-img-top' alt='Image Galerie'>
 				<div class='card-body'>
-					<h5 class="card-title"><?php echo $galerie["villegalerie"] ?></h5>
+					<h3 class="card-title"><?php echo $galerie["villegalerie"] ?></h3>
 					<p class='card-text'><?php echo $galerie["descriptiongalerie"] ?></p>
 				</div>
 				<ul class='list-group list-group-flush'>

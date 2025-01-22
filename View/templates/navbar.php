@@ -21,7 +21,8 @@
           <a class="nav-link" href=<?php echo $host."Artistes/all_artistes.php"; ?> >Artistes</a>
         </li>
         <?php 
-          if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] == 'lizzim') {
+          if (isset($_SERVER["PHP_AUTH_USER"]) ) {
+          // if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] == 'lizzim') {
             ?>
             <li class="nav-item">
               <a class="nav-link" href=<?php echo $host."Marlene/home.php"; ?> >Clients</a>
@@ -61,7 +62,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a  href=<?php echo $host."Clients/add_client.php"; ?> 
+              <a  href=<?php echo $host . "Marlene/home.php/?ctrl=client&fct=display_add_client"?>
                   class="btn btn-info"
                   role="button">
                   création client

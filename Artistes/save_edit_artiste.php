@@ -17,6 +17,9 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; // déclaration du fichier 
         echo "<pre>";
         print_r($_POST);
         echo "</pre>";
+        echo "<pre>";
+        print_r($_FILES);
+        echo "</pre>";
         $var=$var."nomartiste = '".$_POST["nom"]."', "; // Ajoute le nom de l'artiste modifier
         $var=$var."descriptionartiste = '".$_POST["description"]."', "; //Ajoute le description de l'artiste modifier
         $var=$var."prenomartiste = '".$_POST["prenom"]."', "; //Ajoute le prénom de l'artiste modifier
@@ -31,6 +34,6 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; // déclaration du fichier 
         edit_artiste($var, $_POST["idartiste"]);
     ?>
 	<p>Modification prises en compte ! </p>
-    <?php header('Location: ./artiste_account.php')?>
+    <?php //header('Location: ./artiste_account.php')?>
 </body>
 </html>

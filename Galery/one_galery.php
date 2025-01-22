@@ -16,11 +16,8 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 
   </head>
   <body>
-      <?php include "./../View/templates/navbar.php" ?> <!-- Intégration de la navbar a la page -->
+    <?php include "./../View/templates/navbar.php" ?> <!-- Intégration de la navbar a la page -->
     <h1>Galerie</h1>
-	<!-- <div>
-		<h3>galerie :  <?php/** echo $galerie */?> </h3>
-	</div> -->
 	
         <?php
 			$galeries = get_galery_by_id($_GET["idgalerie"]);
@@ -30,10 +27,17 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 			foreach($galeries as $galerie) {
 				?>
 				<br>
-				<div class='card' style='width: 20rem;'>
-				<img src='./../image/no_img.png' class='card-img-top' alt='Image'>
+				<div class='card' style='width: 40rem;'>
+				<img <?php if (is_file("./../image/".$galerie['imagegalerie'])){ ?>
+					src='<?php echo "./../image/".$galerie['imagegalerie'] ?>'
+					<?php 
+				} 
+				else{ ?>
+					src = "./../image/no_img.png" ;
+					<?php
+				} ?> class='card-img-top' alt='Image Galerie'>
 				<div class='card-body'>
-					<h5 class="card-title"><?php echo $galerie["villegalerie"] ?></h5>
+					<h4 class="card-title"><?php echo $galerie["villegalerie"] ?></h4>
 					<p class='card-text'><?php echo $galerie["descriptiongalerie"] ?></p>
 				</div>
 				<ul class='list-group list-group-flush'>
@@ -41,17 +45,20 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 					<li class='list-group-item'>A second item</li>
 				</ul>
 				<div class='card-body'>
-					<a href="./../Artistes/show_artiste.php?idartiste=<?php echo $galeries["idartiste"]?>" class='card-link'>Voir l'artiste</a>
-				<!-- Lien pointant vers la page dynamique de présentation de l'artiste choisit -->
+					<a href="./../Artistes/show_artiste.php?idartiste=<?php echo $galerie["idartiste"]?>" class='card-link'>Voir l'artiste</a> <!-- Lien pointant vers la page dynamique de présentation de l'artiste choisit -->
 				</div>
 			</div>
 			<?php
-		}
-			$galerie = "galeries";
+			}
+			// $galerie = "galeries";
 		?>
-			
+		
 		</br>
-		<a href="./../index.php">Retour à la page d'acceuil</a>
+		<a href="./../Galery/edit_galery.php?idgalerie=<?php echo $_GET["idgalerie"] ?>" class='card-link'>Modifier cette galerie</a>
+		</br>
+		<a href="./all_galery.php">Retour aux galeries</a>
+		</br>
+		<a href="./../index.php">Retour à l'acceuil</a>
 
         <?php include "./../View/templates/footer.php" ?>	<!-- Intégration du footer a la page -->
     

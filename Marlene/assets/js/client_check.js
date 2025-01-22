@@ -1,4 +1,4 @@
-const FIRST = document.getElementById('motdepasse');
+const FIRST = document.getElementById('firstpass');
 const SECOND = document.getElementById('motdepasseclient');
 const VALIDATE = document.getElementById('validate');
 const BTN_VALIDATE = document.getElementById('submit');
@@ -7,6 +7,7 @@ const PSEUDOCONFIRM = document.getElementById('pseudoconfirm');
 // console.log("on est dans client check en js");
 
 function check_passwd_form(){
+    console.log("on des dans check password");
 
     if (FIRST.value != SECOND.value){
         VALIDATE.innerText="Les mot de passe sont différents";

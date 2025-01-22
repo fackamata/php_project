@@ -24,7 +24,6 @@ function get_all_artiste_pseudo(){//: array{
   $connex=connectionBDD(); //Connexion à la BDD
   try{
     $sql="SELECT pseudoartiste FROM artistes";
-    print $sql;
     $res=$connex->query($sql);
     $resu=$res->fetchAll();
   }
@@ -42,10 +41,10 @@ function get_info_artiste(int $idartiste): array{
   //Fonction utiliser pour l'affichage du compte de l'artiste
   $connex=connectionBDD(); //Connexion à la BDD
   try{
-    $sql="SELECT * FROM artistes WHERE idartiste = '".$idartiste."'"; //Requête sql 
-    print $sql;
-    $res=$connex->query($sql);
-    $resu=$res->fetch();
+    $stmt = $connex->prepare("SELECT * FROM artistes WHERE idartiste = :idartiste");
+    $stmt->bindParam(':idartiste', $idartiste);
+    $stmt->execute();
+    $resu=$stmt->fetch();
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -56,9 +55,32 @@ function get_info_artiste(int $idartiste): array{
   return $resu;
 }
 
-function edit_artiste(string $var, int $idartiste): void{
+function edit_artiste(string $nomartiste, string $descriptionartiste, string $prenomartiste, string $villeartiste, string $paysartiste, string $emailartiste, string $pseudoartiste, string $imageartiste, string $idartiste): void{
     //Enregistre les modifications sur un artiste par son idartiste.
     $connex=connectionBDD(); //Connexion à la BDD
+
+    try{
+      $stmt = $connex->prepare("UPDATE artistes SET nomartiste = :nom, descriptionartiste =
+       :description, prenomartiste = :prenom, villeartiste = :ville, paysartiste = :pays, emailartiste = 
+       :email, pseudoartiste = :pseudo, imageartiste = :image WHERE idartiste = :idartiste");
+       $stmt->bindParam(':nom', $nomartiste);
+       $stmt->bindParam(':description', $descriptionartiste);
+       $stmt->bindParam(':prenom', $prenomartiste);
+       $stmt->bindParam(':ville', $villeartiste);
+       $stmt->bindParam(':pays', $paysartiste);
+       $stmt->bindParam(':email', $emailartiste);
+       $stmt->bindParam(':pseudo', $pseudoartiste);
+       $stmt->bindParam(':image', $imageartiste);
+       $stmt->bindParam(':idartiste', $idartiste);
+       $stmt->execute();
+    }
+    catch (PDOException $e) { //Si échec
+      print "met le catch MARIUS: " . $e->getMessage();
+      $resu = [];
+      die(""); //Arrêt du script
+    }
+
+
     try{
       $sql="UPDATE artistes SET ".$var." WHERE idartiste = '".$idartiste."'"; // Requête sql
       print $sql;

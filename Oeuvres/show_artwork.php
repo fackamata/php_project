@@ -12,28 +12,32 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
 </head>
 <?php 
     session_start();
+    include "./../View/templates/navbar.php";
     $oeuvre = get_info_artwork($_GET['idoeuvre']);
-    echo "<pre>";
-    print_r($oeuvre);
-    echo "</pre>";
     echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
 ?>
     <body>
-        <?php include "./../View/templates/navbar.php";?>
        <h1> Oeuvres </h1>
         <div class='card mb-3' style='max-width: 540px;'>
             <div class='row g-0'>
                 <div class='col-md-4'>
-                    <img src='./../upload/<?php echo $oeuvre['imageoeuvre'] ?>' class='img-fluid rounded-start' alt='<?php echo $oeuvre['nomoeuvre'] ?>'>
+                    <?php if($oeuvre['imageoeuvre']){
+                        echo "<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                    }
+                    else{
+                        echo "<img src='https://picsum.photos/200' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                    }
+                    ?>
                 </div>
                 <div class='col-md-8'>
                     <div class='card-body'>
                         <h5 class='card-title'><?php echo $oeuvre['nomoeuvre'] ?></h5>
-                        <h4 class='card-title'><?php echo $oeuvre['pseudoartiste'] ?></h4>
+                        <h4 class='card-title'><a href='./../Artistes/show_artiste.php?idartiste=<?php echo $oeuvre['idartiste']?>'><?php echo $oeuvre['pseudoartiste'] ?></a></h4>
                         <p class='card-text'><?php echo $oeuvre['descriptionoeuvre'] ?></p>
                         <p class='card-text'><small class='text-body-secondary'><?php echo $oeuvre['dateoeuvre'] ?></small></p>
+                        <form method="POST" action="" ><input type='hidden' name='idoeuvre' value='<?php echo $oeuvre['idoeuvre']?>'/><button type='submit' class='btn btn-primary'>Favoris</button></form>
                     </div>
                 </div>
             </div>
@@ -41,17 +45,11 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
         <div class='container-fluid'>
         <?php
             $comments = get_info_comment($oeuvre['idoeuvre']);
-            echo "<pre>";
-            print_r($comments);
-            echo "</pre>";
             if(isset($_SESSION['pseudoclient'])){
                 $commentaire = false;
                 foreach ($comments as $comment){
                     if ($comment['pseudoclient'] == $_SESSION['pseudoclient']){
                         $commentaire = true;
-                    }
-                    else{
-                        $commentaire = false;
                     }
                 }
                 if(!$commentaire){
@@ -67,21 +65,21 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
                 }
             }
             foreach ($comments as $comment){
-                $html = "<div class='card'>
+                $html = "<div class='card container'>
                     <div class='card-header'>
                         ".$comment['pseudoartiste']."
                     </div>
                     <div class='card-body'>
                         <blockquote class='blockquote mb-0'>
                         <p>".$comment['message']."</p>
-                        <footer class='blockquote-footer'>".$comment['pseudoclient']."<cite title='Source Title'>".$comment['datecommentaire']."</cite></footer>
+                        <footer class='blockquote-footer'>".$comment['pseudoclient']." - ".$comment['datecommentaire']."</footer>
                         </blockquote>
                     </div>
                     </div>";
+                    echo $html;
             }
         ?>
         </div>
-        <a href="./../index.php">Home</a>
         <?php include "./../View/templates/footer.php";?>
     </body>
 </html>

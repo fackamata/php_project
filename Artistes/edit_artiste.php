@@ -1,10 +1,9 @@
 <?php 
-require "./../config.php";
-require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
+require "./../config.php"; //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; //Import du fichier contenant les fonctions BDD associé aux Artistes
 ?>
 <html>
 <head>
-  <!-- Affichage du parametre dans le titre dela page -->
    <script defer src="./edit_artiste.js"></script>    
   <title>Modification Artiste</title>
   <meta charset="utf-8"/>
@@ -17,20 +16,19 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
 	</header>
 	<center>
         <?php
-          session_start();
-          include "./../View/templates/navbar.php";
-          $info=$_POST["id_artiste"];
-          $info = unserialize($info);
-          $pseudo = get_all_artiste_pseudo();
-          echo "<script>let pseudo = ".json_encode($pseudo)."</script>";
-          echo "<script>let currentpseudo = '".$_SESSION['pseudoartiste']."';</script>";
+          session_start(); //Lance la session sur le navigateur
+          include "./../View/templates/navbar.php"; //Inclus la barre de navigation du site
+          $info = get_info_artiste($_SESSION['idartiste']); //Récupère les informations d'un artiste pour les afficher dans le formulaire
+          $pseudo = get_all_artiste_pseudo(); //Récupère la liste de tout les pseudos d'artiste
+          echo "<script>let pseudo = ".json_encode($pseudo)."</script>"; //Initialise une variable JS pour utiliser la liste des pseudos dans un script
+          echo "<script>let currentpseudo = '".$_SESSION['pseudoartiste']."';</script>"; //Initialise une variable JS pour utiliser le pseudo connecté dans un script
         ?>
-
-            <form class="container" action="./save_edit_artiste.php" method="post">
+            <!-- Formulaire de modification des informations d'un artiste, les champs sont prérempli avec ces informations actuelles-->
+            <form class="container" action="./save_edit_artiste.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="idartiste" value="<?php echo $info['idartiste'] ?>">
             <div class="form-group">
               <label for="image">Changer la photo de profil : </label>
-              <input type="file" class="form-control" accept="image/*" nom="image" >
+              <input type="file" class="form-control" accept="image/*" name="image" >
             </div>
             <div class="form-group">
               <label for="nom">Nom : </label>
@@ -64,6 +62,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
               <button class="btn btn-success" type="submit" id="submit">Envoyer</button>
             </form>
 
+            <!--Formulaire de modification du mot de passe artiste avec vérification de l'ancion mot de passe et double vérification du nouveau en javascript-->
             <form method='POST' class='container' action='./change_password.php'>
               <p>Changer le mot de passe</p>
               <div class="col g-3 align-items-center">
@@ -78,12 +77,13 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
                 <div class="col-auto">
                   <label for="secondpass" class="col-form-label">Confirmez le mot de passe : </label>
                   <input type="password" id="secondpass" class="form-control" name="secondpass" placeholder="********" required>
-                  <p id='validate'></p>
+                  <p id='validate'></p> <!--Affichage de l'information de similitude entre les 2 mot de passes-->
                 </div>
                 <button class="btn btn-success" type='submit' id='changepass' disabled>Changer</button>
               </div>
             </form>
 
+            <!--Formulaire de suppression de son compte artiste avec confirmation de mot de passe pour vérification d'identité-->
             <button class="btn btn-success" id="btnsupprcompte">Supprimer le compte</button>
             <div id="supprcompte" class="container" style="display: none;">
             <form method='POST' action='./suppr_compte_artiste.php'>
@@ -98,6 +98,6 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
               </div>
             </form>
             </div>
-            <?php include "./../View/templates/footer.php";?>
+            <?php include "./../View/templates/footer.php";?>  <!--Inclus le pied de page-->
   </body>
 </html>

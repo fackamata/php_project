@@ -11,9 +11,10 @@ require_once './../fonctionsBDD/Galery.php';
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
         <title>Ajout d'une galerie</title>
-    </head>
-    <body>
-        <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
+        </head>
+        <body>
+            <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
+            <h1>Page d'ajout des galeries</h1>
         <div class="container">
         <!-- formulaire -->
         <form action="<?php echo "./save_galery.php"?>" method="post">
@@ -51,7 +52,9 @@ require_once './../fonctionsBDD/Galery.php';
             <button class="btn btn-success" type="submit" id="submit">Envoyer</button>
         </form>
 
+            <!-- <a href="./../Galery/edit_galery.php" class="btn btn-primary">Modifier une galerie</a> -->
             <a href="./../index.php" class="btn btn-primary">Retour à la page d'acceuil</a>
+
         </div>
         <?php include "./../View/templates/footer.php" ?>
     </body>

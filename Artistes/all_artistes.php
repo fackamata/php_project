@@ -1,26 +1,23 @@
 <?php
-require './../config.php';
-
-require_once './../fonctionsBDD/Artistes.php'; // déclare fichier Artiste avec nos fonction db relative à l'artiste
+require './../config.php'; //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once './../fonctionsBDD/Artistes.php'; //Import du fichier contenant les fonctions BDD associé aux Artistes
 
 ?>
 <html>
 	<head>
-		<title> Liste des articles</title>
+		<title>Artises</title>
 		<meta charset="utf-8"/>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	</head>
 	<body>
         <?php
+			session_start(); //Lance la session sur le navigateur
 			include "./../View/templates/navbar.php";
-			$artistes = get_all_artiste();
-            echo "<pre>";
-			print_r($artistes);
-			echo "</pre>";
-			foreach($artistes as $artiste) {
+			$artistes = get_all_artiste(); //Récupère toute les infos de tout les artistes
+			foreach($artistes as $artiste) { //Affichage de chaque artiste un par un
 				echo "<div class='card' style='width: 18rem;'>";
-				if($artiste['imageartiste']){
+				if($artiste['imageartiste']){ //Vérification de l'upload du fichier image, si erreur alors utilisation d'une image aléatoire
 					echo "<img src='./../upload/".$artiste['imageartiste']."' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
 				}
 				else{
@@ -38,12 +35,11 @@ require_once './../fonctionsBDD/Artistes.php'; // déclare fichier Artiste avec 
 					echo "<li class='list-group-item'>".$artiste['emailartiste']."</li>";
 				echo "</ul>";
 				echo "<div class='card-body'>";
-					echo "<a href='./show_artiste.php?idartiste=".$artiste['idartiste']."' class='card-link'>Voir</a>";
+					echo "<a href='./show_artiste.php?idartiste=".$artiste['idartiste']."' class='card-link'>Voir</a>"; //Lien vers la page de l'artiste dont il est question
 				echo "</div>";
 				echo "</div>";
 			}
 		?>
-		<a href="javascript:history.back()">Retour à la page d'acceuil</a>
-		<?php include "./../View/templates/footer.php";?>
+		<?php include "./../View/templates/footer.php";?> <!--Inclus le pied de page-->
 	</body>
 </html>

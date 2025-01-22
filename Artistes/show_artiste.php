@@ -17,13 +17,19 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
 </head>
 <body>
     <?php
-        include "./../View/templates/navbar.php";
         session_start();
+        include "./../View/templates/navbar.php";
         $artiste=get_info_artiste($_GET["idartiste"]);
     ?>
     
     <div class='card' style='width: 18rem;'>
-				<img src='./../upload/<?php echo $artiste['imageartiste']?>' class='card-img-top' alt='<?php echo $artiste['pseudoartiste']?>'>
+        <?php if($artiste['imageartiste']){
+                echo "<img src='./../upload/".$artiste['imageartiste']."' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
+            }
+            else{
+                echo "<img src='https://picsum.photos/200' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
+            }
+            ?>
 				<div class='card-body'>
 					<h5 class='card-title'><?php echo $artiste["pseudoartiste"]?></h5>
 					<p class='card-text'><?php echo $artiste['nomartiste']?></p>
@@ -34,22 +40,35 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
 					<li class='list-group-item'><?php echo $artiste['paysartiste']?></li>
 					<li class='list-group-item'><?php echo $artiste['villeartiste']?></li>
 					<li class='list-group-item'><?php echo $artiste['emailartiste']?></li>
+
+                    <?php if (isset($_SESSION['idclient'])) {
+                        ?>
+                        <form method="POST" action="<?php echo "./../../Marlene/home.php?ctrl=preferredartiste&fct=new_preferredartiste" ?>" >
+                            <input type='hidden' name='idartiste' value='<?php echo $artiste['idartiste']?>'/>
+                            <input type='hidden' name='idclient' value='<?php echo $_SESSION['idclient']?>'/>
+                            <button type='submit' class='btn btn-primary'>Favoris</button>
+                        </form>
+                        <?php
+                    } ?>
+                    
 				</ul>
 				</div>
         <br/><br/>
 			<?php
                 $collection=get_info_artwork_by_artist($_GET['idartiste']);
-                echo "<pre>";
-                print_r($collection);
-                echo "</pre>";
                 foreach ($collection as $oeuvre){
                     $html = "<div class='card mb-3' style='max-width: 540px;'>
                     <div class='row g-0'>
-                    <div class='col-md-4'>
-                    <img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>
-                    </div>
-                    <div class='col-md-8'>
-                    <div class='card-body'>
+                    <div class='col-md-4'>";
+                    if($oeuvre['imageoeuvre']){
+                        $html = $html."<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                    }
+                    else{
+                        $html = $html."<img src='https://picsum.photos/200' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                    }
+                    $html = $html."</div>
+                        <div class='col-md-8'>
+                        <div class='card-body'>
                         <h5 class='card-title'>".$oeuvre['nomoeuvre']."</h5>
                         <p class='card-text'>".$oeuvre['descriptionoeuvre']."</p>
                         <p class='card-text'><small class='text-body-secondary'>".$oeuvre['dateoeuvre']."</small></p>
@@ -58,7 +77,6 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
                     echo $html;
                 }
             ?>
-        <a href="./../index.php">Home</a>
     <?php include "./../View/templates/footer.php";?>
 </body>
 </html>

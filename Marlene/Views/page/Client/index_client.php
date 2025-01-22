@@ -58,7 +58,7 @@
                         Éditer
                     </a>
 
-                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=client&fct=delete_client&id=".$id?>" 
+                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=client&fct=remove_client&id=".$id?>" 
                         class="btn btn-danger" 
                         role="button" >
                         Supprimer

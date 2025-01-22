@@ -48,23 +48,28 @@ function get_preferredartiste_by_id_client(int $idclient):array
   $connex = connectionBDD(); // on se connect
   try {
     
-    $sql = $connex->prepare(
+    $sql = $connex->query(
       "SELECT
        clients.idclient AS idclient,
        -- clients.pseudoclient AS pseudoclient,
        artistes.idartiste AS idartiste,
        artistes.pseudoartiste AS pseudoartiste,
-       artistes.imageartiste AS imageartiste
+       artistes.villeartiste AS villeartiste,
+       artistes.paysartiste AS paysartiste
      FROM clients
      INNER JOIN prefererartiste
        ON clients.idclient = prefererartiste.idclient
      INNER JOIN artistes
        ON prefererartiste.idartiste = artistes.idartiste
-     WHERE clients.idclient = ?
+     WHERE clients.idclient = '".$idclient."'
      ORDER BY artistes.idartiste
 ");
-$res = $sql->execute([$idclient]);
-$resu = $res->fetchall();
+
+// $sql->bindParam(':idclient', $idclient, PDO::PARAM_INT);
+// $sql->execute(); 
+
+// $res = $sql->execute([$idclient]);
+$resu = $sql->fetchall();
   } catch (PDOException $e) {
     print $resu;
     print "Erreur pour récupérer les artistes préférés du client : " . $e->getMessage();

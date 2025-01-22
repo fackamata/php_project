@@ -58,6 +58,7 @@ require_once __DIR__."/../Modeles/Clients.php";
 */
 function index_client(): array
 {
+    // block_access_admin_marlene();
     $clients = get_all_clients();
 
     return [
@@ -68,6 +69,23 @@ function index_client(): array
         'clients' => $clients,
     ];
 }
+
+// function block_access_admin_marlene(){
+//     if(! $_SERVER["PHP_AUTH_USER"]){
+
+//         // header("location : ".SRV_PATH.",  )
+//         header("HTTP/1.1 401 Authorization Required"); 
+//         echo " error 401";
+//     } else if ($_SERVER["PHP_AUTH_USER"] != 'ksjdfl'){
+//         // header("HTTP/1.1 403 Forbidden");
+//         header("Location:  /index.php",TRUE,403);
+//         echo " error 403";
+//     }else{
+
+//         echo 'vous êtes autorisé';
+//     }
+//     ;
+// }
     
 
 /**
@@ -79,12 +97,10 @@ function index_client(): array
 function display_show_client(int $id):array
 {
     $clients = get_client_by_id($id);
-    // session_start();
-    // if(isset($_SESSION)){
-    //     var_dump($_SESSION);
-    // }else{
-    //     echo 'pas de session';
-    // }
+    
+    require_once './Modeles/Preferredartistes.php';
+    $favoritartiste = get_preferredartiste_by_id_client($id);
+    // var_dump($favoritartiste);
     
     if (is_file($clients['imageclient'])) {
         $image = $clients['imageclient'];
@@ -98,6 +114,7 @@ function display_show_client(int $id):array
         'title' => $clients['pseudoclient'],
         'image' => $image,
         'clients' => $clients,
+        'artiste_preferer' => $favoritartiste,
     ];
 }
 
@@ -209,10 +226,11 @@ function update_client(int $id): void
 {
     // echo "on est dans la fonction update client";
     // var_dump($_POST);
-    if(isset($_POST[''])) {
-        echo "le post est bien dans le update";
-    }
-        update_client_db($_POST, $id);
+    // if(isset($_POST[''])) {
+    //     echo "le post est bien dans le update";
+    // }
+
+    update_client_db($_POST, $id);
     // display_show_client($id);
     header("location:".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
     die;    
@@ -249,9 +267,11 @@ function new_client(): void
 
 function remove_client($id):void
 {
-    // delete_client($id);
+    delete_client($id);
     // index();
-    index_client();
+    // index_client();
+    header("location: ".MARLENE_PATH."/home.php/c?ctrl=client&fct=index_client");
+
 }
 
 

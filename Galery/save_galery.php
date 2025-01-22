@@ -16,5 +16,5 @@ $var = $var."'".$_POST["cpgalerie"]."', ";
 $var = $var."'".$_POST["paysgalerie"]."') ";
 
 add_galery($var);
-header('location: ')
+// header('location: ./add_galery.php') // fonctionnel
 ?>

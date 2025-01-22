@@ -101,18 +101,22 @@
         <div class="container">
             <ul class="list-group">
                 <li class="mt-1 list-group-item list-group-item-warning">
-                    <p>Réfléchir à la requête pour afficher les différents artistes une fois que l'on
-                        à clicker sur la galerie que l'on veut consulter.
-                    </p>
-                    <p>Requête qui intéroge la table 'exposer' qui fait le lien 
-                        entre la table galeries et artistes.
+                    <p>
                     </p>
                 </li>
                 <li class="mt-1 list-group-item list-group-item-info">
                 
                 </li>
-                <li class="list-group-item">
-                
+                <li class="list-group-item list-group-item-success">
+                    <p>Requête qui intéroge la table 'exposer' qui fait le lien 
+                        entre la table galeries et artistes. OK
+                    </p>
+                    <p>Réfléchir à la requête pour afficher les différents artistes une fois que l'on
+                        à clicker sur la galerie que l'on veut consulter. OK
+                    </p>
+                    <p>Requête qui intéroge la table 'exposer' qui fait le lien 
+                        entre la table galeries et artistes. OK
+                    </p>
                 </li>
             </ul>
         </div>
@@ -185,13 +189,13 @@
                             <ul>
                                 <li>C : create galerie</li>
                                 <li>R : read all/one galerie</li>
-                                <!-- <li>U : update galerie</li> -->
+                                <li>U : update galerie</li>
                                 <!-- <li>D : delete galerie</li> -->
                             </ul>
                     </li>
                     <li class="mt-1 list-group-item list-group-item-warning">
-                        Galery : en cours -> fonction faites mais pas testées
-                        <br>Manque à faire les pages html pour intéragire avec la BDD
+                        Galery : en cours -> fonction faites, en cours d'adaptation pour requête pdoprepare
+                        <br>
                     </li>
                     <!-- <li class="mt-1 list-group-item list-group-item-success">
                         Object opérationnel -> 
@@ -314,14 +318,19 @@
                 <li class="mt-1 list-group-item list-group-item-warning">
                     Faire page de présentation dynamique des objets lors du click du lien sur les cartes
                 </li>
-                <li class="mt-1 list-group-item list-group-item-warning">
+                <li class="mt-1 list-group-item list-group-item-success">
                     Pour la modif d'un galerie, faire une requête pour récup toute les infos sur la 
                         galerie qu'on souhaite modif puis dans les input du formulaire, renseigner les 
                         champs 'value' en récupérant les infos reçu de la 1ère requête récup infos.
                 </li>
-                <li class="mt-1 list-group-item list-group-item-warning">
+                <li class="mt-1 list-group-item list-group-item-success">
                     Revoir la fonction get_galery_by_id($idgalerie) pour continuer la requête 
                     avec un INNER JOIN pour récup également l'idartiste de la table EXPOSER en lien avec l'idgalerie.
+                </li>
+                <li class="mt-1 list-group-item list-group-item-warning">
+                    Intégrer dans add_galery.php, Récup la liste des pseudo artistes avec la fct get_all_pseudo_artiste() 
+                    dans fctBDD/Artistes.php puis faire un sélécteur ou l'on peut séléctionner tt les artistes qui exposent
+                    dans la galerie que l'on cré
                 </li>
                 
             </ul>
@@ -370,6 +379,7 @@
                 </li>
                 <li class="list-group-item list-group-item-success">
                     On récupère toujours les informations par rapport à un id, c'est l'élément unique de référence
+                
                 </li>
             </ul>
         </div>

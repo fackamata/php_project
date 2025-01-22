@@ -1,6 +1,7 @@
 <?php
 require './../config.php';
-require_once './../fonctionsBDD/Comments.php'; // déclaration du fichier contenant des fonctions liées à l'utilisation de la BDD pouvant être appelées
+require_once BASE_PATH.'/fonctionsBDD/Comments.php';
+require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; // déclaration du fichier contenant des fonctions liées à l'utilisation de la BDD pouvant être appelées
 //require_once 'fonctionSys.php'; // déclaration du fichier contenant des fonctions orientées système (filtrage)
 
 ?>
@@ -13,12 +14,10 @@ require_once './../fonctionsBDD/Comments.php'; // déclaration du fichier conten
 	</head>
 	<body>
         <?php
-			print_r($_POST);
-			$listcom = get_info_comment($_POST["id_oeuvre"]);
-			$oeuvre = get_info_artwork($_POST['idoeuvre']);
-			echo "<pre>";
-			print_r($listcom);
-			echo "</pre>";
+			session_start();
+			include "./../View/templates/navbar.php";
+			$comments = get_info_comment($_POST["id_oeuvre"]);
+			$oeuvre = get_info_artwork($_POST['id_oeuvre']);
 			?>
 			<div class='card mb-3' style='max-width: 540px;'>
             <div class='row g-0'>
@@ -43,13 +42,21 @@ require_once './../fonctionsBDD/Comments.php'; // déclaration du fichier conten
             </div>
         	</div>
 			<?php
-			foreach($listcom as $com){
-				$client = $com["nomclient"]." ".$com["prenomclient"];
-				$artiste = $com["nomartiste"]." ".$com["prenomartiste"];
-				echo "<div><h3>".$client." : </h3><p>".$com["nomoeuvre"]." (".$artiste.")</p><p>".$com["message"]."</p><p>".$com["datecommentaire"]."</p></div>";
-				echo "</br>";
-			}
+			foreach ($comments as $comment){
+                $html = "<div class='card container'>
+                    <div class='card-header'>
+                        ".$comment['pseudoartiste']."
+                    </div>
+                    <div class='card-body'>
+                        <blockquote class='blockquote mb-0'>
+                        <p>".$comment['message']."</p>
+                        <footer class='blockquote-footer'>".$comment['pseudoclient']." - ".$comment['datecommentaire']."</footer>
+                        </blockquote>
+                    </div>
+                    </div>";
+                    echo $html;
+            }
+		include "./../View/templates/footer.php";
 		?>
-		<a href="javascript:history.back()">Retour à la page de l'artiste</a>
     </body>
 </html>

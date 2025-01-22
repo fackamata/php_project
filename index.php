@@ -22,9 +22,9 @@ session_start();
     <!-- <h1>Bienvenue dans notre galeri'alt</h1> -->
     <?php 
     //var_dump($_SESSION);
+    // header("location : Galery/all_galery.php");
     ?>
     
-    <!-- améliorer pour que les vues soit envoyé ici pour ne pas avoir à recopier le html d'encadrement à chaque fois -->
     <footer>
         <?php include "./View/templates/footer.php" ?>
     </footer>

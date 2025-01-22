@@ -8,11 +8,12 @@
     <?php
     include "./navbar.php";
     ?>
-    <div class="container">
+    <!-- <main class="container"> -->
+    <main>
     
     <?php $view_content; ?>
 
-    </div>
+    </main>
 
 <?php
     include "./footer.php";

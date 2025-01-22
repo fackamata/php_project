@@ -1,8 +1,6 @@
-<h1>Bienvenue dans la page d'administration de Marlène</h1>
+<h1 class="text-center my-5">Bienvenue dans la page d'administration de Marlène</h1>
 
-<article class=" m-5 d-flex justify-content-center align-items-center">
-    <h2>Liste des parties que vous pouvez administrer : </h2>
-</article>
+<h2 class="text-center my-5">Liste des parties que vous pouvez administrer : </h2>
 
 <div class="d-flex justify-content-evenly">
     <td class="d-flex justify-content-evenly">

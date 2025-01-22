@@ -1,5 +1,4 @@
 <?php
-// require "./../config.php";
 function connectionBDD($fichierParametre=BASE_PATH."/Utils/paramCon.php"): PDO {
 /*---------------------------------------------
 Création de la connexion à la base de données
@@ -13,13 +12,12 @@ Paramètres d'entrées :
     $user
     $pass
 ------------------------------------------------*/
-    include $fichierParametre; // on "inclut" le fichier source contenant du code
+    include $fichierParametre; // on "inclut" le fichier source contenant les éléments de connexion de la BDD
     $dsn='pgsql:host='.$srv.';dbname='.$dbname.';port='.$port;
 
     // connexion à la bdd (connexion non persistante)
     try {
         $connex = new PDO($dsn, $user, $pass); // tentative de connexion
-        print "Connecté :)<br />";// si réussite
     } catch (PDOException $e) { // si échec
         print "Erreur de connexion à la base de données ! : " . $e->getMessage();
         die(""); // Arrêt du script - sortie.

@@ -36,21 +36,21 @@
                 <td><?php echo $preferredartiste[$i]['pseudoartiste'] ?></td>
                 <td><?php echo $preferredartiste[$i]['idclient'] ?></td>
                 <td><?php echo $preferredartiste[$i]['pseudoclient'] ?></td>
-                <td><?php echo $preferredartiste[$i]['nompreferrededartiste'] ?></td>
                 <!-- <td> -->
                     <?php 
                 //echo $preferredartiste[$i]['imagepreferredartiste'] ?>
                 <!-- </td> -->
+                 <?php $idartiste = $preferredartiste[$i]['idartiste'];?>
+                 <?php $idclient = $preferredartiste[$i]['idclient'];?>
 
                 <td class="d-flex justify-content-evenly">
-                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=display_show_preferredartiste&id=".$id ?>" 
+                    <!-- <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=display_show_preferredartiste&idclient=".$idclient."&idartiste=".$idartiste ?>" 
                         class="btn btn-info" 
                         role="button" >
                         Voir
-                    </a>
-                    <!-- <a hs -->
+                    </a> -->
 
-                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=delete_preferredartiste&id=".$id?>" 
+                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=delete_preferredartiste&idclient=".$idclient."&idartiste=".$idartiste?>" 
                         class="btn btn-danger" 
                         role="button" >
                         Supprimer
