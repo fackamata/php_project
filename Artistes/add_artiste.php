@@ -16,10 +16,10 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
     <div class="container">
       <!-- <script defer src="./client_compte.js"></script> -->
       <?php
-        include "./../View/templates/navbar.php";
-        $pseudo = get_all_artiste_pseudo();
-        echo "<script>let pseudo = ".json_encode($pseudo)."</script>";
-      ?>
+        $pseudo = $data["pseudo"];
+        ?>
+        <script> <?php echo "let pseudo = ".json_encode($pseudo)."; console.log(pseudo);" ?></script>
+
 
       <!-- formulaire -->
 

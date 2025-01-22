@@ -30,27 +30,26 @@
       <label for="emailclient">email :</label>
       <input type="text" class="form-control" name="emailclient" >
     </div>
-    <div class="form-group">
-      <label for="imageclient">Image de profil :</label>
-      <input type="text" class="form-control" name="imageclient" >
-    </div>
     <!-- <div class="form-group">
       <label for="imageclient">Image de profil :</label>
-      <input type="file" class="form-control" name="imageclient" >
+      <input type="text" class="form-control" name="imageclient" >
     </div> -->
     <div class="form-group">
-      <label for="firstpasswd">mot de passe :</label>
+      <label for="imageclient">Image de profil :</label>
+      <input type="file" class="form-control" name="imageclient" >
+    </div>
+    <div class="form-group">
+      <label for="motdepasse">mot de passe :</label>
       <input type="password" class="form-control" 
-            name="firstpasswd" id="firstpass" required>
+            name="motdepasse" id="firstpass" required>
     </div>
     <div class="form-group">
       <label for="motdepasseclient">Confirmer le passe :</label>
       <input type="password" class="form-control"
               name="motdepasseclient" id="motdepasseclient" required>
     </div>
+    <div class="alert alert-success" role="alert" id="alert" disabled></div>
 
-      <button class="btn btn-success" type="submit">Envoyer</button>
+      <button class="btn btn-success" type="submit" id="submit">Envoyer</button>
   </form>
-
-    <a href="home.php/?ctrl=client&fct=index_client" class="btn btn-primary">Retour à la page du client</a>
 </div>

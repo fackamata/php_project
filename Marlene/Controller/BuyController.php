@@ -111,12 +111,18 @@ function update_buy(int $id): void
     display_show_buy($id);
 }
 
-function new_buy(): array
+
+function display_add_buy(): array
 {
+    $pseudo = get_all_clients_pseudo();
+    $email = get_all_clients_email();
     return [
-        'page' => 'add_buy',
-        'title' => 'Nouveau buy',
-    ];        
+        'page' => 'add_achat',
+        'title' => "Ajout achat",
+        'pseudo' => $pseudo,
+        'email' => $email,
+        'client_check_js' => true,
+    ];
 }
 
 function remove_buy($id):void

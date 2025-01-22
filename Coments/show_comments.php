@@ -31,6 +31,7 @@ require_once './../fonctionsBDD/Comments.php'; // déclaration du fichier conten
 					}
                     ?>
                 </div>
+	
                 <div class='col-md-8'>
                     <div class='card-body'>
                         <h5 class='card-title'><?php echo $oeuvre['nomoeuvre'] ?></h5>

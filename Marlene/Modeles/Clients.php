@@ -11,7 +11,56 @@ function get_all_clients(): array
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT * FROM clients ORDER BY idclient";
+    $sql = "SELECT * FROM clients ORDER BY idclient DESC";
+    // pas de prepare car pas de paramètre
+    $res = $connex->query($sql);
+    $resu = $res->fetchall();
+    // var_dump( $resu[0]);
+  } catch (PDOException $e) { // si échec
+    print "Erreur pour retourner les pseudo clients : " . $e->getMessage();
+    $resu = [];
+    die(""); // Arrêt du script - sortie.
+  }
+  disconnectionBDD($connex);
+  return $resu;
+}
+
+/**
+ *      fonction qui retourne les emails de tous les clients 
+ *      ( fonction SELECT  )
+ * 
+ * @return array $resu list de tous les emails de tous les clients
+*/
+function get_all_clients_email(): array
+{
+  $connex = connectionBDD(); // on se connect
+  try {
+    $sql = "SELECT emailclient FROM clients ORDER BY idclient";
+    // pas de prepare car pas de paramètre
+    $res = $connex->query($sql);
+    $resu = $res->fetchall();
+    // var_dump( $resu[0]);
+  } catch (PDOException $e) { // si échec
+    print "Erreur pour retourner les emails clients : " . $e->getMessage();
+    $resu = [];
+    die(""); // Arrêt du script - sortie.
+  }
+  disconnectionBDD($connex);
+  return $resu;
+}
+
+/**
+ *      fonction qui retourne tout les pseudo de tous les clients 
+ *      ( fonction SELECT  )
+ * 
+ * @return array $resu list de tout les pseudo de tous les clients
+*/
+function get_all_clients_pseudo(): array
+{
+  $connex = connectionBDD(); // on se connect
+  try {
+    $sql = "SELECT pseudoclient FROM clients ORDER BY idclient";
+    // pas de prepare car pas de paramètre
     $res = $connex->query($sql);
     $resu = $res->fetchall();
     // var_dump( $resu[0]);
@@ -35,9 +84,10 @@ function get_client_by_id(int $id)
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT * FROM clients WHERE idclient = '" . $id . "'";
-    $res = $connex->query($sql);
-    $resu = $res->fetch();
+    $sql = $connex->prepare("SELECT * FROM clients  WHERE idclient = ? ");
+    $sql->execute([$id]); 
+    $resu = $sql->fetch();
+
   } catch (PDOException $e) { // si échec
     print "Erreur pour récupérer tous les clients : " . $e->getMessage();
     $resu = [];
@@ -58,10 +108,10 @@ function get_client_id(string $pseudo): string
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT idclient FROM clients WHERE emailclient = '" . $pseudo . "' OR pseudoclient = '".$pseudo."'";
-    print($sql);
-    $res = $connex->query($sql);
-    $resu = $res->fetch()[0];
+    $sql = $connex->prepare("SELECT idclient FROM clients  WHERE pseudoclient = ? OR emailclient = ? ");
+    $sql->execute([$pseudo, $pseudo]); 
+    $resu = $sql->fetch()[0];
+
     // echo "le mot de passe récupe en BDD: " . $resu;
   } catch (PDOException $e) { // si échec
     print "Erreur pour récupérer le mot de passe du clients : " . $e->getMessage();
@@ -84,11 +134,12 @@ function get_client_passwd(int $id): string
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT motdepasseclient FROM clients WHERE idclient = '" . $id . "'";
-    $res = $connex->query($sql);
-    $resu = $res->fetch()[0];
-    print($resu);
-    echo "le mot de passe récupe en BDD: " . $resu;
+    $sql = $connex->prepare("SELECT motdepasseclient FROM clients  WHERE idclient = ? ");
+    $sql->execute([$id]); 
+    $resu = $sql->fetch()[0];
+
+    // print($resu);
+    // echo "le mot de passe récupe en BDD: " . $resu;
   } catch (PDOException $e) { // si échec
     print "Erreur pour récupérer le mot de passe du clients : " . $e->getMessage();
     $resu = "";
@@ -99,51 +150,6 @@ function get_client_passwd(int $id): string
   return $resu;
 }
 
-// /**
-//  *      fonction qui retourne tous les artiste préféré d'un client 
-//  *      ( fonction SELECT  )
-//  * 
-//  * @param int $id id d'un client
-//  * @return array $passwd list de toutes les informations de tous les clients
-// */
-// function get_client_favorite_artiste(int $id): string
-// {
-//   $connex = connectionBDD(); // on se connect
-//   try {
-//     $sql = "SELECT
-//               clients.idclient AS idclient,
-//               -- clients.pseudoclient AS pseudoclient,
-//               artistes.idartiste AS idartiste,
-//               artistes.pseudoartiste AS pseudoartiste,
-//               artistes.imageartiste AS imageartiste
-//             FROM clients
-//             INNER JOIN prefererartiste
-//               ON clients.idclient = prefererartiste.idclient
-//             INNER JOIN artistes
-//               ON prefererartiste.idartiste = artistes.idartiste
-//             ORDER BY artistes.idartiste;
-//     -- SELECT idclient FROM clients WHERE idclient = '" . $id . "'
-//     --         JOIN clients
-//     --         ON clients.idclient = prefererartiste.idclient
-//     --         JOIN artiste
-//     --         ON artiste.idartiste = prefererartiste.idartiste
-//     --         JOIN prefererartiste
-//     --         ON prefererartiste.idartiste = artiste.idartiste
-//             ";
-//     $res = $connex->query($sql);
-//     $resu = $res->fetch()[0];
-//     print($resu);
-//     echo "le mot de passe récupe en BDD: " . $resu;
-//   } catch (PDOException $e) { // si échec
-//     print "Erreur pour récupérer le mot de passe du clients : " . $e->getMessage();
-//     $resu = "";
-//     die(""); // Arrêt du script - sortie.
-//   }
-//   disconnectionBDD($connex);
-//   // TODO VOIR si c'est bien le hash ou 1er élément
-//   return $resu;
-// }
-
 
 /**
  *      fonction qui enregistre un nouveau client et retourne son id 
@@ -152,31 +158,50 @@ function get_client_passwd(int $id): string
  * @param array $data données client
  * @return int $id id du client nouvellement créé
 */
-function add_new_client(array $data): int
+function add_new_client(array $data): string
 {
-  var_dump_pre($data);
+  // var_dump_pre($data);
   $connex = connectionBDD(); // on se connect
-  try {
-    $sql = "INSERT INTO clients 
-      (
-        nomclient, prenomclient, adresseclient, villeclient, emailclient, motdepasseclient, pseudoclient, imageclient, cpclient
-      )
-      VALUES 
-      (
-        '" . $data['nomclient'] . "', '" . $data['prenomclient'] . "', '" . $data['adresseclient'] . "', '" . $data['villeclient'] . "', '" . $data['emailclient'] .
-      "', '" . $data['motdepasseclient'] . "', '" . $data['pseudoclient'] . "', '" . $data['imageclient'] . "', '" . $data['cpclient'] . "'
-      ) 
-      RETURNING idclient";
-    print $sql;
-    $res = $connex->query($sql);
-    $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
+  try {    
+    $sql = $connex->prepare(
+  "INSERT INTO clients (
+        nomclient, prenomclient, adresseclient, villeclient, emailclient, motdepasseclient, pseudoclient, imageclient, cpclient ) 
+        VALUES ( :nomclient, :prenomclient, :adresseclient, :villeclient, :emailclient, :motdepasseclient, :pseudoclient, :imageclient, :cpclient )
+        ");
+        
+    $sql->bindParam(':nomclient', $data['nomclient'], PDO::PARAM_STR);
+    $sql->bindParam(':prenomclient', $data['prenomclient'], PDO::PARAM_STR);
+    $sql->bindParam(':adresseclient', $data['adresseclient'], PDO::PARAM_STR);
+    $sql->bindParam(':villeclient', $data['villeclient'], PDO::PARAM_STR);
+    $sql->bindParam(':emailclient', $data['emailclient'], PDO::PARAM_STR);
+    $sql->bindParam(':motdepasseclient', $data['motdepasseclient'], PDO::PARAM_STR);
+    $sql->bindParam(':pseudoclient', $data['pseudoclient'], PDO::PARAM_STR);
+    $sql->bindParam(':imageclient', $data['imageclient'], PDO::PARAM_STR);
+    $sql->bindParam(':cpclient', intval($data['cpclient']), PDO::PARAM_INT);
+    $sql  ->execute();
+    // print($id );
+
+    
+    // $sql = "INSERT INTO clients 
+    //   (
+    //     nomclient, prenomclient, adresseclient, villeclient, emailclient, motdepasseclient, pseudoclient, imageclient, cpclient
+    //   )
+    //   VALUES 
+    //   (
+    //     '" . $data['nomclient'] . "', '" . $data['prenomclient'] . "', '" . $data['adresseclient'] . "', '" . $data['villeclient'] . "', '" . $data['emailclient'] .
+    //   "', '" . $data['motdepasseclient'] . "', '" . $data['pseudoclient'] . "', '" . $data['imageclient'] . "', '" . $data['cpclient'] . "'
+    //   ) 
+    //   RETURNING idclient";
+    // print $sql;
+    // $res = $connex->query($sql);
+    // $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
+    $msg = "Votre compte à bien été créé, vous pouvez vous connecter";
   } catch (PDOException $e) { // si échec
-    print "Erreur pour ajouter le clients " . $data['nom'] . "  : " . $e->getMessage();
-    $id = 0;
+    $msg = "Erreur pour l'enregistrement " . $data['pseudoclient'] . "  : " . $e->getMessage();
     die(""); // Arrêt du script - sortie.
   }
   disconnectionBDD($connex);
-  return $id;
+  return $msg;
 }
 
 
@@ -242,6 +267,24 @@ function update_client_db(array $data, int $id): void
 {
   $connex = connectionBDD(); // on se connect
   try {
+    $sql =  $connex->prepare(
+      "UPDATE clients (
+            nomclient = :nomclient,  prenomclient = :prenomclient,  adresseclient = :adresseclient,  
+            villeclient = :villeclient,  emailclient = :emailclient,  
+            pseudoclient = :pseudoclient,  cpclient = :cpclient ) 
+            ");
+            
+        $sql->bindParam(':nomclient', $data['nomclient'], PDO::PARAM_STR);
+        $sql->bindParam(':prenomclient', $data['prenomclient'], PDO::PARAM_STR);
+        $sql->bindParam(':adresseclient', $data['adresseclient'], PDO::PARAM_STR);
+        $sql->bindParam(':villeclient', $data['villeclient'], PDO::PARAM_STR);
+        $sql->bindParam(':emailclient', $data['emailclient'], PDO::PARAM_STR);
+        $sql->bindParam(':pseudoclient', $data['pseudoclient'], PDO::PARAM_STR);
+        // $sql->bindParam(':imageclient', $data['imageclient'], PDO::PARAM_STR);
+        $sql->bindParam(':cpclient', intval($data['cpclient']), PDO::PARAM_INT);
+        $sql->execute();
+        
+
     $sql = "UPDATE clients 
     SET nomclient = '" . $data['nomclient'] . "', 
         prenomclient = '" . $data['prenomclient'] . "', 
@@ -324,5 +367,52 @@ function login_client_in_db($login, $hash_passwd)
   disconnectionBDD($connex);
   return $resu;
 }
+
+
+// /**
+//  *      fonction qui retourne tous les artiste préféré d'un client 
+//  *      ( fonction SELECT  )
+//  * 
+//  * @param int $id id d'un client
+//  * @return array $passwd list de toutes les informations de tous les clients
+// */
+// function get_client_favorite_artiste(int $id): string
+// {
+//   $connex = connectionBDD(); // on se connect
+//   try {
+//     $sql = "SELECT
+//               clients.idclient AS idclient,
+//               -- clients.pseudoclient AS pseudoclient,
+//               artistes.idartiste AS idartiste,
+//               artistes.pseudoartiste AS pseudoartiste,
+//               artistes.imageartiste AS imageartiste
+//             FROM clients
+//             INNER JOIN prefererartiste
+//               ON clients.idclient = prefererartiste.idclient
+//             INNER JOIN artistes
+//               ON prefererartiste.idartiste = artistes.idartiste
+//             ORDER BY artistes.idartiste;
+//     -- SELECT idclient FROM clients WHERE idclient = '" . $id . "'
+//     --         JOIN clients
+//     --         ON clients.idclient = prefererartiste.idclient
+//     --         JOIN artiste
+//     --         ON artiste.idartiste = prefererartiste.idartiste
+//     --         JOIN prefererartiste
+//     --         ON prefererartiste.idartiste = artiste.idartiste
+//             ";
+//     $res = $connex->query($sql);
+//     $resu = $res->fetch()[0];
+//     print($resu);
+//     echo "le mot de passe récupe en BDD: " . $resu;
+//   } catch (PDOException $e) { // si échec
+//     print "Erreur pour récupérer le mot de passe du clients : " . $e->getMessage();
+//     $resu = "";
+//     die(""); // Arrêt du script - sortie.
+//   }
+//   disconnectionBDD($connex);
+//   // TODO VOIR si c'est bien le hash ou 1er élément
+//   return $resu;
+// }
+
 
 ?>

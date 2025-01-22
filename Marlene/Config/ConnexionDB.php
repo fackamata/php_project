@@ -20,6 +20,8 @@ Paramètres d'entrées :
     // connexion à la bdd (connexion non persistante)
     try {
         $connex = new PDO($dsn, $user, $pass); // tentative de connexion
+        // TODO commenter correctement
+        $connex->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // print "Connecté :)<br />";// si réussite
         // print "pour etre sure :)<br />";// si réussite
     } catch (PDOException $e) { // si échec

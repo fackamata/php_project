@@ -25,7 +25,16 @@
     <?php include __DIR__."./../../../View/templates/footer.php" ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+    
+    <?php 
+      // import du js en fonctiond d'un paramètre défini 
+      if(isset($data["client_check_js"]) && $data["client_check_js"]){
+        ?>
+        <script src="./../../Marlene/assets/js/client_check.js"></script>
+        <?php
+      };
+    ?>
 </body>
 </html>

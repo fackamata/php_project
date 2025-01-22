@@ -171,9 +171,14 @@ function login_client()
 
 function display_add_client(): array
 {
+    $pseudo = get_all_clients_pseudo();
+    $email = get_all_clients_email();
     return [
         'page' => 'add_client',
         'title' => "Ajout client",
+        'pseudo' => $pseudo,
+        'email' => $email,
+        'client_check_js' => true,
     ];
 }
 
@@ -196,6 +201,7 @@ function display_form_psswd_client(int $id, string $msg =""): array
         'page' => 'form_passwd_client',
         'title' => 'Changement de mot de passe',
         'clients' => $clients,
+        'client_check_js' => true,
     ];
 }
 
@@ -218,19 +224,20 @@ function new_client(): void
     $data = $_POST;
     // var_dump_pre($data);
     // $file = $_FILES;
-    // upload_image();
     // var_dump($file);
+    // upload_image();
     // var_dump($data['motdepasseclient']);
     $data['motdepasseclient'] = password_hash($data['motdepasseclient'], PASSWORD_DEFAULT);
     // var_dump($data['motdepasseclient']);
     try {
-        $id = add_new_client($data);
-        header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
+        $msg = add_new_client($data);
+        header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_login_client&msg=".$msg);
+        // header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id);
         // display_show_client($id);
         
     } catch (\Throwable $th) {
         
-        header("location: ".SRV_PATH);
+        header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_add_client&msg=".$th->getMessage());
         // return [
         //     'page' => 'home',
         //     'title' => 'Admin client',
@@ -260,70 +267,16 @@ function remove_client($id):void
  * 
 */
 
-function upload_image(): void{
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["imageclient"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    // Check if image file is a actual image or fake image
-    $check = getimagesize($_FILES["imageclient"]["tmp_name"]);
-    
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-  }
-  
-// /**
-//  *      fonction qui compare un mot de passe en paramètre au mot de passe
-//  *      client enregistrer en BDD  
-//  * 
-//  * 
-//  * @param string $password mot de passe à comparer.
-//  * @param int $id id d'un client
-//  * @return bool Returns `true` si le hash du mot de passe correspond,
-//  *                      `false` sinon.
-// */
-// function check_password_client(string $passwd,int $id): bool{
-//     // $passwd est un hash car c'est un hash qui est enregistrer en BDD
-// if(get_client_passwd($id) == $passwd){
-//     echo "c'est le même mot de passe";
-//     $is_same_password = true;
-// }else{
-//     $is_same_password = false;
-//     echo "ce n'est pas le même mot de passe";
-// }
-
-// return $is_same_password;
-
-// }
-
 
 /**
- * fonction qui update le mot de passe d'un client 
+ * fonction qui change le mot de passe d'un client 
  * 
  * 
  * @param string $password The user's password.
  * @param string $hash A hash created by password_hash().
  * @return int $id id du client ou 0
 */
-
 function pwd_change($id): void{
-    /* fonction qui update le mot de passe d'un client 
-
-    récupérer l'ancien et le nouveau mot de passe
-    check que l'ancien mot de passe soit correct
-        si oui : update du mot de passe en BDD
-        si non : renvoie sur la page du formulaire
-    
-    retourne l'identifiant du client modifier
-    */
-    echo 'on eest dans passwod change';
-    var_dump_pre($_POST);
-    // si on a les données nécessaire, on change le mot de passe
     if(isset($_POST['old_passwd']) && $_POST['motdepasseclient'] !== null )
      {
         $change = False;
@@ -353,14 +306,6 @@ function pwd_change($id): void{
         display_form_psswd_client($id);
     }
 
-        
-    // return [
-    //     'page' => 'form_passwd_client',
-    //     'title' => 'Changement de mot de passe',
-    //     'clients' => $clients,
-    // ];
-
-
 }
 
 
@@ -373,3 +318,26 @@ function pwd_change($id): void{
  * @param string $hash A hash created by password_hash().
  * @return bool Returns `true` if the password and hash match, or `false` otherwise.
 */
+
+function upload_image(): void{
+    $target_dir = "./../upload/";
+    $target_file = $target_dir . basename($_FILES["imageclient"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["imageclient"]["tmp_name"]);
+    
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+        try {
+            move_uploaded_file($target_file, $target_dir);
+        } catch (\Throwable $th) {
+            echo "problème lors du téléchargement de l'image : ". $th->getMessage() ."";
+        }
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+  }
+  

@@ -1,12 +1,12 @@
 <div class="container">
 
-    <h1 class="mb-3">Page d'administration des Enchères</h1>
+    <h1 class="mb-3">Page d'administration des Achat</h1>
 
     <div class="d-flex justify-content-end">
         <a href="<?php echo MARLENE_PATH."home.php/?ctrl=bid&fct=display_add_bid" ?>" 
                             class="btn btn-success mx-3" 
                             role="button" >
-                            Créer Enchères
+                            Créer Achat
         </a>
     </div>
 

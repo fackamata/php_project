@@ -42,7 +42,16 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
                 </div>  
                 <div class="form-group">
                     <label for="type">Type de l'oeuvre : </label>
-                    <select name='type' required>
+
+                    <!--<select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>-->
+
+
+                    <select name='type' class="form-select" aria-label="Default select example" required>
                         <?php foreach ($listtype as $type) {
                             if ($type['idtype'] == $oeuvre['refidtype']){
                                 echo "<option value='".$type["nomtype"]."' selected>".$type["nomtype"]."</option>";

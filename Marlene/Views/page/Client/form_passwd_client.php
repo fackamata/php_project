@@ -1,7 +1,17 @@
 <!-- Vue pour les artistes -->
  <div class="container ">
-    <h1 class="text-center"><?php $_SESSION["pseudoclient"]?></h1>
-    
+    <?php
+        if ( isset($_SESSION['pseudoclient'])){
+            ?>
+            <h1 class="text-center"><?php $_SESSION["pseudoclient"]?></h1>
+            <?php
+        } else {
+            ?>
+            <h1 class="text-center"> Changement du mot de passe client</h1>
+            <?php
+        }
+        
+        ?>
         <h2 class="text-center"> Formulaire de changement de mot de passe</h2>
 
         <?php

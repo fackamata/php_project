@@ -18,9 +18,29 @@ function add_artwork(string $var): void{
     disconnectionBDD($connex);
   }
 
-  function edit_artwork(string $var, int $idoeuvre): PDOStatement{
+  function edit_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateoeuvre, int $idtype, string $imageoeuvre, int $idoeuvre){
+    $connex=connectionBDD();
+    try{
+      $stmt = $connex->prepare("UPDATE oeuvres SET nomoeuvre = :nomoeuvre, descriptionoeuvre = :descriptionoeuvre, dateoeuvre = :dateoeuvre, refidtype = :idtype, imageoeuvre = :imageoeuvre WHERE idoeuvre = :idoeuvre");
+      $stmt->bindParam(':nomoeuvre', $nomoeuvre);
+      $stmt->bindParam(':descriptionoeuvre', $descriptionoeuvre);
+      $stmt->bindParam(':dateoeuvre', $dateoeuvre);
+      $stmt->bindParam(':idtype', $idtype);
+      $stmt->bindParam(':imageoeuvre', $imageoeuvre);
+      $stmt->bindParam(':idoeuvre', $idoeuvre);
+      $stmt->execute();
+    }
+    catch(PDOException $e) { //Si échec
+      print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
+      $resu = [];
+      die(""); //Arrêt du script
+    }
+    disconnectionBDD($connex);
+  }
+
+  //function edit_artwork(string $var, int $idoeuvre): PDOStatement{
     //Enregistre dans la base de donnée les modifications d'une oeuvre par son id_oeuvre.
-    $connex=connectionBDD(); //Connexion à la BDD
+    /*$connex=connectionBDD(); //Connexion à la BDD
     try{
       $sql="UPDATE oeuvres SET ".$var." WHERE idoeuvre = '".$idoeuvre."'";
       print $sql;
@@ -33,7 +53,7 @@ function add_artwork(string $var): void{
     }
     disconnectionBDD($connex);
     return $res;
-  }
+  }*/
 
   function get_info_artwork_by_artist(int $idartiste): array{
     //Récupère dans la base de donnée les oeuvres par le nom de l'artiste qui les à faites.

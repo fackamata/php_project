@@ -12,9 +12,10 @@
     <div class="d-flex py-4 flex-md-row flex-sm-column justify-content-evenly align-items-center">
 
         <?php   
-        for ($i = 0; $i < count($preferredartiste)){
-            $pair = $preferredartiste[$i];
-        }
+            // for ( $i = 0; $i < count($preferredartiste) )
+            // {
+            //     $pair = $preferredartiste[$i];
+            // }
         ?>
         <div class="p-5">
             <h3 class="h3">
