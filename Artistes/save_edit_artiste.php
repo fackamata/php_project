@@ -25,7 +25,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; // déclaration du fichier 
         $var=$var."emailartiste = '".$_POST["email"]."', "; //Ajoute l'email de l'artiste modifier
         $var=$var."pseudoartiste = '".$_POST["pseudo"]."', "; //Ajoute l'email de l'artiste modifier
         if (!(move_uploaded_file($_FILES['image']['tmp_name'], "../upload/".$_FILES['image']['name']))){
-            $_FILES["image"]["name"] = 'no_img.png';
+            $_FILES["image"]["name"] = '';
         }
         $var=$var."imageartiste = '".$_FILES["image"]["name"]."'";
         edit_artiste($var, $_POST["idartiste"]);

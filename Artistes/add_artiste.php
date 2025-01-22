@@ -16,14 +16,14 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
     <div class="container">
       <!-- <script defer src="./client_compte.js"></script> -->
       <?php
-        $pseudo = $data["pseudo"];
+        $pseudo = get_all_artiste_pseudo();
+        echo "<script>let pseudo = ".json_encode($pseudo)."</script>";
+        echo "<script>let currentpseudo = ".$_SESSION['pseudoartiste']."</script>";
         ?>
-        <script> <?php echo "let pseudo = ".json_encode($pseudo)."; console.log(pseudo);" ?></script>
-
-
+       
       <!-- formulaire -->
 
-      <form action="<?php echo "./save_artiste.php"?>" method="post">
+      <form action="./save_artiste.php" method="post">
 
         <div class="form-group">
           <label for="imageartiste">Photo de profil :</label>

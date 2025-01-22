@@ -19,47 +19,49 @@ require_once BASE_PATH.'/fonctionsBDD/Artistes.php';
         <?php
           session_start();
           include "./../View/templates/navbar.php";
-          echo "<pre>";
-          print_r($_SESSION);
-          echo gettype($_SESSION['pseudoartiste']);
-          echo "</pre>";
           $info=$_POST["id_artiste"];
           $info = unserialize($info);
-          echo "<pre>";
-          print_r($info);
-          echo "</pre>";
           $pseudo = get_all_artiste_pseudo();
           echo "<script>let pseudo = ".json_encode($pseudo)."</script>";
-          echo "<script>let currentpseudo = ".$_SESSION['pseudoartiste']."</script>";
+          echo "<script>let currentpseudo = '".$_SESSION['pseudoartiste']."';</script>";
         ?>
-            <form method='POST' action='./save_edit_artiste.php'>
-              <input type="hidden" name="idartiste" value="<?php echo $info['idartiste'] ?>">
+
+            <form class="container" action="./save_edit_artiste.php" method="post">
+            <input type="hidden" name="idartiste" value="<?php echo $info['idartiste'] ?>">
+            <div class="form-group">
               <label for="image">Changer la photo de profil : </label>
-              <input type='file' name='image' accept='image/*' value=''></br>
-              <label for='nom'>Nom : </label>
-              <input type='text' name='nom' value='<?php echo $info["nomartiste"] ?>'></br>
+              <input type="file" class="form-control" accept="image/*" nom="image" >
+            </div>
+            <div class="form-group">
+              <label for="nom">Nom : </label>
+              <input type="text" class="form-control" name="nom" value='<?php echo $info["nomartiste"] ?>'>
+            </div>
+            <div class="form-group">
               <label for="prenom">Prénom : </label>
-              <input type='text' name='prenom' value='<?php echo $info["prenomartiste"]?>'></br>
-              <label for='pseudo'>Pseudo : </label>
-              <input type='text' name='pseudo' id="pseudoconfirm" value='<?php echo $_SESSION['pseudoartiste'] ?>'></br>
+              <input type="text" class="form-control" name="prenom" value='<?php echo $info["prenomartiste"]?>'>
+            </div>
+            <div class="form-group">
+              <label for="pseudo">Pseudo : </label>
+              <input type="text" class="form-control" name="pseudo" id="pseudoconfirm" value='<?php echo $_SESSION['pseudoartiste'] ?>' required>
               <p id="msgconfirmpseudo"></p>
-              <?php
-              $listpseudo = get_all_artiste_pseudo();
-              $list = '';
-              foreach ($listpseudo as $pseudo){
-                $list = $list.$pseudo[0].',';
-              }
-              ?>
-              <div id='list' style="display: none;"><?php echo $list;?></div>
-              <label for="email">Email : </label>
-              <input type='text' name='email' value='<?php echo $info["emailartiste"] ?>'></br>
+            </div>  
+            <div class="form-group">
               <label for="pays">Pays : </label>
-              <input type='text' name='pays' value='<?php echo $info["paysartiste"] ?>'></br>
+              <input type="text" class="form-control" name="pays" value='<?php echo $info["paysartiste"] ?>'>
+            </div>
+            <div class="form-group">
               <label for="ville">Ville : </label>
-              <input type='text' name='ville' value='<?php echo $info["villeartiste"] ?>'></br>
+              <input type="text" class="form-control" name="ville" value='<?php echo $info["villeartiste"] ?>'>
+            </div>
+            <div class="form-group">
+              <label for="email">Email : </label>
+              <input type="email" class="form-control" name="email" value='<?php echo $info["emailartiste"] ?>'>
+            </div>
+            <div class="form-group">
               <label for="description">Description : </label>
-              <input type='text' name='description' value='<?php echo $info["descriptionartiste"] ?>'></br>
-              <input type='submit' value='Modifier'>
+              <input type="text" class="form-control" name="description" value='<?php echo $info["descriptionartiste"] ?>'>
+            </div>
+              <button class="btn btn-success" type="submit" id="submit">Envoyer</button>
             </form>
 
             <form method='POST' class='container' action='./change_password.php'>

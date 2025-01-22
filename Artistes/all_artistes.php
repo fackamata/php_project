@@ -20,7 +20,12 @@ require_once './../fonctionsBDD/Artistes.php'; // déclare fichier Artiste avec 
 			echo "</pre>";
 			foreach($artistes as $artiste) {
 				echo "<div class='card' style='width: 18rem;'>";
-				echo "<img src='./../upload/".$artiste['imageartiste']."' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
+				if($artiste['imageartiste']){
+					echo "<img src='./../upload/".$artiste['imageartiste']."' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
+				}
+				else{
+					echo "<img src='https://picsum.photos/200' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
+				}
 				echo "<div class='card-body'>";
 					echo "<h5 class='card-title'>".$artiste["pseudoartiste"]."</h5>";
 					echo "<p class='card-text'>".$artiste['nomartiste']."</p>";

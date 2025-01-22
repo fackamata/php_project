@@ -205,34 +205,6 @@ function add_new_client(array $data): string
 }
 
 
-
-// function get_password(int $id): hash{
-//      /* fonction qui retourne un mot de passe client  
-//       ( fonction SELECT )
-
-//       paramètres d'entrée
-//       - $id : l'id du client dont on veux le mot de passe
-
-//       retourne:
-//         - string $password: le mot de passe
-//     */
-
-//     $connex=connectionBDD();
-//     try{
-//       $sql="SELECT motdepasseclient FROM clients WHERE idclient='".$id."'";
-//       // print $sql;
-//       $res=$connex->query($sql);
-//       $resu=$res->fetch();
-//     }
-//     catch (PDOException $e) { //Si échec
-//       print "Erreur pour récupérer le mot de passe du client : " . $e->getMessage();
-//       die(""); //Arrêt du script
-//     }
-//     disconnectionBDD($connex);
-//     return $resu;
-//   }  
-
-
 /**
  *      fonction qui change le mot de passe d'un client 
  *      ( fonction UPDATE  )
@@ -246,12 +218,16 @@ function change_password_client(string $password, int $id): void
 {
   $connex = connectionBDD();
   try {
-    $sql = "UPDATE clients SET motdepasseclient = '" . $password . "' WHERE idclient='" . $id . "'";
-    // print $sql;
-    $res = $connex->query($sql);
+    
+    $sql = $connex->prepare("UPDATE clients SET motdepasseclient = ?  WHERE idclient = ? ");
+    $sql->execute([$password, $id]); 
+
+    // $sql = "UPDATE clients SET motdepasseclient = '" . $password . "' WHERE idclient='" . $id . "'";
+    // // print $sql;
+    // $connex->query($sql);
   } catch (PDOException $e) { //Si échec
     print "Erreur pour mettre à jour le mot de passe du client : " . $e->getMessage();
-    die(""); //Arrêt du script
+    die(""); //Arrêt du script execute([150, 'rouge'])
   }
   disconnectionBDD($connex);
 }
@@ -285,19 +261,19 @@ function update_client_db(array $data, int $id): void
         $sql->execute();
         
 
-    $sql = "UPDATE clients 
-    SET nomclient = '" . $data['nomclient'] . "', 
-        prenomclient = '" . $data['prenomclient'] . "', 
-        adresseclient = '" . $data['adresseclient'] . "', 
-        villeclient = '" . $data['villeclient'] . "', 
-        emailclient = '" . $data['emailclient'] . "', 
-        pseudoclient = '" . $data['pseudoclient'] . "',
+    // $sql = "UPDATE clients 
+    // SET nomclient = '" . $data['nomclient'] . "', 
+    //     prenomclient = '" . $data['prenomclient'] . "', 
+    //     adresseclient = '" . $data['adresseclient'] . "', 
+    //     villeclient = '" . $data['villeclient'] . "', 
+    //     emailclient = '" . $data['emailclient'] . "', 
+    //     pseudoclient = '" . $data['pseudoclient'] . "',
 
-        cpclient = '" . $data['cpclient'] . "'
-    WHERE idclient = '" . $id . "'";
+    //     cpclient = '" . $data['cpclient'] . "'
+    // WHERE idclient = '" . $id . "'";
 
-    // $res = $connex->query($sql);
-    $connex->query($sql);
+    // // $res = $connex->query($sql);
+    // $connex->query($sql);
     // $res = 
     // $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
   } catch (PDOException $e) 
@@ -315,19 +291,19 @@ function update_client_db(array $data, int $id): void
  *      fonction qui supprime un client  
  *      ( fonction DELETE  )
  * 
- * 
- * @param string $password mot de passe à comparer.
  * @param string $id id d'un client
  * @return array $resu list de toutes les informations de tous les clients
 */
-function delete_client($idclient): void
+function delete_client($id): void
 {
-  //Enregistre les modifications sur un client par son id_client
-
   $connex = connectionBDD();
   try {
-    $sql = " DELETE FROM clients WHERE idclient = '" . $idclient . "'";
-    $res = $connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
+    
+    $sql = $connex->prepare("DELETE FROM clients WHERE idclient = ? ");
+    $sql->execute([$id]); 
+
+    // $sql = " DELETE FROM clients WHERE idclient = '" . $idclient . "'";
+    // $res = $connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
     // $resu=$res->fetchOne();
   } catch (PDOException $e) { // si échec
     print "Erreur lors de la suppression du client : " . $e->getMessage();
@@ -335,7 +311,6 @@ function delete_client($idclient): void
   }
 
   disconnectionBDD($connex);
-  // return $res;					
 }
 
 /**
@@ -343,23 +318,31 @@ function delete_client($idclient): void
  *      ( fonction SELECT  )
  * 
  * 
- * @param string $login email ou pseudo du client
- * @param string $hash_passwd le hash du mot de passe client
+ * @param string $pseudo email ou pseudo du client
  * @return array $resu list de l'id et du pseudo clients
 */
-function login_client_in_db($login, $hash_passwd)
+function login_client_in_db($pseudo, $hash_passwd)
 {
   //Fonction qui récupère les login d'un client avant de le logguer.
-  echo $hash_passwd;
   $connex = connectionBDD();
   try {
-    $sql = "SELECT idclient FROM clients 
-      WHERE pseudoclient = '" . $login . "' 
-            OR emailclient = '" . $login . "'";
-    print $sql;
-    $res = $connex->query($sql);
-    $resu = $res->fetch()[0];
-    print($resu);
+
+    $sql = $connex->prepare("SELECT idclient FROM clients 
+                                    WHERE pseudoclient =  :pseudo OR emailclient = :email");
+    
+    $sql->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+    $sql->bindParam(':email', $pseudo, PDO::PARAM_STR);
+    
+    $sql->execute(); 
+    $resu = $sql->fetch()[0];
+    
+    // $sql = "SELECT idclient FROM clients 
+    //   WHERE pseudoclient = '" . $pseudo . "' 
+    //         OR emailclient = '" . $pseudo . "'";
+    // print $sql;
+    // $res = $connex->query($sql);
+    // $resu = $res->fetch()[0];
+    // print($resu);
   } catch (PDOException $e) { // si échec
     print "Erreur pour lors de la connexion du client : " . $e->getMessage();
     die(""); // Arrêt du script - sortie.
@@ -413,6 +396,36 @@ function login_client_in_db($login, $hash_passwd)
 //   // TODO VOIR si c'est bien le hash ou 1er élément
 //   return $resu;
 // }
+
+
+
+
+// function get_password(int $id): hash{
+//      /* fonction qui retourne un mot de passe client  
+//       ( fonction SELECT )
+
+//       paramètres d'entrée
+//       - $id : l'id du client dont on veux le mot de passe
+
+//       retourne:
+//         - string $password: le mot de passe
+//     */
+
+//     $connex=connectionBDD();
+//     try{
+//       $sql="SELECT motdepasseclient FROM clients WHERE idclient='".$id."'";
+//       // print $sql;
+//       $res=$connex->query($sql);
+//       $resu=$res->fetch();
+//     }
+//     catch (PDOException $e) { //Si échec
+//       print "Erreur pour récupérer le mot de passe du client : " . $e->getMessage();
+//       die(""); //Arrêt du script
+//     }
+//     disconnectionBDD($connex);
+//     return $resu;
+//   }  
+
 
 
 ?>

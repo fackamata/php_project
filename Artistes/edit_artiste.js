@@ -5,6 +5,7 @@ const BUTTONPASS = document.getElementById('changepass');
 const BUTTONSUPPRCOMPTE = document.getElementById('btnsupprcompte');
 BUTTONSUPPRCOMPTE.addEventListener('click', supprcompte);
 const PSEUDOCONFIRM = document.getElementById('pseudoconfirm');
+const BUTTONEDITARTISTE = document.getElementById('submit');
 
 function samepass(){
     if (FIRST.value != SECOND.value){
@@ -27,21 +28,20 @@ SECOND.addEventListener('input', samepass);
 
 const PSEUDO = document.getElementById('list');
 
+console.log(pseudo);
 function pseudoexiste(){
-    $currentpseudoindex = pseudo.IndexOf($currentpseudo)
-    delete pseudo[$currentpseudoindex];
     pseudo.some((item) => {
         MSGBOX = document.getElementById('msgconfirmpseudo');
-        if (item['pseudoartiste'] == PSEUDOCONFIRM.value){
+        if (item['pseudoartiste'] == PSEUDOCONFIRM.value && item['pseudoartiste'] != currentpseudo){
             console.log("Non");
             MSGBOX.innerHTML = "Pseudo déjà utilisé";
-            BUTTONPASS.disabled = true;
+            BUTTONEDITARTISTE.disabled = true;
             return true;
         }
         else{
             console.log('Oui');
             MSGBOX.innerHTML = "Pseudo valide";
-            BUTTONPASS.disabled = false;
+            BUTTONEDITARTISTE.disabled = false;
         }
     })
 };

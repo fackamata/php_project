@@ -11,10 +11,15 @@
             role="button" >
             Clients
         </a>
-        <a href="<?php echo MARLENE_PATH."home.php/?ctrl=bid&fct=index_bid" ?>" 
+        <a href="<?php echo MARLENE_PATH."home.php/?ctrl=preferredartiste&fct=index_preferredartiste" ?>" 
             class="btn btn-outline-primary" 
             role="button" >
-            Enchères
+            Artiste favori
+        </a>
+        <a href="<?php echo MARLENE_PATH."home.php/?ctrl=preferredoeuvvres&fct=index_preferredoeuvvres" ?>" 
+            class="btn btn-outline-primary" 
+            role="button" >
+            Oeuvres favori
         </a>
 
         <a href="<?php echo MARLENE_PATH."home.php/?ctrl=buy&fct=index_buy" ?>" 

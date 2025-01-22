@@ -16,8 +16,6 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
     echo "<pre>";
     print_r($oeuvre);
     echo "</pre>";
-    $_SESSION['pseudoclient'] = 'marlene';
-    $_SESSION['idclient'] = 16;
     echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
