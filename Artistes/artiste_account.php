@@ -2,6 +2,8 @@
 require "./../config.php"; //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
 require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; //Import du fichier contenant les fonctions BDD associé aux Artistes
 require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; //Import du fichier contenant les fonctions BDD associé aux Oeuvres
+require_once BASE_PATH.'/fonctionsBDD/Types.php'; //Import du fichier contenant les fonctions BDD associé aux Types
+require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contenant les fonctions BDD associé aux Exposition dans les galeries
 
 ?>
 <html>
@@ -16,6 +18,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; //Import du fichier contena
             session_start(); //Lance la session sur le navigateur
             include "./../View/templates/navbar.php"; //Inclus la barre de navigation du site
             $info=get_info_artiste($_SESSION["idartiste"]); //Récupère les informations d'un artiste pour les afficher
+            $galerie = get_galery_by_id_artiste($_SESSION["idartiste"])['nomgalerie']; //Récupère le nom de la galerie d'exposition de l'artiste pour l'afficher
         ?>
 
         <div class="card" style="width: 18rem;">
@@ -30,6 +33,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; //Import du fichier contena
         <div class="card-body"> <!-- Affichage des informations d'un artiste-->
             <h5 class="card-title"><?php echo $info["pseudoartiste"] ?></h5>
             <p class="card-text"><?php echo $info["descriptionartiste"] ?><p>
+            <p class="card-text"><?php echo $galerie ?></p>
             <p class="card-text"><?php echo $info["nomartiste"] ?><p>
             <p class="card-text"><?php echo $info["prenomartiste"] ?><p>
             <p class="card-text"><?php echo $info["emailartiste"] ?><p>
@@ -41,6 +45,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; //Import du fichier contena
 			<?php
                 $collection=get_info_artwork_by_artist($_SESSION['idartiste']); //Récupère les info de toutes les oeuvres de l'artiste connecté
                 foreach ($collection as $oeuvre){
+                    $type = get_type($oeuvre['refidtype'])['nomtype']; //Appel de la fonction pour récupérer un nom de type depuis son indice 
                     echo "<div class='card mb-3' style='max-width: 540px;'>
                         <div class='row g-0'>
                             <div class='col-md-4'>";
@@ -56,6 +61,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; //Import du fichier contena
                                 <div class='card-body'>
                                     <h5 class='card-title'>".$oeuvre['nomoeuvre']."</h5>
                                     <p class='card-text'>".$oeuvre['descriptionoeuvre']."</p>
+                                    <p class='card-text'>".$type."</p>
                                     <p class='card-text'><small class='text-body-secondary'>".$oeuvre['dateoeuvre']."</small></p>
                                 </div>
                                 <form method='POST' action='./../Oeuvres/edit_artwork.php'><button class='btn btn-primary' name='id_oeuvre' value='".serialize($oeuvre)."'>modifier</button></form>

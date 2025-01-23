@@ -1,39 +1,31 @@
 <?php
-require "./../config.php";
-require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; // déclaration du fichier contenant des fonctions liées à l'utilisation de la BDD pouvant être appelées
-//require_once 'fonctionSys.php'; // déclaration du fichier contenant des fonctions orientées système (filtrage)
+require "./../config.php"; //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once BASE_PATH.'/fonctionsBDD/Artistes.php'; //Import du fichier contenant les fonctions BDD associé aux Artistes
+require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contenant les fonctions BDD associé aux Exposition dans les galeries
+
+echo "<pre>";
+print_r($_POST);
+echo "</pre>";
+
+session_start();
+//Initialisation des variables nettoyé avec pg_escape_string pour la fonction edit_artiste
+$nomartiste = pg_escape_string($_POST['nom']);
+$descriptionartiste = pg_escape_string($_POST['description']);
+$prenomartiste = pg_escape_string($_POST["prenom"]);
+$villeartiste = pg_escape_string($_POST["ville"]);
+$paysartiste = pg_escape_string($_POST["pays"]);
+$emailartiste = pg_escape_string($_POST["email"]);
+$pseudoartiste = pg_escape_string($_POST["pseudo"]);
+
+$galeryartiste = pg_escape_string($_POST['galeryartiste']);
+edit_galery_artiste($galeryartiste, $_SESSION['idartiste']);
+
+if (!(move_uploaded_file($_FILES['image']['tmp_name'], "../upload/".$_FILES['image']['name']))){ //Test d'upload d'un fichier image, nul si error
+    $_FILES["image"]["name"] = '';
+}
+$imageartiste =$_FILES["image"]["name"];
+
+edit_artiste($nomartiste, $descriptionartiste, $prenomartiste, $villeartiste, $paysartiste, $emailartiste, $pseudoartiste, $imageartiste, $_SESSION['idartiste']); //Appel à la fonction de modification d'un artiste
+$_SESSION['pseudoartiste'] = $pseudoartiste; //Update de la variable de session pseudo si modifié
+//header('Location: ./artiste_account.php') //Redirection sur la page de compte de l'artiste
 ?>
-<html>
-<head>
-  <!-- Affichage du parametre dans le titre dela page -->
-   <!-- <script defer src="./artiste_compte.js"></script> -->
-  <title>Saisie d'un article</title>
-  <meta charset="utf-8"/>
-</head>
-<body>
-    <?php
-        session_start();
-        $var = "";
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
-        echo "<pre>";
-        print_r($_FILES);
-        echo "</pre>";
-        $var=$var."nomartiste = '".$_POST["nom"]."', "; // Ajoute le nom de l'artiste modifier
-        $var=$var."descriptionartiste = '".$_POST["description"]."', "; //Ajoute le description de l'artiste modifier
-        $var=$var."prenomartiste = '".$_POST["prenom"]."', "; //Ajoute le prénom de l'artiste modifier
-        $var=$var."villeartiste = '".$_POST["ville"]."', "; //Ajoute la ville de l'artiste modifier
-        $var=$var."paysartiste = '".$_POST["pays"]."', "; //Ajoute le pays de l'artiste modifier
-        $var=$var."emailartiste = '".$_POST["email"]."', "; //Ajoute l'email de l'artiste modifier
-        $var=$var."pseudoartiste = '".$_POST["pseudo"]."', "; //Ajoute l'email de l'artiste modifier
-        if (!(move_uploaded_file($_FILES['image']['tmp_name'], "../upload/".$_FILES['image']['name']))){
-            $_FILES["image"]["name"] = '';
-        }
-        $var=$var."imageartiste = '".$_FILES["image"]["name"]."'";
-        edit_artiste($var, $_POST["idartiste"]);
-    ?>
-	<p>Modification prises en compte ! </p>
-    <?php //header('Location: ./artiste_account.php')?>
-</body>
-</html>

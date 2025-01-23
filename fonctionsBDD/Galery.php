@@ -68,7 +68,7 @@ function get_galery_by_cp($cpgalerie){
     return $resu; // Affiche le résultat de la fonction
 }
 
-function get_list_galery($nom){
+function get_list_galery($nomgalerie){
     /**
      * Liste, depuis les infos de la BDD, toutes les galeries présentes 
      * pour que les artistes exposent leurs oeuvres.
@@ -76,7 +76,7 @@ function get_list_galery($nom){
      */
     $connex=connectionBDD(); //Connexion à la BDD
     try {
-    $sql= "SELECT nomgalerie, villegalerie FROM galeries WHERE nomgalerie = $nom "; // Requette envoyer à la BDD pour récupérer des infos
+    $sql= "SELECT nomgalerie, villegalerie FROM galeries WHERE nomgalerie = $nomgalerie "; // Requette envoyer à la BDD pour récupérer des infos
     print $sql;
     $res=$connex->query($sql);
     $resu=$res->fetchAll();
@@ -112,14 +112,16 @@ function get_list_galery($nom){
 //     return $resu; // Affiche le résultat de la fonction
 // }
 
-function delete_galery(string $idgalerie): void{ //fonction pour supprimer une galerie, void => ne retourne aucune valeur (sinon erreur) effectue juste les actions demandés
-    //Fonction qui supprime une galerie de la BDD.
+function delete_galery(string $idgalerie): void{ // En PDOprepare
+    /**
+     * Fct qui supprime la galerie de la base de donné
+     * void => ne retourne aucune valeur (sinon erreur) effectue juste les actions demandés
+     */
     $connex=connectionBDD();
-
     try{
-      $stmt = $connex->prepare("DELETE FROM galeries WHERE idgalerie = :idgalerie");
-      $stmt->bindParam(':idgalerie', $idgalerie);
-      $stmt->execute();
+      $sql = $connex->prepare("DELETE FROM galeries WHERE galeries.idgalerie = :idgalerie");
+      $sql->bindParam(':idgalerie', $idgalerie);
+      $sql->execute();
     }
     catch (PDOException $e) { //Si échec
       print "Erreur pour la supp de la galerie : " . $e->getMessage();

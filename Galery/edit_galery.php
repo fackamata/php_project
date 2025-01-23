@@ -15,9 +15,9 @@ require_once './../fonctionsBDD/Galery.php';
     <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
     <h1>Page de modification des galeries</h1>
     <?php $galeries = get_galery_by_id($_GET["idgalerie"]);
-    echo "<pre>";
-    print_r($galeries[0]);
-    echo "</pre>";
+    // echo "<pre>";
+    // print_r($galeries[0]);
+    // echo "</pre>";
     
     ?>
 
@@ -57,13 +57,9 @@ require_once './../fonctionsBDD/Galery.php';
             <button class="btn btn-success" type="submit" id="submit">Modifier</button>
         </form>
         </br>
-        <?php echo $_GET["idgalerie"]?>
-        <?php echo "./delete_galery.php?idgalerie=".$_GET["idgalerie"]?>
-        <form action="<?php echo "./delete_galery.php?idgalerie=".$_GET["idgalerie"]?>">
-            <button class="btn btn-danger" type="submit" id="submit">Supprimer</button>
-        </form>
-            </br>
-            <a href="./../index.php" class="btn btn-primary">Retour à la page d'acceuil</a>
+        <a href="<?php echo "./delete_galery.php?idgalerie=".$_GET["idgalerie"]?>" class="btn btn-danger">Supprimer</a>
+        </br>
+        <a href="./../index.php" class="btn btn-primary">Retour à la page d'acceuil</a>
 
         </div>
     </body>

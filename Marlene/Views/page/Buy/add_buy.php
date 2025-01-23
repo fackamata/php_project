@@ -1,26 +1,65 @@
+
+<?php
+// var_dump($data);
+$idclient = $data['idclient'];
+$goodie = $data['goodie'];
+$image = $goodie['imageobject'];
+
+?>
+
+<h1 class="h1 text-center m-5">Page d'achat de l'object  <?php echo ' '.$goodie["nomobject"] ?></h1>
+
+
 <div class="container">
-  <form action="<?php echo "./home.php?ctrl=buy&fct=new_buy"?>" 
-        method="post" enctype="multipart/form-data">
-  
-    <div class="form-group">
-      <label for="quantitebuy">Quantité :</label>
-      <input type="num" class="form-control" name="quantitebuy" >
-    </div>
-    <div class="form-group">
-      <label for="nombuy">Object :</label>
-      <input type="text" class="form-control" name="nombuy" >
-    </div>
-    <div class="form-group">
-      <label for="prenombuy">Oeuvres :</label>
-      <input type="text" class="form-control" name="prenombuy" >
-    </div>  
-    <div class="form-group">
-      <label for="adressebuy">Artiste :</label>
-      <input type="text" class="form-control" name="adressebuy" >
-    </div>
+    
+    <div class="d-flex py-4 flex-md-row flex-sm-column justify-content-evenly align-items-center">
+        <img
+            <?php 
+            if (is_file(SRV_PATH."upload/".$image)){
+                ?>
+                src='<?php echo $image ?>'
+                <?php 
+            } else{
+                ?>
+                src = "https://picsum.photos/200" ;
+                <?php
+            }
+            ?>
+            class="img-thumbnail"
+            alt="<?php echo "image de ".$goodie['nomobject'];?>"
+        >
 
-      <button class="btn btn-success" type="submit">Envoyer</button>
-  </form>
-
-    <a href="home.php/?ctrl=buy&fct=index_buy" class="btn btn-primary">Retour à la page du buy</a>
+        <div class="p-5">
+            <h4 class="h4">
+                <?php echo $goodie['nomobject'];?>
+            </h4>
+            <p><?php echo $goodie['descriptionobject'];?>
+            </p>
+        </div>
+        <div>
+          <p>Au prix de :</p>
+          <p id="prix-object">
+            <?php echo $goodie['prixobject']." €";?>
+          </p>
+        </div>
+    </div>
 </div>
+
+<form action="<?php echo "./home.php?ctrl=buy&fct=new_buy"?>" 
+      method="post" class="d-flex justify-content-evenly align-items-center">
+      
+<div class="d-flex justify-content-center">
+  <div class="form-group">
+    <label for="quantitebuy">Quantité :</label>
+    <input class="form-control" name="quantitebuy" id="idquantitebuy" value="1" readonly>
+  </div>
+  <p id="incremente" class="btn">+</p>
+</div>
+  <div class="form-group ">
+    <label for="prixtotal">Total :</label>
+    <input class="form-control" name="prixtotal" id="prixtotal" value="<?php echo $goodie['prixobject'] ?>" readonly>
+  </div>
+
+
+  <button class="btn btn-outline-success" type="submit">Acheter</button>
+</form>

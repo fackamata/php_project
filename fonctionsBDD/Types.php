@@ -9,7 +9,7 @@ function get_info_type(): array{
     $sql="SELECT * FROM type";
     print $sql;
     $res=$connex->query($sql);
-    $resu=$res->fetchAll();
+    $resu=$res->fetchColumn();
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -18,5 +18,24 @@ function get_info_type(): array{
   }
   disconnectionBDD($connex);
   return $resu;
+}
+function get_type(string $idtype): array{
+  //Récupère le nom du type associé à l'idtype donné
+
+  $connex=connectionBDD(); //Connexion à la BDD
+
+  try{
+    $stmt = $connex->prepare("SELECT nomtype FROM Type WHERE idtype = :idtype");
+    $stmt->bindParam(':idtype', $idtype);
+    $stmt->execute();
+    $res = $stmt->fetch();
+  }
+  catch (PDOException $e) { //Si échec
+    print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
+    $res = [];
+    die(""); //Arrêt du script
+  }
+  disconnectionBDD($connex);
+  return $res;
 }
 ?>

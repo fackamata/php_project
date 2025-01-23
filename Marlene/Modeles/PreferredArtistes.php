@@ -79,7 +79,7 @@ function get_preferredartiste_by_id_client(int $idclient)
  * @param int $idartiste id d'un artiste
  * @return array $resu liste de toutes les clients qui aime l'artiste
 */
-function get_list_of_client_who_like_artiste(int $idartiste)
+function get_list_of_client_who_like_artiste(int $idclient)
 {
   $connex = connectionBDD(); // on se connect
   try {

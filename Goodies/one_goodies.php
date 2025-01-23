@@ -1,8 +1,7 @@
 <?php
 require './../config.php';
-
-require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec les fonction db relative à la galerie
-/** En cours de réalisation 20-01-25 */
+require_once './../fonctionsBDD/Goodies.php'; // déclare fichier Goodies avec les fonction relative aux goodies.
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -18,25 +17,25 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
   <body>
     <?php include "./../View/templates/navbar.php" ?> <!-- Intégration de la navbar a la page -->
     <div class="container">
-		<h1 class="h1 my-5 text-center">A propos de cette Galerie</h1>
+		<h1 class="h1 my-5 text-center">A propos de ce Goodie</h1>
 		
 		<div class="d-flex py-4 flex-md-row flex-sm-column justify-content-evenly align-items-center">
 			<?php
-				$galeries = get_galery_by_id($_GET["idgalerie"]);
+				$goodies = get_goodies_by_id($_GET["idobject"]);
 				// echo "<pre>";
-				// print_r($galeries);
+				// print_r($goodies[0]);
 				// echo "</pre>";
-				foreach($galeries as $galerie) {
-				?>
-					<img 
-						<?php if (is_file("./../image/".$galerie['imagegalerie'])){ ?>
-							src='<?php echo "./../image/".$galerie['imagegalerie'] ?>'
+				foreach($goodies as $goodie) {
+					?>
+					<img
+						<?php if (is_file("./../image/".$goodie['imageobject'])){ ?>
+							src='<?php echo "./../image/".$goodie['imageobject'] ?>'
 							<?php 
 						} 
 						else{ ?>
-							src = "./../image/no_img.png" ;
+							src = "./../upload/img_obj_01.png" ;
 							<?php
-						} ?> class='card-img-top' alt='Image Galerie'
+						} ?> class='card-img-top' alt='Image Goodies'
 					>
 
 					<div class="p-5">
@@ -69,48 +68,13 @@ require_once './../fonctionsBDD/Galery.php'; // déclare fichier galerie avec le
 				}
 				?>
 		</div>
-	
-        <?php
-			$galeries = get_galery_by_id($_GET["idgalerie"]);
-			// echo "<pre>";
-			// print_r($galeries);
-			// echo "</pre>";
-			foreach($galeries as $galerie) {
-			 ?>
-				<br>
-				<div class='card' style='width: 40rem;'>
-						<img <?php if (is_file("./../image/".$galerie['imagegalerie'])){ ?>
-							src='<?php echo "./../image/".$galerie['imagegalerie'] ?>'
-							<?php 
-						} 
-						else{ ?>
-							src = "./../image/no_img.png" ;
-							<?php
-						} ?> class='card-img-top' alt='Image Galerie'>
-						<div class='card-body'>
-							<h4 class="card-title"><?php echo $galerie["villegalerie"] ?></h4>
-							<p class='card-text'><?php echo $galerie["descriptiongalerie"] ?></p>
-						</div>
-						<ul class='list-group list-group-flush'>
-							<li class='list-group-item'>An item</li>
-							<li class='list-group-item'>A second item</li>
-						</ul>
-						<!-- <div class='card-body'> -->
-							<a href="./../Artistes/show_artiste.php?idartiste=<?php echo $galerie["idartiste"]?>" class='card-link'>Voir l'artiste</a> <!-- Lien pointant vers la page dynamique de présentation de l'artiste choisit -->
-						<!-- </div> -->
-				</div>
-			<?php
-			}
-			?>
-		
-		</br>
-		<a href="./../Galery/edit_galery.php?idgalerie=<?php echo $_GET["idgalerie"] ?>" class='card-link'>Modifier cette galerie</a>
-		</br>
-		<a href="./all_galery.php">Retour aux galeries</a>
-		</br>
-		<a href="./../index.php">Retour à l'acceuil</a>
+	</div>
+	</br>
+	<a href="./../Goodies/all_goodies.php" class='card-link'>Revenir aux goodies</a>
+	</br>
+	<a href="./../index.php">Retour à l'acceuil</a>
 
-        <?php include "./../View/templates/footer.php" ?>	<!-- Intégration du footer a la page -->
+	<?php include "./../View/templates/footer.php" ?>	<!-- Intégration du footer a la page -->
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"

@@ -14,7 +14,7 @@ require_once './../fonctionsBDD/Galery.php';
         </head>
         <body>
             <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
-            <h1>Page d'ajout des galeries</h1>
+            <h1 class="h1 m-5 text-center">Page d'ajout des galeries</h1>
         <div class="container">
         <!-- formulaire -->
         <form action="<?php echo "./save_galery.php"?>" method="post">

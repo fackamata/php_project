@@ -1,7 +1,7 @@
 <?php
 require_once BASE_PATH."/fonctionsBDD/ConnectionBDD.php";
 
-function add_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateoeuvre, string $imageoeuvre, string $idtype, string $idartiste): void{
+  function add_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateoeuvre, string $imageoeuvre, string $idtype, string $idartiste): void{
     //Enregistre dans la base de donnée l'ajout d'une nouvelle oeuvre par un artiste.
     $connex=connectionBDD(); //Connexion à la BDD
 
@@ -24,7 +24,7 @@ function add_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateo
     disconnectionBDD($connex);
   }
 
-  function edit_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateoeuvre, int $idtype, string $imageoeuvre, int $idoeuvre){
+  function edit_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateoeuvre, string $idtype, string $imageoeuvre, string $idoeuvre){
     $connex=connectionBDD();
     try{
       $stmt = $connex->prepare("UPDATE oeuvres SET nomoeuvre = :nomoeuvre, descriptionoeuvre = :descriptionoeuvre, dateoeuvre = :dateoeuvre, refidtype = :idtype, imageoeuvre = :imageoeuvre WHERE idoeuvre = :idoeuvre");
@@ -44,7 +44,7 @@ function add_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateo
     disconnectionBDD($connex);
   }
 
-  function get_info_artwork_by_artist(int $idartiste): array{
+  function get_info_artwork_by_artist(string $idartiste): array{
     //Récupère dans la base de donnée les oeuvres par le nom de l'artiste qui les à faites.
     $connex=connectionBDD(); //Connexion à la BDD
     try{
@@ -111,7 +111,6 @@ function add_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateo
       oeuvres.descriptionoeuvre, oeuvres.refidtype, artistes.pseudoartiste,
       oeuvres.imageoeuvre FROM oeuvres INNER JOIN artistes ON artistes.idartiste
       = oeuvres.refidartiste";
-      print $sql;
       $res=$connex->query($sql);
       $resu=$res->fetchAll();
     }

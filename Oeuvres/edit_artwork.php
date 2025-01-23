@@ -1,28 +1,23 @@
 <?php
-require "./../config.php";
-require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier contenant des fonctions liées à l'utilisation de la BDD pouvant être appelées
-//require_once 'fonctionSys.php'; // déclaration du fichier contenant des fonctions orientées système (filtrage)
+require "./../config.php";  //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once BASE_PATH.'/fonctionsBDD/Types.php';  //Import du fichier contenant les fonctions BDD associé aux Types
 
 ?>
 <html>
 <head>
-  <title>Saisie d'un article</title>
+  <title>Modifier une oeuvre</title>
   <meta charset="utf-8"/>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body>
-	<header>
-		
-	</header>
-	<center>   
         <?php
-            session_start();
-            include "./../View/templates/navbar.php";
+            session_start();    //Lance la session sur le navigateur
+            include "./../View/templates/navbar.php";  //Inclus la barre de navigation du site
             $oeuvre=$_POST["id_oeuvre"];
-            $oeuvre = unserialize($oeuvre);
-            $listtype=get_info_type();
+            $oeuvre = unserialize($oeuvre); //Deserialise le tableau oeuvre transformer en caractère
+            $listtype=get_info_type(); //Récupère les informations des types pour les utiliser
         ?>
+            <!-- Formulaire d'édition d'une oeuvre d'art avec les champ pré rempli par les précédentes valeurs-->
             <form action="<?php echo "./save_edit_artwork.php"?>" class="container" method="post" enctype='multipart/form-data'>
                 <div class="form-group">
                     <label for="nomoeuvre">Nom de l'oeuvre : </label>
@@ -40,24 +35,16 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
                     <label for="date">Date de l'oeuvre : </label>
                     <input type='date' class="form-control" name='date' value='<?php echo $oeuvre["dateoeuvre"]?>'></br>
                 </div>  
+                <!--Gestion de l'affichage de liste déroulante des types Avec sélection du type actuel de l'oeuvre--> 
                 <div class="form-group">
                     <label for="type">Type de l'oeuvre : </label>
-
-                    <!--<select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>-->
-
-
                     <select name='type' class="form-select" aria-label="Default select example" required>
                         <?php foreach ($listtype as $type) {
                             if ($type['idtype'] == $oeuvre['refidtype']){
-                                echo "<option value='".$type["nomtype"]."' selected>".$type["nomtype"]."</option>";
+                                echo "<option value='".$type["idtype"]."' selected>".$type["nomtype"]."</option>";
                             }
                             else{
-                                echo "<option value='".$type["nomtype"]."'>".$type["nomtype"]."</option>";
+                                echo "<option value='".$type["idtype"]."'>".$type["nomtype"]."</option>";
                             }
                             }?>
                     </select>
@@ -65,7 +52,6 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
                 <input type='hidden' name='idoeuvre' value='<?php echo $oeuvre["idoeuvre"]?>'>
                 <button class="btn btn-success" type="submit">Modifier</button>
             </form>
-    </center>
-    <?php include "./../View/templates/footer.php";?>
+    <?php include "./../View/templates/footer.php";?> <!--Inclus le pied de page-->
 </body>
 </html>

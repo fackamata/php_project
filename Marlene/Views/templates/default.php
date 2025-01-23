@@ -35,6 +35,11 @@
         <script src="./../../Marlene/assets/js/client_check.js"></script>
         <?php
       };
+      if(isset($data["achat_js"]) && $data["achat_js"]){
+        ?>
+        <script src="./../../Marlene/assets/js/achat.js"></script>
+        <?php
+      };
     ?>
 </body>
 </html>

@@ -9,5 +9,11 @@ main{
 
 .card{
     width: 18rem;
-    min-height: 10rem;
+    /* min-height: 10rem; */
+}
+
+#incremente {
+    font-weight: 700;
+    font-size: 40px;
+    margin: 0;
 }

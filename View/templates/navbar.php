@@ -55,7 +55,7 @@
         </li>
       
         <li class="nav-item">
-              <a  href=<?php echo $host."Artistes/add_artiste.php"; ?> 
+              <a  href=<?php echo $host."Artistes/add_artiste.php?"; ?> 
                   class="btn btn-info"
                   role="button">
                   création artiste
@@ -73,6 +73,13 @@
                   class="btn btn-info"
                   role="button">
                   création galerie
+              </a>
+          </li>
+          <li class="nav-item">
+              <a  href=<?php echo $host."Goodies/add_goodies.php"; ?> 
+                  class="btn btn-info"
+                  role="button">
+                  création goodies
               </a>
           </li>
           
@@ -120,7 +127,7 @@
                 {
                 ?>
                     <li class="nav-item">
-                        <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php"; ?> >Connexion Artiste</a>
+                        <a class="btn btn-success" role="button" href=<?php echo $host."Artistes/connection_artiste.php?etat=true"; ?> >Connexion Artiste</a>
                         <a class="btn btn-success" role="button" href=<?php echo $host."Marlene/home.php/?ctrl=client&fct=display_login_client"; ?> >Connexion Client</a>
                     </li>
                 <?php 

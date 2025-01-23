@@ -40,8 +40,8 @@
                     <?php 
                 //echo $preferredartiste[$i]['imagepreferredartiste'] ?>
                 <!-- </td> -->
-                 <?php $idartiste = $preferredartiste[$i]['idartiste'];?>
-                 <?php $idclient = $preferredartiste[$i]['idclient'];?>
+                 <?php $idartiste = $preferredartiste[$i]['idartiste']; echo $idartiste;?>
+                 <?php $idclient = $preferredartiste[$i]['idclient'];echo $idclient;?>
 
                 <td class="d-flex justify-content-evenly">
                     <!-- <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=display_show_preferredartiste&idclient=".$idclient."&idartiste=".$idartiste ?>" 
@@ -50,7 +50,7 @@
                         Voir
                     </a> -->
 
-                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=delete_preferredartiste&idclient=".$idclient."&idartiste=".$idartiste?>" 
+                    <a href="<?php echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=remove_preferredartiste&idclient=".$idclient."&idartiste=".$idartiste?>" 
                         class="btn btn-danger" 
                         role="button" >
                         Supprimer

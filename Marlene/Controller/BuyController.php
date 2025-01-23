@@ -64,22 +64,18 @@ function index_buy(): array
 }
     
 
-function display_show_buy(int $id):array
+function display_show_buy(int $idobject):array
 {
-    $buys = get_buy_by_id($id);
-
-    if (is_file($buys['imagebuy'])) {
-        $image = $buys['imagebuy'];
-    }else{
-        $image = "no_img.png";
-    }
+    
+    // require_once './Modeles/Goodies.php';
+    // $goodie = get_goodies_by_id($idobject);
+    // var_dump($goodie);
+    
 
     return [
         // 'buys' => $buys,
         'page' => 'show_buy',
-        'title' => $buys['pseudobuy'],
-        'image' => $image,
-        'buys' => $buys,
+        'title' => "achat ",
     ];
 }
 
@@ -112,17 +108,21 @@ function update_buy(int $id): void
 }
 
 
-function display_add_buy(): array
+
+function display_add_buy($idgoodie): array
 {
-    $pseudo = get_all_clients_pseudo();
-    $email = get_all_clients_email();
+    
+    require_once './Modeles/Goodies.php';
+    $idclient = $_SESSION["idclient"];
+    $goodie = get_goodie_related_artwork_and_artiste($idgoodie);
+
     return [
-        'page' => 'add_achat',
+        'page' => 'add_buy',
         'title' => "Ajout achat",
-        'pseudo' => $pseudo,
-        'email' => $email,
-        'client_check_js' => true,
-    ];
+        'achat_js' => true,
+        'goodie' => $goodie,
+        'idclient' => $idclient
+    ];  
 }
 
 function remove_buy($id):void

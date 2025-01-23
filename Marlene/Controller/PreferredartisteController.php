@@ -137,20 +137,6 @@ function display_add_preferredartiste(): array
 }
 
 
-function update_preferredartiste(int $id): void
-{
-    // echo "on est dans la fonction update preferredartiste";
-    // var_dump($_POST);
-    if(isset($_POST[''])) {
-        echo "le post est bien dans le update";
-    }
-        update_preferredartiste_db($_POST, $id);
-    // display_show_preferredartiste($id);
-    header("location:".MARLENE_PATH."home.php/?ctrl=preferredartiste&fct=display_show_preferredartiste&id=".$id);
-    die;    
-}
-
-
 function new_preferredartiste(): void
 {
     $data = $_POST;
@@ -170,22 +156,23 @@ function new_preferredartiste(): void
            
 }
 
-
-// function display_artiste()
-// {
-
-// }
-
-
-// function remove_preferredartiste($idartiste):void
-// {
-//     $idclient = 
-
-//     // delete_preferredartiste($id);
-//     // index();
-//     index_preferredartiste();
-//     header("location: ".MARLENE_PATH."/home.php/c?ctrl=preferredartiste&fct=index_preferredartiste");
-// }
-
-
-
+function remove_preferredartiste($idclient,  $idartiste ): void
+{
+    $ret = delete_preferredartiste($idclient, $idartiste); 
+    echo $ret;
+    
+    // var_dump_pre( $_SERVER['HTTP_REFERER'] ) ;
+    $previous_page = $_SERVER["HTTP_REFERER"];
+    $lst_prev = explode('=', $previous_page);
+    $last = end($lst_prev);
+    // on redirige en fonction de la page précédente
+    if ($last == "index_preferredartiste"){
+        // on vient de la page de l'administration des clients
+        header("location: ".MARLENE_PATH."home.php/?ctrl=preferredartiste&fct=index_preferredartiste" );
+    }else{
+        // on vient depuis une page client $last == idclient
+        echo $last;
+        header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$idclient );
+    }
+           
+}

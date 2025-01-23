@@ -41,7 +41,7 @@ function get_info_artiste(int $idartiste): array{
   //Fonction utiliser pour l'affichage du compte de l'artiste
   $connex=connectionBDD(); //Connexion à la BDD
   try{
-    $stmt = $connex->prepare("SELECT * FROM artistes WHERE idartiste = :idartiste");
+    $stmt = $connex->prepare("SELECT * FROM Artistes WHERE idartiste = :idartiste");
     $stmt->bindParam(':idartiste', $idartiste);
     $stmt->execute();
     $resu=$stmt->fetch();
@@ -79,13 +79,6 @@ function edit_artiste(string $nomartiste, string $descriptionartiste, string $pr
       $resu = [];
       die(""); //Arrêt du script
     }
-
-
-    try{
-      $sql="UPDATE artistes SET ".$var." WHERE idartiste = '".$idartiste."'"; // Requête sql
-      print $sql;
-      $res=$connex->query($sql);
-    }
     catch (PDOException $e) { //Si échec
       print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
       $resu = [];
@@ -94,14 +87,34 @@ function edit_artiste(string $nomartiste, string $descriptionartiste, string $pr
     disconnectionBDD($connex);
   }
 
-function login_artiste(string $login): array{
+
+function login_artiste(string $pseudo): array{
   //Fonction qui récupère les login d'un artiste avant de le logguer.
   $connex=connectionBDD();
   try{
-  $sql="SELECT motdepasseartiste, pseudoartiste, idartiste FROM artistes WHERE pseudoartiste='".$login."'";
-  print $sql;
-  $res=$connex->query($sql);
-  $resu=$res->fetch();
+    $stmt = $connex->prepare("SELECT motdepasseartiste, pseudoartiste, idartiste FROM artistes WHERE pseudoartiste = :pseudo");
+    $stmt->bindParam(':pseudo', $pseudo);
+    $stmt->execute();
+    $res = $stmt->fetch();
+  }
+  catch (PDOException $e) { //Si échec
+    print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
+    $res = [];
+    die(""); //Arrêt du script
+  }
+  disconnectionBDD($connex);
+  return $res;
+}
+
+function change_password(string $password, string $idartiste): void{
+  //Fonction qui modifie l'entrée du mot de passe dans la BDD pour un pseudo donné.
+  $connex=connectionBDD();
+
+  try{
+    $stmt= $connex->prepare("UPDATE Artistes SET motdepasseartiste = :password WHERE idartiste = :idartiste");
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':idartiste', $idartiste);
+    $stmt->execute();
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
@@ -109,35 +122,26 @@ function login_artiste(string $login): array{
     die(""); //Arrêt du script
   }
   disconnectionBDD($connex);
-  return $resu;
 }
 
-function change_password(string $password, string $pseudo): void{
+function add_artiste(string $nomartiste, string $prenomartiste, string $villeartiste, string $paysartiste, string $emailartiste, string $descriptionartiste, string $password, string $pseudoartiste): void{
   //Fonction qui modifie l'entrée du mot de passe dans la BDD pour un pseudo donné.
   $connex=connectionBDD();
-  try{
-    $sql="UPDATE artistes SET motdepasseartiste = '".$password."' WHERE idartiste='".$pseudo."'";
-    print $sql;
-    $res=$connex->query($sql);
-    $resu=$res->fetch();
-  }
-  catch (PDOException $e) { //Si échec
-    print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
-    $resu = [];
-    die(""); //Arrêt du script
-  }
-  disconnectionBDD($connex);
-}
 
-function add_artiste(string $var, string $pseudo): int{
-  //Fonction qui modifie l'entrée du mot de passe dans la BDD pour un pseudo donné.
-  $connex=connectionBDD();
   try{
-    $sql="INSERT INTO artistes (nomartiste, prenomartiste, villeartiste, 
+    $stmt = $connex->prepare("INSERT INTO artistes (nomartiste, prenomartiste, villeartiste, 
     paysartiste, emailartiste, descriptionartiste, motdepasseartiste, 
-    pseudoartiste) VALUES ".$var."'".$pseudo."')";
-    print $sql;
-    $res=$connex->query($sql);
+    pseudoartiste) VALUES (:nom, :prenom, :ville, :pays, :email, 
+    :description, :password, :pseudo)");
+    $stmt->bindParam(':nom', $nomartiste);
+    $stmt->bindParam(':prenom', $prenomartiste);
+    $stmt->bindParam(':ville', $villeartiste);
+    $stmt->bindParam(':pays', $paysartiste);
+    $stmt->bindParam(':email', $emailartiste);
+    $stmt->bindParam(':description', $descriptionartiste);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':pseudo', $pseudoartiste);
+    $stmt->execute();
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
@@ -145,21 +149,20 @@ function add_artiste(string $var, string $pseudo): int{
     die(""); //Arrêt du script
   }
   disconnectionBDD($connex);
-  $id = login_artiste($pseudo);
-  return $id["idartiste"];
 }
 
-function delete_artiste(string $login): void{
+function delete_artiste(string $pseudo): void{
   //Fonction qui supprime un artiste de la BDD.
   $connex=connectionBDD();
+
   try{
-  $sql=" DELETE FROM Artistes WHERE pseudoartiste = '".$login."'";
-  print $sql;
-  $res=$connex->query($sql);
+    $stmt = $connex->prepare("DELETE FROM Artistes WHERE pseudoartiste = :pseudo");
+    $stmt->bindParam(':pseudo', $pseudo);
+    $stmt->execute();
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
-    $resu = [];
+    $res = [];
     die(""); //Arrêt du script
   }
   disconnectionBDD($connex);

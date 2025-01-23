@@ -1,28 +1,21 @@
 <?php
-require "./../config.php";
-require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier contenant des fonctions liées à l'utilisation de la BDD pouvant être appelées
-//require_once 'fonctionSys.php'; // déclaration du fichier contenant des fonctions orientées système (filtrage)
+require "./../config.php";  //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once BASE_PATH.'/fonctionsBDD/Types.php'; //Import du fichier contenant les fonctions BDD associé aux Types
 ?>
 <html>
 <head>
-  <!-- Affichage du parametre dans le titre dela page -->
-   <!-- <script defer src="./client_compte.js"></script> -->
   <title>Ajout d'oeuvre d'art</title>
   <meta charset="utf-8"/>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-	<header>
-		
-	</header>
-
-	<center>
         <?php
-            session_start();
-            include "./../View/templates/navbar.php";
-            $listtype=get_info_type();
+            session_start();  //Lance la session sur le navigateur
+            include "./../View/templates/navbar.php";  //Inclus la barre de navigation du site
+            $listtype=get_info_type();  //Récupère les informations des types pour les utiliser
         ?>
+        <!-- Formulaire de création d'une oeuvre d'art-->
         <form class='container' action="./save_add_artwork.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nomoeuvre">Nom de l'oeuvre : </label>
@@ -40,6 +33,7 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
                 <label for="date">Date de l'oeuvre : </label>
                 <input type="date" class="form-control" name="date" value='".date("Y-m-d")."' required>
             </div>
+            <!-- Gestion de l'affichage de liste déroulante des types-->
             <div class="form-group">
                 <label for="type">Type de l'oeuvre : </label>
                 <select name='type' class='form-group' required>
@@ -51,8 +45,7 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; // déclaration du fichier con
 
             </div>
             <button class="btn btn-success" type="submit">Ajouter</button>
-        </form>       
-    </center>
-    <?php include "./../View/templates/footer.php"; ?>
+        </form>
+    <?php include "./../View/templates/footer.php"; ?> <!--Inclus le pied de page-->
 </body>
 </html>

@@ -122,7 +122,7 @@ function display_update_client(int $id): array
 {
     $clients = get_client_by_id($id);
 
-    if(isset($_POST)){ echo "on a les post dans display update_client";}
+    // if(isset($_POST)){ echo "on a les post dans display update_client";}
     if (isset($clients['imageclient'])) {
         $image = $clients['imageclient'];
     }else{
@@ -299,7 +299,7 @@ function remove_client($id):void
 function pwd_change($id): void{
     if(isset($_POST['old_passwd']) && $_POST['motdepasseclient'] !== null )
      {
-        $change = False;
+        // $change = false;
 
         $passwd_form= $_POST['old_passwd'];
         $passwd_db = get_client_passwd($_POST['idclient']);
@@ -307,12 +307,16 @@ function pwd_change($id): void{
         $test = password_verify($passwd_form, $passwd_db);
 
         if($test){
-            echo "c'est le bon mot de passe";
+            echo "le mot de passe correspond";
             
             try{
                 $hash_passwd = password_hash($_POST['motdepasseclient'], PASSWORD_DEFAULT);
                 change_password_client($hash_passwd, $id);
-                $change = True;
+                $msg = "le mot de passe à bien été changé ";
+                echo "le mot de passe à bien été changé ";
+                // $change = true;
+                // display_show_client($id);
+                // header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&=id=".$id."&msg=".$msg);
             }catch(Exception $e){
                 echo "". $e->getMessage() ."";
             }
@@ -320,11 +324,14 @@ function pwd_change($id): void{
             echo "FAUX mot de passe";
         }
     }
-    if($change){
-        display_show_client($id);
-    }else{
-        display_form_psswd_client($id);
-    }
+    header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id."&msg=".$msg);
+
+    // if($change){
+    //     display_show_client($id);
+    //     display_show_client($id);
+    // }else{
+    //     display_form_psswd_client($id);
+    // }
 
 }
 

@@ -220,6 +220,8 @@ function change_password_client(string $password, int $id): void
   try {
     
     $sql = $connex->prepare("UPDATE clients SET motdepasseclient = ?  WHERE idclient = ? ");
+    // $sql->bindParam(':nomclient', $data['nomclient'], PDO::PARAM_STR);
+    // $sql->bindParam(':prenomclient', $data['prenomclient'], PDO::PARAM_STR);
     $sql->execute([$password, $id]); 
 
     // $sql = "UPDATE clients SET motdepasseclient = '" . $password . "' WHERE idclient='" . $id . "'";

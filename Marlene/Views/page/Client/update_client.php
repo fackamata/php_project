@@ -2,10 +2,13 @@
 $client = $data["clients"];
 ?>
 
+<h1 class="h1 text-center">Mise à jour <?php echo $client['pseudoclient']?> </h1>
+
 <div class="container">
+    <!-- <form action="<?php // echo "./?ctrl=client&fct=update_client&id=".$client["idclient"]?>" method="post"  enctype="multipart/form-data"> -->
     <form action="<?php echo "./?ctrl=client&fct=update_client&id=".$client["idclient"]?>" method="post">
     
-        <input type="text" class="form-control" disabled name="idclient" >
+        <input type="text" class="form-control d-none" disabled name="idclient" >
         <div class="form-group">
             <label for="nomclient">Nom :</label>
             <input type="text" class="form-control" 
@@ -17,12 +20,6 @@ $client = $data["clients"];
             <input type="text" class="form-control" 
                 value=<?php echo $client['prenomclient'];?> 
                 name="prenomclient" >
-        </div>  
-        <div class="form-group">
-            <label for="pseudoclient">Pseudo:</label>
-            <input type="text" class="form-control" 
-                value=<?php echo $client['pseudoclient'];?> 
-                name="pseudoclient" >
         </div>  
         <div class="form-group">
             <label for="adresseclient">adresse :</label>
@@ -42,13 +39,16 @@ $client = $data["clients"];
                 value=<?php echo $client['villeclient'];?> 
                 name="villeclient" >
         </div> 
+        <!-- <div class="form-group">
+            <label for="imageclient">Image de profil :</label>
+            <input type="file" class="form-control" name="imageclient" >
+        </div> -->
         <div class="form-group">
             <label for="emailclient">Emailclient :</label>
             <input type="text" class="form-control" 
                 value=<?php echo $client['emailclient'];?> 
                 name="emailclient" >
         </div> 
-
         <button class="btn btn-success" type="submit">Envoyer</button>
     </form>
 

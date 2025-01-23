@@ -8,9 +8,15 @@ require_once './../fonctionsBDD/Galery.php';
 // echo "</pre>";
 
 echo "<pre>";
-print_r($_GET['idgalerie']);
+print_r($_GET);
 echo "</pre>";
 
-delete_galery($_GET['idgalerie']);
-// header('Location: ./../Galery/all_galery.php');
+$idgalerie = pg_escape_string($_GET["idgalerie"]);
+
+echo "<pre>";
+print_r(pg_escape_string($_GET["idgalerie"]));
+echo "</pre>";
+
+delete_galery($idgalerie);
+header('Location: ./../Galery/all_galery.php');
 ?>

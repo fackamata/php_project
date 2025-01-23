@@ -7,9 +7,9 @@ print_r($_POST);
 echo "</pre>";
 
 $galeries = get_galery_by_id($_GET["idgalerie"]);
-echo "<pre>";
-print_r($galeries);
-echo "</pre>";
+// echo "<pre>";
+// print_r($galeries);
+// echo "</pre>";
 
 $imagegalerie = pg_escape_string($_POST["imagegalerie"]);   
 $nomgalerie = pg_escape_string($_POST["nomgalerie"]);

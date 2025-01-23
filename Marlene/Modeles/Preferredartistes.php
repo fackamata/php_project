@@ -12,14 +12,16 @@ function get_all_preferredartiste(): array
   $connex = connectionBDD(); // on se connect
   try {
     $sql = "SELECT
-              clients.idclient AS idclient,
-              clients.pseudoclient AS pseudoclient,
-              artistes.pseudoartiste AS pseudoartiste,
-              artistes.idartiste AS idartiste
+              *
+              -- ou on sélectionne uniquement ceux qu'on veux
+              -- clients.idclient AS idclient,
+              -- clients.pseudoclient AS pseudoclient,
+              -- artistes.pseudoartiste AS pseudoartiste,
+              -- artistes.idartiste AS idartiste
             FROM clients
             INNER JOIN prefererartiste
               ON clients.idclient = prefererartiste.idclient
-            INNER JOIN artistes
+            JOIN artistes
               ON prefererartiste.idartiste = artistes.idartiste
             ORDER BY artistes.idartiste;
         ";
@@ -48,27 +50,23 @@ function get_preferredartiste_by_id_client(int $idclient):array
   $connex = connectionBDD(); // on se connect
   try {
     
-    $sql = $connex->query(
+    $sql = $connex->prepare(
       "SELECT
-       clients.idclient AS idclient,
-       -- clients.pseudoclient AS pseudoclient,
-       artistes.idartiste AS idartiste,
-       artistes.pseudoartiste AS pseudoartiste,
-       artistes.villeartiste AS villeartiste,
-       artistes.paysartiste AS paysartiste
-     FROM clients
-     INNER JOIN prefererartiste
-       ON clients.idclient = prefererartiste.idclient
-     INNER JOIN artistes
-       ON prefererartiste.idartiste = artistes.idartiste
-     WHERE clients.idclient = '".$idclient."'
-     ORDER BY artistes.idartiste
-");
+                  *
+              FROM clients
+              INNER JOIN prefererartiste
+                ON clients.idclient = prefererartiste.idclient
+              INNER JOIN artistes
+                ON prefererartiste.idartiste = artistes.idartiste
+              WHERE clients.idclient = :idclient
+              ORDER BY artistes.idartiste
+     ");
+     
+    //  WHERE clients.idclient = '".$idclient."'
+$sql->bindParam(':idclient', $idclient);
+$sql->execute(); 
 
-// $sql->bindParam(':idclient', $idclient, PDO::PARAM_INT);
-// $sql->execute(); 
-
-// $res = $sql->execute([$idclient]);
+// $sql = $sql->execute([$idclient]);
 $resu = $sql->fetchall();
   } catch (PDOException $e) {
     print $resu;
@@ -95,19 +93,24 @@ function get_list_of_client_who_like_artiste(int $idartiste)
            "SELECT
               clients.idclient AS idclient,
               -- clients.pseudoclient AS pseudoclient,
-              artistes.idartiste AS idartiste,
-              artistes.pseudoartiste AS pseudoartiste,
-              artistes.imageartiste AS imageartiste
+              -- artistes.idartiste AS idartiste,
+              -- artistes.pseudoartiste AS pseudoartiste,
+              -- artistes.imageartiste AS imageartiste
+              -- artistes.imageartiste AS imageartiste
             FROM clients
             INNER JOIN prefererartiste
               ON clients.idclient = prefererartiste.idclient
-            INNER JOIN artistes
+            FULL JOIN artistes
               ON prefererartiste.idartiste = artistes.idartiste
             WHERE artistes.idartiste = ?
             ORDER BY artistes.idartiste
     ");
-    $res = $sql->execute([$idartiste]);
-    $resu = $res->fetchall();
+
+    $sql->bindParam(':idclient', $idclient);
+    $sql->execute(); 
+
+    // $res = $sql->execute([$idartiste]);
+    $resu = $sql->fetchall();
   } catch (PDOException $e) { // si échec
     print "Erreur pour récupérer les artistes : " . $e->getMessage();
     $resu = [];
@@ -161,86 +164,25 @@ function add_new_preferredartiste(array $data): void
  *      ( fonction DELETE  )
  * 
  * 
- * @param array $data données artiste préféré nécessaire
+ * @param int $idclient l'id du client concerné  
+ * @param int $idartiste l'id de l'artiste concerné  
 */
-function delete_preferredartiste($data): void
+function delete_preferredartiste($idclient, $idartiste): void
 {
-  //Enregistre les modifications sur un preferredartiste par son id_preferredartiste
-  // var_dump($data);
   $connex = connectionBDD();
   try {
     
-    $sql = $connex->prepare("DELETE FROM prefererartiste WHERE idclient = ? AND idartiste = ? ");
-    $sql->execute([$data['idclient'], $data['idartiste']]); 
+    $sql = $connex->prepare("DELETE FROM prefererartiste WHERE idclient = :idclient AND idartiste = :idartiste ");
+    $sql->bindValue(':idclient', $idclient, PDO::PARAM_INT);
+    $sql->bindValue(':idartiste', $idartiste, PDO::PARAM_INT);
+    $sql->execute(); 
 
-    // $sql = " DELETE FROM prefererartiste WHERE idclient = '" . $data['$idclient'] . "' AND idartiste = '" . $data['$idartiste'] . "'";
-    // $connex->query($sql); 				// execution de la requête. Le resultat est dans la variable $res.
-    // $resu=$res->fetchOne();
   } catch (PDOException $e) { // si échec
     print "Erreur lors de la suppression du preferredartiste : " . $e->getMessage();
     die(""); // Arrêt du script - sortie.
   }
-
   disconnectionBDD($connex);
-  // return $res;					
 }
 
-
-// /**
-//  *      fonction qui retourne le mot de passe preferredartiste à partir de son pseudo ou email 
-//  *      ( fonction SELECT  )
-//  * 
-//  * @param string $pseudo le pseudo ou l'email du preferredartiste
-//  * @return string $passwd le mot de passe du preferredartiste
-// */
-// function get_preferredartiste_id(string $pseudo): string
-// {
-//   $connex = connectionBDD(); // on se connect
-//   try {
-//     $sql = "SELECT idpreferredartiste FROM prefererartiste WHERE emailpreferredartiste = '" . $pseudo . "' OR pseudopreferredartiste = '".$pseudo."'";
-//     print($sql);
-//     $res = $connex->query($sql);
-//     $resu = $res->fetch()[0];
-//     // echo "le mot de passe récupe en BDD: " . $resu;
-//   } catch (PDOException $e) { // si échec
-//     print "Erreur pour récupérer le mot de passe du preferredartiste : " . $e->getMessage();
-//     $resu = "";
-//     die(""); // Arrêt du script - sortie.
-//   }
-//   disconnectionBDD($connex);
-//   // TODO VOIR si c'est bien le hash ou 1er élément
-//   return $resu;
-// }
-
-
-/**
- *      fonction qui modifie les informations d'un preferredartiste et retourne son id 
- *      ( fonction UPDAT  )
- * 
- * @param string $password mot de passe à comparer.
- * @return int $id id du preferredartiste
-*/
-// function update_preferredartiste_db(array $data, int $id): void
-// {
-//   $connex = connectionBDD(); // on se connect
-//   try {
-//     $sql = "UPDATE preferredartiste 
-//             SET idclient = '" . $data['idclient'] . "', 
-//                 idartiste = '" . $data['idartiste'] . "', 
-//             WHERE idpreferredartiste = '" . $id . "'";
-
-//     // $res = $connex->query($sql);
-//     $connex->query($sql);
-//     // $res = 
-//     // $id = $res->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
-//   } catch (PDOException $e) 
-//   { // si échec
-//     print "Erreur pour mettre à jour le preferredartiste " . $data['nom'] . "  : " . $e->getMessage();
-//     // $id = 0;
-//     die(""); // Arrêt du script - sortie.             imagepreferredartiste = '" . $data['imagepreferredartiste'] . "'
-//   }
-//   disconnectionBDD($connex);
-//   // return $id;
-// }
 
 ?>

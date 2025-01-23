@@ -1,7 +1,8 @@
 <?php
-require "./../config.php";
-require_once BASE_PATH.'/fonctionsBDD/Artworks.php';
-require_once BASE_PATH.'/fonctionsBDD/Comments.php';
+require "./../config.php";  //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once BASE_PATH.'/fonctionsBDD/Artworks.php';  //Import du fichier contenant les fonctions BDD associé aux Oeuvres
+require_once BASE_PATH.'/fonctionsBDD/Comments.php';  //Import du fichier contenant les fonctions BDD associé aux Commentaires
+require_once BASE_PATH.'/fonctionsBDD/Types.php';  //Import du fichier contenant les fonctions BDD associé aux Commentaires
 ?>
 <html>
 <head>
@@ -11,24 +12,24 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
     <body>
-        <?php include "./../View/templates/navbar.php";?>
+        <?php 
+        session_start(); //Lancement de la session
+        include "./../View/templates/navbar.php"; //Inclus la barre de navigation du site
+        ?>
         <h1> Oeuvres </h1>
         <div class="container-fluid">
             <?php
-            session_start();
-                $collectionoeuvres = get_all_artwork();
-                //echo "<pre>";
-                //print_r($collectionoeuvres);
-                //echo "</pre>";
-                foreach($collectionoeuvres as $oeuvre){
+                $collectionoeuvres = get_all_artwork(); //Récupère toute les informations de toute les oeuvres
+                foreach($collectionoeuvres as $oeuvre){ //Boucles itératives d'ajout des oeuvres à la page
+                    $type = get_type($oeuvre['refidtype'])['nomtype']; //Appel de la fonction pour récupérer un nom de type depuis son indice 
                     $html = "<div class='card mb-3' style='max-width: 540px;'>
                         <div class='row g-0'>
                         <div class='col-md-4'>";
-                        if($oeuvre['imageoeuvre']){
+                        if($oeuvre['imageoeuvre']){ //Condition de vérification de l'existence d'une image
                             $html = $html."<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
                         }
                         else{
-                            $html = $html."<img src='https://picsum.photos/200' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                            $html = $html."<img src='https://picsum.photos/200' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>"; //A défaut de la condition, affichage d'une image aléatoire
                         }
                         $html = $html."</div>
                             <div class='col-md-8'>
@@ -36,6 +37,7 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
                             <h5 class='card-title'>".$oeuvre['nomoeuvre']."</h5>
                             <h4 class='card-title'>".$oeuvre['pseudoartiste']."</h4>
                             <p class='card-text'>".$oeuvre['descriptionoeuvre']."</p>
+                            <p class='card-text'>".$type."</p>
                             <p class='card-text'><small class='text-body-secondary'>".$oeuvre['dateoeuvre']."</small></p>
                             <form method='GET' action='./show_artwork.php'><input type='hidden' name='idoeuvre' value='".$oeuvre['idoeuvre']."'/><input type='submit' value='Voir'/></form>";
                     $html = $html."</div></div></div></div>";
@@ -43,6 +45,6 @@ require_once BASE_PATH.'/fonctionsBDD/Comments.php';
                 }
             ?>
         </div>
-        <?php include "./../View/templates/footer.php";?>
+        <?php include "./../View/templates/footer.php";?> <!--Inclus le pied de page du site-->
     </body>
 </html>
