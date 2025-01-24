@@ -99,7 +99,9 @@ function display_show_client(int $id):array
     $clients = get_client_by_id($id);
     
     require_once './Modeles/Preferredartistes.php';
+    require_once './Modeles/Buys.php';
     $favoritartiste = get_preferredartiste_by_id_client($id);
+    $achats = get_all_buys_for_client($id);
     // var_dump($favoritartiste);
     
     if (is_file($clients['imageclient'])) {
@@ -114,6 +116,7 @@ function display_show_client(int $id):array
         'title' => $clients['pseudoclient'],
         'image' => $image,
         'clients' => $clients,
+        'achats' => $achats,
         'artiste_preferer' => $favoritartiste,
     ];
 }
@@ -142,6 +145,7 @@ function display_login_client(): array
     return [
         'page' => 'form_login_client',
         'title' => "Login client",
+        'client_check_passwd_js' => true,
     ];
 }
 
@@ -163,7 +167,7 @@ function login_client()
             $id = login_client_in_db($_POST["pseudoclient"], $passwd_db);
             // on initialise les données de session
             $client = get_client_by_id($id);
-            var_dump_pre($client);
+            // var_dump($client);
             $_SESSION['idclient'] = $client['idclient'];
             $_SESSION['pseudoclient'] = $client['pseudoclient'];
             $_SESSION['emailclient'] = $client['emailclient'];
@@ -181,9 +185,12 @@ function login_client()
         }
     }
     else{
-        // header("location: ".MARLENE_PATH."/home.php/?ctrl=client&fct=display_login_client");
+        // header("location: ".MARLENE_PATH."/home.php/?ctrl=client&fct=display_show_client");
     }
 }
+
+
+
 
 
 function display_add_client(): array
@@ -195,7 +202,8 @@ function display_add_client(): array
         'title' => "Ajout client",
         'pseudo' => $pseudo,
         'email' => $email,
-        'client_check_js' => true,
+        'client_check_passwd_js' => true,
+        'client_check_pseudo_js' => true,
     ];
 }
 
@@ -218,7 +226,7 @@ function display_form_psswd_client(int $id, string $msg =""): array
         'page' => 'form_passwd_client',
         'title' => 'Changement de mot de passe',
         'clients' => $clients,
-        'client_check_js' => true,
+        'client_check_passwd_js' => true,
     ];
 }
 
@@ -307,24 +315,23 @@ function pwd_change($id): void{
         $test = password_verify($passwd_form, $passwd_db);
 
         if($test){
-            echo "le mot de passe correspond";
             
             try{
                 $hash_passwd = password_hash($_POST['motdepasseclient'], PASSWORD_DEFAULT);
                 change_password_client($hash_passwd, $id);
                 $msg = "le mot de passe à bien été changé ";
-                echo "le mot de passe à bien été changé ";
                 // $change = true;
                 // display_show_client($id);
                 // header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&=id=".$id."&msg=".$msg);
             }catch(Exception $e){
-                echo "". $e->getMessage() ."";
+                $msg = "". $e->getMessage() ."";
             }
+            header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id."&msg=".$msg);
         }else{
-            echo "FAUX mot de passe";
+            $msg = "FAUX mot de passe";
+            header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_form_psswd_client&id=".$id."&msg=".$msg);
         }
     }
-    header("location: ".MARLENE_PATH."home.php/?ctrl=client&fct=display_show_client&id=".$id."&msg=".$msg);
 
     // if($change){
     //     display_show_client($id);

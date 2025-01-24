@@ -34,7 +34,7 @@ function get_galery_by_id($idgalerie){
     $sql="SELECT * FROM exposer INNER JOIN galeries 
     ON galeries.idgalerie=exposer.idgalerie 
     WHERE galeries.idgalerie=$idgalerie"; // Requette envoyer à la BDD pour récupérer des infos
-    print $sql;
+    // print $sql;
     $res=$connex->query($sql);
     $resu=$res->fetchAll();
     }
@@ -46,6 +46,29 @@ function get_galery_by_id($idgalerie){
     disconnectionBDD($connex); //Deconnexion de la BDD
     return $resu; // Affiche le résultat de la requête
 }
+
+// function get_galery_by_id($idgalerie){ // En PDOprepare 
+//     /**
+//      * Récupère dans la base de donnée toutes les infos d'une galerie grâce à son id plus 
+//      * l'idartiste qui est en lien avec cette galerie de part la table exposer.
+//     */
+//     $connex=connectionBDD(); //Connexion à la BDD
+//     try {
+//     $sql=$connex->prepare(
+//         "SELECT * FROM exposer 
+//         INNER JOIN galeries 
+//         ON galeries.idgalerie=exposer.idgalerie 
+//         WHERE galeries.idgalerie = :idgalerie"); // Requette envoyer à la BDD pour récupérer des infos
+//     $sql->bindParam(':idgalerie', $idgalerie);
+//     $sql->execute();
+//     }
+//     catch (Exception $e) { //Si échec
+//         print "Erreur pour récupérer les infos de la galerie ayant pour id celui passer en entrée : " . $e->getMessage();
+//         $resu = [];
+//         die(""); //Arrêt du script
+//     }
+//     disconnectionBDD($connex); //Deconnexion de la BDD
+// }
 
 function get_galery_by_cp($cpgalerie){
     /**
@@ -131,21 +154,52 @@ function delete_galery(string $idgalerie): void{ // En PDOprepare
     disconnectionBDD($connex);
 }
 
-function add_galery(string $data){
+// function add_galery(string $data){
+//     /** Fonction qui enregiste une new galerie dans la bdd 
+//      *
+//      *  Retourne l'identifiant choisit lors de l'injection et le nom de la galerie fraichement ajoutée
+//      *  
+//      */
+//     $connex=connectionBDD();        // Connexion à la BDD
+//     try {
+//     echo $data;
+//     $sql= "INSERT INTO galeries (imagegalerie ,nomgalerie , descriptiongalerie, villegalerie, adressegalerie, cpgalerie, paysgalerie) 
+//     VALUES $data "; // Requette envoyer à la BDD pour créer une nouvelle galerie.
+//     print $sql;
+//     $res=$connex->query($sql);
+//     // $resu=$res->fetchColumn();
+//     // $resu= $res->fetchAll();
+//     } 
+//     catch (Exception $e) { //Si échec
+//         print "Erreur pour ajouter la galerie à la BDD : " . $e->getMessage();
+//         $resu = [];
+//         die(""); //Arrêt du script
+//     }
+//     disconnectionBDD($connex); //Deconnexion de la BDD
+//     // return $resu; // Affiche le résultat de la fonction
+// }
+
+function add_galery($imagegalerie, $nomgalerie, $descriptiongalerie, $villegalerie, $adressegalerie, $cpgalerie, $paysgalerie, $idgalerie){ // En PDOprepare
     /** Fonction qui enregiste une new galerie dans la bdd 
-     *
      *  Retourne l'identifiant choisit lors de l'injection et le nom de la galerie fraichement ajoutée
-     *  
      */
     $connex=connectionBDD();        // Connexion à la BDD
     try {
-    echo $data;
-    $sql= "INSERT INTO galeries (imagegalerie ,nomgalerie , descriptiongalerie, villegalerie, adressegalerie, cpgalerie, paysgalerie) 
-    VALUES $data "; // Requette envoyer à la BDD pour créer une nouvelle galerie.
-    print $sql;
-    $res=$connex->query($sql);
-    // $resu=$res->fetchColumn();
-    // $resu= $res->fetchAll();
+    $sql=$connex->prepare(
+        "INSERT INTO galeries (imagegalerie ,nomgalerie ,
+         descriptiongalerie, villegalerie, adressegalerie, 
+         cpgalerie, paysgalerie) 
+         VALUES (:imagegalerie, :nomgalerie, 
+         :descriptiongalerie, :villegalerie, 
+         :adressegalerie, :cpgalerie, :paysgalerie) "); // Requette envoyer à la BDD pour créer une nouvelle galerie.
+    $res->bindParam(':imagegalerie', $imagegalerie);
+    $res->bindParam(':nomgalerie', $nomgalerie);
+    $res->bindParam(':descriptiongalerie', $descriptiongalerie);
+    $res->bindParam(':villegalerie', $villegalerie);
+    $res->bindParam(':adressegalerie', $adressegalerie);
+    $res->bindParam(':cpgalerie', $cpgalerie);
+    $res->bindParam(':paysgalerie', $paysgalerie);
+    $res->execute();
     } 
     catch (Exception $e) { //Si échec
         print "Erreur pour ajouter la galerie à la BDD : " . $e->getMessage();
@@ -153,7 +207,6 @@ function add_galery(string $data){
         die(""); //Arrêt du script
     }
     disconnectionBDD($connex); //Deconnexion de la BDD
-    // return $resu; // Affiche le résultat de la fonction
 }
 
 // function edit_galery(string $data, $idgalerie){
@@ -181,7 +234,7 @@ function add_galery(string $data){
 //     disconnectionBDD($connex); //Deconnexion de la BDD
 // }
 
-function edit_galery(string $imagegalerie,string $nomgalerie, string $descriptiongalerie, string $villegalerie, string $adressegalerie, int $cpgalerie, string $paysgalerie, int $idgalerie){
+function edit_galery($imagegalerie, $nomgalerie, $descriptiongalerie, $villegalerie, $adressegalerie, $cpgalerie, $paysgalerie, $idgalerie){ // En PDOprepare
     /** Fonction qui enregiste une new galerie dans la bdd 
      *
      *  Retourne l'identifiant choisit lors de l'injection et le nom de la galerie fraichement ajoutée
@@ -213,14 +266,13 @@ function edit_galery(string $imagegalerie,string $nomgalerie, string $descriptio
     disconnectionBDD($connex); //Deconnexion de la BDD
 }
 
-function get_artiste_with_galery($idgalerie){
+function get_artiste_with_galery($idgalerie){ 
     /**
      * Récupère dans la base de donnée les id des artiste qui exposent dans la galerie séléctionner.
-    * 
     */
     $connex=connectionBDD(); //Connexion à la BDD
     try {
-    $sql = "SELECT idartiste FROM EXPOSER INNER JOIN GALERIE ON EXPOSER.idgalerie = '".$idgalerie."'"; // Requette envoyer à la BDD pour récupérer des infos
+    $sql = "SELECT idartiste FROM EXPOSER INNER JOIN GALERIE ON EXPOSER.idgalerie = $idgalerie "; // Requette envoyer à la BDD pour récupérer des infos
     // SELECT * FROM EXPOSER INNER JOIN GALERIES ON GALERIES.idgalerie=1
     print $sql;
     $res=$connex->query($sql);
@@ -234,5 +286,29 @@ function get_artiste_with_galery($idgalerie){
     disconnectionBDD($connex); //Deconnexion de la BDD
     return $resu; // Affiche le résultat de la fonction
 }
+
+// function get_artiste_with_galery($idgalerie){ // En PDOprepare 
+//     /**
+//      * Récupère dans la base de donnée les id des artiste qui exposent dans la galerie séléctionner.
+//     */
+//     $connex=connectionBDD(); //Connexion à la BDD
+//     try {
+//     $sql = $connex->prepare(
+//         "SELECT idartiste 
+//         FROM EXPOSER 
+//         INNER JOIN GALERIE 
+//         ON EXPOSER.idgalerie = :idgalerie "); // Requette envoyer à la BDD pour récupérer des infos
+//     // SELECT * FROM EXPOSER INNER JOIN GALERIES ON GALERIES.idgalerie=1
+//     $sql->bindParam(':idgalerie', $idgalerie);
+//     $sql->execute();
+//     }
+//     catch (Exception $e) { //Si échec
+//         print "Erreur pour retourner les infos concernat l'/les artiste(s) exposant dans la galerie séléctionner : " . $e->getMessage();
+//         $resu = [];
+//         die(""); //Arrêt du script
+//         return $resu
+//     }
+//     disconnectionBDD($connex); //Deconnexion de la BDD
+// }
 
 ?>

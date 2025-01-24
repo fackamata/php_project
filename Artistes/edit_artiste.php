@@ -23,6 +23,13 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
     ?>
         <!-- Formulaire de modification des informations d'un artiste, les champs sont prérempli avec ces informations actuelles-->
         <form class="container" action="./save_edit_artiste.php" method="post" enctype="multipart/form-data">
+          <?php
+            if(isset($_GET['regexmail'])){ //Condition d'affichage d'une erreur de login précédente
+                  echo "<div class='alert alert-danger' role='alert'>
+                      L'adresse mail n'est pas au format standard !
+                  </div>";
+                }
+          ?>
         <input type="hidden" name="idartiste" value="<?php echo $info['idartiste'] ?>">
         <div class="form-group">
           <label for="image">Changer la photo de profil : </label>
@@ -64,7 +71,7 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
         </div>
         <div class="form-group">
           <label for="email">Email : </label>
-          <input type="email" class="form-control" name="email" value='<?php echo $info["emailartiste"] ?>'>
+          <input type="email" class="form-control" pattern="^[a-zA-Z0-9\W]+@[a-zA-Z0-9\W]+\.[a-zA-Z]{2,}$" title="Entrez une adresse mail valide" name="email" value='<?php echo $info["emailartiste"] ?>'>
         </div>
         <div class="form-group">
           <label for="description">Description : </label>
@@ -75,6 +82,13 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
 
         <!--Formulaire de modification du mot de passe artiste avec vérification de l'ancion mot de passe et double vérification du nouveau en javascript-->
         <form method='POST' class='container' action='./change_password.php'>
+          <?php 
+            if(isset($_GET['regex'])){ //Condition d'affichage d'une erreur de login précédente
+              echo "<div class='alert alert-danger' role='alert'>
+                  Le mot de passe ne correspond pas aux exigences rappel : 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial, 8 caratères minimum
+              </div>";
+            }
+          ?>
           <p>Changer le mot de passe</p>
           <div class="col g-3 align-items-center">
             <div class="col-auto">
@@ -83,11 +97,11 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
             </div>
             <div class="col-auto">
               <label for="firstpass" class="col-form-label">Nouveau mot de passe : </label>
-              <input type="password" id="firstpass" class="form-control" name="firstpass" placeholder="********" required>
+              <input type="password" id="firstpass" class="form-control" name="firstpass" placeholder="********" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}" title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
             </div>
             <div class="col-auto">
               <label for="secondpass" class="col-form-label">Confirmez le mot de passe : </label>
-              <input type="password" id="secondpass" class="form-control" name="secondpass" placeholder="********" required>
+              <input type="password" id="secondpass" class="form-control" name="secondpass" placeholder="********" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}" title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
               <p id='validate'></p> <!--Affichage de l'information de similitude entre les 2 mot de passes-->
             </div>
             <button class="btn btn-success" type='submit' id='changepass' disabled>Changer</button>
@@ -105,7 +119,7 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
             <div class="col-auto">
               <input type="password" id="supprpass" name="supprpass" class="form-control" placeholder="********" required>
             </div>
-            <button class="btn btn-success" type='submit'>Supprimer</button>
+            <button class="container" class="btn btn-success" type='submit'>Supprimer</button>
           </div>
         </form>
         </div>

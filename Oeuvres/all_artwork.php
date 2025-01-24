@@ -16,31 +16,27 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php';  //Import du fichier contenant
         session_start(); //Lancement de la session
         include "./../View/templates/navbar.php"; //Inclus la barre de navigation du site
         ?>
-        <h1> Oeuvres </h1>
-        <div class="container-fluid">
+        <h1 class="h1 my-5 text-center">Oeuvres</h1>
+		<div class="d-flex flex-wrap justify-content-evenly mb-5 ">
             <?php
                 $collectionoeuvres = get_all_artwork(); //Récupère toute les informations de toute les oeuvres
                 foreach($collectionoeuvres as $oeuvre){ //Boucles itératives d'ajout des oeuvres à la page
                     $type = get_type($oeuvre['refidtype'])['nomtype']; //Appel de la fonction pour récupérer un nom de type depuis son indice 
-                    $html = "<div class='card mb-3' style='max-width: 540px;'>
-                        <div class='row g-0'>
-                        <div class='col-md-4'>";
+                    $html = "<div class='card-deck m-4 text-center' style='width: 30rem;'>";
                         if($oeuvre['imageoeuvre']){ //Condition de vérification de l'existence d'une image
-                            $html = $html."<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                            $html = $html."<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$oeuvre['nomoeuvre']."'>";
                         }
                         else{
-                            $html = $html."<img src='https://picsum.photos/200' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>"; //A défaut de la condition, affichage d'une image aléatoire
+                            $html = $html."<img src='https://picsum.photos/200' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$oeuvre['nomoeuvre']."'>"; //A défaut de la condition, affichage d'une image aléatoire
                         }
-                        $html = $html."</div>
-                            <div class='col-md-8'>
-                            <div class='card-body'>
+                        $html = $html."<div class='card-body py-3'>
                             <h5 class='card-title'>".$oeuvre['nomoeuvre']."</h5>
-                            <h4 class='card-title'>".$oeuvre['pseudoartiste']."</h4>
-                            <p class='card-text'>".$oeuvre['descriptionoeuvre']."</p>
+                            <h4 class='card-title'><a class='link-secondary link-offset-2 link-underline-dark link-underline-opacity-10' href='./../Artistes/show_artiste.php?idartiste=".$oeuvre['idartiste']."'>".$oeuvre['pseudoartiste']."</a></h4>
+                            <p class='card-text overflow-y-auto' style='height: 8em;'>".$oeuvre['descriptionoeuvre']."</p>
                             <p class='card-text'>".$type."</p>
                             <p class='card-text'><small class='text-body-secondary'>".$oeuvre['dateoeuvre']."</small></p>
                             <form method='GET' action='./show_artwork.php'><input type='hidden' name='idoeuvre' value='".$oeuvre['idoeuvre']."'/><input type='submit' value='Voir'/></form>";
-                    $html = $html."</div></div></div></div>";
+                    $html = $html."</div></div>";
                     echo $html;
                 }
             ?>

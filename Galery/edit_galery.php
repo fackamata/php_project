@@ -13,21 +13,20 @@ require_once './../fonctionsBDD/Galery.php';
     </head>
     <body>
     <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
-    <h1>Page de modification des galeries</h1>
+    <h1 class="h1 my-5 text-center">Page de modification des galeries</h1>
     <?php $galeries = get_galery_by_id($_GET["idgalerie"]);
     // echo "<pre>";
     // print_r($galeries[0]);
     // echo "</pre>";
     
     ?>
-
         <div class="container">
         <!-- formulaire -->
         <form action="<?php echo "./to_update_galery.php?idgalerie=".$_GET["idgalerie"]?>" method="post">
         
             <div class="form-group">
                 <label for="imagegalerie">Photo de présentation :</label>
-                <input type="file" class="form-control" accept="image/*" value="<?php echo $galeries[0]['imagegalerie'];?>" name="imagegalerie" >
+                <input type="file" class="form-control" accept="./../upload/*" value="<?php echo $galeries[0]['imagegalerie'];?>" name="imagegalerie" >
             <div class="form-group">
                 <label for="nomgalerie">Nom galerie :</label>
                 <input type="text" class="form-control" value="<?php echo $galeries[0]['nomgalerie'];?>" name="nomgalerie" required>

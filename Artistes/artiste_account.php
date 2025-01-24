@@ -21,27 +21,30 @@ require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contena
             $galerie = get_galery_by_id_artiste($_SESSION["idartiste"])['nomgalerie']; //Récupère le nom de la galerie d'exposition de l'artiste pour l'afficher
         ?>
 
-        <div class="card" style="width: 18rem;">
+            <div class="d-flex py-4 px-5 mx-5 flex-md-row flex-sm-column justify-content-around align-items-center">
             <?php if($info['imageartiste']){ //Vérification de l'upload du fichier image, si erreur alors utilisation d'une image aléatoire
-               echo "<img src='./../upload/".$info['imageartiste']."' class='card-img-top' alt='".$info["pseudoartiste"]."'>"; 
+               echo "<img src='./../upload/".$info['imageartiste']."' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$info["pseudoartiste"]."'>"; 
             }
             else{
-                echo "<img src='https://picsum.photos/200' class='card-img-top'>"; //Lien de l'image aléatoire
+                echo "<img src='https://picsum.photos/200' class='img-fluid' style='max-width: 100%; max-height: 400px;'>"; //Lien de l'image aléatoire
             }
             ?>
         
-        <div class="card-body"> <!-- Affichage des informations d'un artiste-->
+        <div class="d-flex px-5 mx-5 flex-column"> <!-- Affichage des informations d'un artiste-->
             <h5 class="card-title"><?php echo $info["pseudoartiste"] ?></h5>
             <p class="card-text"><?php echo $info["descriptionartiste"] ?><p>
             <p class="card-text"><?php echo $galerie ?></p>
-            <p class="card-text"><?php echo $info["nomartiste"] ?><p>
-            <p class="card-text"><?php echo $info["prenomartiste"] ?><p>
-            <p class="card-text"><?php echo $info["emailartiste"] ?><p>
-            <p class="card-text"><?php echo $info["villeartiste"] ?><p>
-            <p class="card-text"><?php echo $info["paysartiste"] ?><p>
-            <a href='./edit_artiste.php'><button class="btn btn-primary">modifier</button></a> <!--//Lien vers la page de modification de compte d'un artiste-->
         </div>
-        </div>        
+        <ul class='list-group list-group-flush py-3'>
+            <li class="list-group-item">Nom : <?php echo $info["nomartiste"] ?></li>
+            <li class="list-group-item">Prenom : <?php echo $info["prenomartiste"] ?></li>
+            <li class="list-group-item">Email : <?php echo $info["emailartiste"] ?></li>
+            <li class="list-group-item">Ville : <?php echo $info["villeartiste"] ?></li>
+            <li class="list-group-item">Pays : <?php echo $info["paysartiste"] ?></li>
+            <a href='./edit_artiste.php'><button class="btn btn-primary my-2">modifier</button></a> <!--//Lien vers la page de modification de compte d'un artiste-->
+        </ul>
+        </div>
+        <div class="d-flex flex-wrap justify-content-evenly mb-5 ">       
 			<?php
                 $collection=get_info_artwork_by_artist($_SESSION['idartiste']); //Récupère les info de toutes les oeuvres de l'artiste connecté
                 foreach ($collection as $oeuvre){
@@ -50,10 +53,10 @@ require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contena
                         <div class='row g-0'>
                             <div class='col-md-4'>";
                             if ($oeuvre['imageoeuvre']){
-                                echo "<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                                echo "<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$oeuvre['nomoeuvre']."'>";
                             }
                             else{
-                                echo "<img src='https://picsum.photos/200' class='img-fluid rounded-start'>";
+                                echo "<img src='https://picsum.photos/200' class='img-fluid' style='max-width: 100%; max-height: 400px;'>";
                             }  
                             //Affiche une carte par oeuvres avec les infos associé
                             echo "</div> 
@@ -71,8 +74,10 @@ require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contena
                         </div>
                     </div>";
                 }
-                echo "<p>Ajouter une Oeuvre : </p>";
-                echo "<a href='./../Oeuvres/add_artwork.php'><button class='btn btn-primary'>Ajouter</button></a>";
-        include "./../View/templates/footer.php";?> <!--Inclus le pied de page-->
+                ?>
+                </div>
+                <p style='text-align: center;'>Ajouter une Oeuvre : </p>
+                <div class="d-flex justify-content-center"><a href='./../Oeuvres/add_artwork.php'><button class='btn btn-primary'>Ajouter</button></a></div>
+        <?php include "./../View/templates/footer.php";?> <!--Inclus le pied de page-->
 </body>
 </html>

@@ -3,20 +3,6 @@
 define('SRV_PATH', "https://" . $_SERVER['HTTP_HOST'] . "/RT/2ALT5/");
 define('MARLENE_PATH', "https://" . $_SERVER['HTTP_HOST'] . "/RT/2ALT5/Marlene/");
 
-function redirect_on_page($extra = "index_home.php"): void
-{
-    echo 'dans la fonction redirect';
-    echo $extra;
-    echo 
-    /* Redirect to a different page in the current directory that was requested */
-    $host  = $_SERVER['HTTP_HOST'];
-    $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-    print($uri);
-    // $extra = 'mypage.php';
-    header("Location: http://$host$uri/$extra");
-    exit;
-}
-
 
 /**
  * Fonction de traitement des champs input

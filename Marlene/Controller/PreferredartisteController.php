@@ -78,12 +78,6 @@ function index_preferredartiste(): array
 function display_show_preferredartiste(int $id):array
 {
     $preferredartistes = get_preferredartiste_by_id($id);
-    // session_start();
-    // if(isset($_SESSION)){
-    //     var_dump($_SESSION);
-    // }else{
-    //     echo 'pas de session';
-    // }
     
     if (is_file($preferredartistes['imagepreferredartiste'])) {
         $image = $preferredartistes['imagepreferredartiste'];
@@ -141,9 +135,6 @@ function new_preferredartiste(): void
 {
     $data = $_POST;
     $idartiste = $data["idartiste"];
-    var_dump_pre($data);
-    // $file = $_FILES;
-    // upload_image();
     try {
         add_new_preferredartiste($data);
         echo 'préférences ajouter';
@@ -158,8 +149,8 @@ function new_preferredartiste(): void
 
 function remove_preferredartiste($idclient,  $idartiste ): void
 {
-    $ret = delete_preferredartiste($idclient, $idartiste); 
-    echo $ret;
+    delete_preferredartiste($idclient, $idartiste); 
+    // echo $ret;
     
     // var_dump_pre( $_SERVER['HTTP_REFERER'] ) ;
     $previous_page = $_SERVER["HTTP_REFERER"];

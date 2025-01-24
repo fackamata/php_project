@@ -12,6 +12,30 @@ require_once __DIR__."/../Config/ConnexionDB.php";
  * 
  * @return array $resu list de toutes les informations de toutes les objects
 */
+function get_all_goody(): array
+{
+  
+  $connex = connectionBDD(); // on se connect
+  try {
+    $sql = $connex->query("SELECT * FROM objects ");
+    $resu = $sql->fetchall();
+
+  } catch (PDOException $e) { // si échec
+    print "Erreur pour récupérer tous les clients : " . $e->getMessage();
+    $resu = [];
+    die(""); // Arrêt du script - sortie.
+  }
+  disconnectionBDD($connex);
+  return $resu;
+
+}
+
+/**
+ *      fonction qui retourne toutes les informations de toutes les objects 
+ *      ( fonction SELECT  )
+ * 
+ * @return array $resu list de toutes les informations de toutes les objects
+*/
 function get_goodie_by_id($id): array
 {
   

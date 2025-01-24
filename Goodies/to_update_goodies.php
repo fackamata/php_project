@@ -22,5 +22,5 @@ print_r($goodies[0]['idobject']);
 echo "</pre>";
 
 edit_goodies($nomobject, $prixobject, $descriptionobject, $imageobject, $idobject);
-// header('location: ./one_goodies.php?idobject='.$objects[0]['idobject']) //fonctionnel
+header('location: ./one_goodies.php?idobject='.$objects[0]['idobject']) //fonctionnel
 ?>

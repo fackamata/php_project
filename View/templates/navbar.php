@@ -21,17 +21,12 @@
           <a class="nav-link" href=<?php echo $host."Artistes/all_artistes.php"; ?> >Artistes</a>
         </li>
         <?php 
-          if (isset($_SERVER["PHP_AUTH_USER"]) ) {
-          // if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] == 'lizzim') {
+          // if (isset($_SERVER["PHP_AUTH_USER"]) ) {
+          if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] == 'lizzim'
+              || isset($_SESSION["pseudoclient"]) && $_SESSION["pseudoclient"] == 'lizzim') {
             ?>
             <li class="nav-item">
               <a class="nav-link" href=<?php echo $host."Marlene/home.php"; ?> >Clients</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href=<?php echo $host."Marlene/home.php/?ctrl=buy&fct=index_buy"; ?> >Achats</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href=<?php echo $host."Marlene/home.php/?ctrl=bid&fct=index_bid"; ?> >Enchères</a>
             </li>
               
         <?php 
@@ -42,44 +37,24 @@
           <a class="nav-link" href=<?php echo $host."Oeuvres/all_artwork.php"; ?> >Oeuvres</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=<?php echo $host."Type/all_type.php"; ?> >Type</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href=<?php echo $host."Comment/all_comments.php"; ?> >Commentaires</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href=<?php echo $host."Galery/all_galery.php"; ?> >Gallery</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=<?php echo $host."Goodies/all_goodies.php"; ?> >Goodies</a>
+          <a class="nav-link" href=<?php echo $host."Goodies/all_goodies.php"; ?> >Objet</a>
         </li>
       
         <li class="nav-item">
               <a  href=<?php echo $host."Artistes/add_artiste.php?"; ?> 
-                  class="btn btn-info"
+                  class="btn btn-outline-info"
                   role="button">
                   création artiste
               </a>
           </li>
           <li class="nav-item">
               <a  href=<?php echo $host . "Marlene/home.php/?ctrl=client&fct=display_add_client"?>
-                  class="btn btn-info"
+                  class="btn btn-outline-info"
                   role="button">
                   création client
-              </a>
-          </li>
-          <li class="nav-item">
-              <a  href=<?php echo $host."Galery/add_galery.php"; ?> 
-                  class="btn btn-info"
-                  role="button">
-                  création galerie
-              </a>
-          </li>
-          <li class="nav-item">
-              <a  href=<?php echo $host."Goodies/add_goodies.php"; ?> 
-                  class="btn btn-info"
-                  role="button">
-                  création goodies
               </a>
           </li>
           

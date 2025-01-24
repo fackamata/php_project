@@ -36,13 +36,12 @@ require_once BASE_PATH.'/fonctionsBDD/Types.php'; //Import du fichier contenant 
             <!-- Gestion de l'affichage de liste déroulante des types-->
             <div class="form-group">
                 <label for="type">Type de l'oeuvre : </label>
-                <select name='type' class='form-group' required>
+                <select name='type' class='form-control' required>
                     <option value='' selected></option>
                     <?php foreach ($listtype as $type) {
                     echo "<option value='".$type["idtype"]."'>".$type["nomtype"]."</option>";
                 }?>
                 </select>
-
             </div>
             <button class="btn btn-success" type="submit">Ajouter</button>
         </form>

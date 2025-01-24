@@ -6,9 +6,8 @@ function get_all_artiste(): array{
   $connex=connectionBDD(); //Connexion à la BDD
   try{
     $sql="SELECT * FROM artistes";
-    print $sql;
     $res=$connex->query($sql);
-    $resu=$res->fetchall();
+    $resu=$res->fetchall(); //Conditionnement en tableau
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -19,13 +18,13 @@ function get_all_artiste(): array{
   return $resu;
 }
 
-function get_all_artiste_pseudo(){//: array{
+function get_all_artiste_pseudo(): array{
   //Récupère le pseudo de tout les artistes
   $connex=connectionBDD(); //Connexion à la BDD
   try{
     $sql="SELECT pseudoartiste FROM artistes";
     $res=$connex->query($sql);
-    $resu=$res->fetchAll();
+    $resu=$res->fetchAll(); //conditionnement en tableau
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -36,15 +35,14 @@ function get_all_artiste_pseudo(){//: array{
   return $resu;
 }
 
-function get_info_artiste(int $idartiste): array{
+function get_info_artiste(string $idartiste): array{
   //Récupère dans la  base de donnée les informations liées à un artiste en utilisant son id
-  //Fonction utiliser pour l'affichage du compte de l'artiste
   $connex=connectionBDD(); //Connexion à la BDD
   try{
     $stmt = $connex->prepare("SELECT * FROM Artistes WHERE idartiste = :idartiste");
     $stmt->bindParam(':idartiste', $idartiste);
     $stmt->execute();
-    $resu=$stmt->fetch();
+    $resu=$stmt->fetch(); //Conditionnement en tableau
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -75,11 +73,6 @@ function edit_artiste(string $nomartiste, string $descriptionartiste, string $pr
        $stmt->execute();
     }
     catch (PDOException $e) { //Si échec
-      print "met le catch MARIUS: " . $e->getMessage();
-      $resu = [];
-      die(""); //Arrêt du script
-    }
-    catch (PDOException $e) { //Si échec
       print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
       $resu = [];
       die(""); //Arrêt du script
@@ -89,13 +82,13 @@ function edit_artiste(string $nomartiste, string $descriptionartiste, string $pr
 
 
 function login_artiste(string $pseudo): array{
-  //Fonction qui récupère les login d'un artiste avant de le logguer.
+  //Fonction qui récupère les login d'un artiste pour une vérification en php avant de le logguer.
   $connex=connectionBDD();
   try{
     $stmt = $connex->prepare("SELECT motdepasseartiste, pseudoartiste, idartiste FROM artistes WHERE pseudoartiste = :pseudo");
     $stmt->bindParam(':pseudo', $pseudo);
     $stmt->execute();
-    $res = $stmt->fetch();
+    $res = $stmt->fetch(); //Conditionnement en tableau
   }
   catch (PDOException $e) { //Si échec
     print "Erreur pour mettre à jour les infos de l'artiste : " . $e->getMessage();
@@ -107,7 +100,7 @@ function login_artiste(string $pseudo): array{
 }
 
 function change_password(string $password, string $idartiste): void{
-  //Fonction qui modifie l'entrée du mot de passe dans la BDD pour un pseudo donné.
+  //Fonction qui modifie l'entrée du mot de passe dans la BDD pour un idartiste donné.
   $connex=connectionBDD();
 
   try{
@@ -125,7 +118,7 @@ function change_password(string $password, string $idartiste): void{
 }
 
 function add_artiste(string $nomartiste, string $prenomartiste, string $villeartiste, string $paysartiste, string $emailartiste, string $descriptionartiste, string $password, string $pseudoartiste): void{
-  //Fonction qui modifie l'entrée du mot de passe dans la BDD pour un pseudo donné.
+  //Fonction qui ajoute un artiste en BDD avec toute ces informations
   $connex=connectionBDD();
 
   try{

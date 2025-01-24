@@ -1,6 +1,6 @@
 <?php
-  var_dump($data);
-  $pseudo = $data['pseudoclient'];
+  // var_dump($data);
+  $pseudo = $data['pseudo'];
   echo "<script>let pseudo = ".json_encode($pseudo)."; console.log(pseudo);</script>";
   // echo "<script>let currentpseudo = ".$_SESSION['pseudoartiste']."</script>";
 ?>
@@ -9,7 +9,18 @@
 <div class="container">
   <form action="<?php echo "./home.php?ctrl=client&fct=new_client"?>" 
         method="post" enctype="multipart/form-data">
-  
+        <?php 
+        if(isset($_GET['regexpasswd'])){ //Condition d'affichage d'une erreur de login précédente
+          echo "<div class='alert alert-danger' role='alert'>
+              Le mot de passe ne correspond pas aux exigences rappel : 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial, 8 caratères minimum
+          </div>";
+        }
+        if(isset($_GET['regexmail'])){ //Condition d'affichage d'une erreur de login précédente
+          echo "<div class='alert alert-danger' role='alert'>
+              L'adresse mail n'est pas au format standard !
+          </div>";
+        }
+      ?>
     <div class="form-group">
       <label for="pseudoclient">Pseudo :</label>
       <input type="text" class="form-control" 
@@ -38,7 +49,10 @@
     </div>
     <div class="form-group">
       <label for="emailclient">email :</label>
-      <input type="text" class="form-control" name="emailclient" required >
+      <input type="email" class="form-control" 
+          pattern="^[a-zA-Z0-9\W]+@[a-zA-Z0-9\W]+\.[a-zA-Z]{2,}$" 
+          title="Entrez une adresse mail valide" name="emailclient" required>
+
     </div>
     <!-- <div class="form-group">
       <label for="imageclient">Image de profil :</label>
@@ -50,16 +64,20 @@
     </div>
     <div class="form-group">
       <label for="motdepasse">mot de passe :</label>
-      <input type="password" class="form-control" 
-            name="motdepasse" id="firstpass" required>
+      <input type="password" class="form-control"
+         name="motdepasse" id="firstpass" 
+         pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}" 
+         title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
+
     </div>
     <div class="form-group">
       <label for="motdepasseclient">Confirmer le passe :</label>
       <input type="password" class="form-control"
-              name="motdepasseclient" id="motdepasseclient" required>
+              name="motdepasseclient" id="motdepasseclient" 
+              pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}" 
+              title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
               <p id='validate'></p>
     </div>
-    <div class="alert alert-success" role="alert" id="alert" disabled></div>
 
       <button class="btn btn-success" type="submit" id="submit">Envoyer</button>
   </form>

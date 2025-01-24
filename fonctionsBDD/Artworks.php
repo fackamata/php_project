@@ -25,6 +25,7 @@ require_once BASE_PATH."/fonctionsBDD/ConnectionBDD.php";
   }
 
   function edit_artwork(string $nomoeuvre, string $descriptionoeuvre, string $dateoeuvre, string $idtype, string $imageoeuvre, string $idoeuvre){
+    //Modifie l'entrée d'une oeuvre dans la table en modifiant tout les champs
     $connex=connectionBDD();
     try{
       $stmt = $connex->prepare("UPDATE oeuvres SET nomoeuvre = :nomoeuvre, descriptionoeuvre = :descriptionoeuvre, dateoeuvre = :dateoeuvre, refidtype = :idtype, imageoeuvre = :imageoeuvre WHERE idoeuvre = :idoeuvre");
@@ -54,7 +55,7 @@ require_once BASE_PATH."/fonctionsBDD/ConnectionBDD.php";
       = oeuvres.refidartiste WHERE idartiste = :idartiste");
       $stmt->bindParam(':idartiste', $idartiste);
       $stmt->execute();
-      $resu=$stmt->fetchAll();
+      $resu=$stmt->fetchAll();  //Conditionnement en tableau
     }
     catch (PDOException $e) { //Si échec
       print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -73,9 +74,8 @@ require_once BASE_PATH."/fonctionsBDD/ConnectionBDD.php";
       oeuvres.descriptionoeuvre, oeuvres.refidtype, oeuvres.refidartiste, 
       oeuvres.imageoeuvre, artistes.pseudoartiste, artistes.idartiste FROM oeuvres INNER JOIN artistes ON artistes.idartiste
       = oeuvres.refidartiste WHERE oeuvres.idoeuvre = '".$idoeuvre."'";
-      print $sql;
       $res=$connex->query($sql);
-      $resu=$res->fetch();
+      $resu=$res->fetch();  //Conditionnement en tableau
     }
     catch (PDOException $e) { //Si échec
       print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();
@@ -108,11 +108,11 @@ require_once BASE_PATH."/fonctionsBDD/ConnectionBDD.php";
     $connex=connectionBDD(); //Connexion à la BDD
     try{
       $sql="SELECT oeuvres.idoeuvre, oeuvres.nomoeuvre, oeuvres.dateoeuvre, 
-      oeuvres.descriptionoeuvre, oeuvres.refidtype, artistes.pseudoartiste,
+      oeuvres.descriptionoeuvre, oeuvres.refidtype, artistes.idartiste, artistes.pseudoartiste,
       oeuvres.imageoeuvre FROM oeuvres INNER JOIN artistes ON artistes.idartiste
       = oeuvres.refidartiste";
       $res=$connex->query($sql);
-      $resu=$res->fetchAll();
+      $resu=$res->fetchAll();  //Conditionnement en tableau
     }
     catch (PDOException $e) { //Si échec
       print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();

@@ -17,7 +17,7 @@ session_start();
 	</head>
 	<body>
 		<?php include "./../View/templates/navbar.php" ?>
-		<h1>Goodies</h1>
+		<h1 class="h1 my-5 text-center">Goodies</h1>
 		<div class="d-flex flex-wrap justify-content-evenly mb-5 ">
 			<?php
 				$goodies = get_all_goodies();
@@ -31,9 +31,9 @@ session_start();
 					// echo "</pre>";
 					?>
 					<div class="card-deck m-4 text-center " style='width: 30rem;'>	
-						<!-- <img src='./../image/no_img.png' class='card-img-top' alt='Image'> -->
-						<img <?php if (is_file("./../image/".$ttgoodies[0]['imageobject'])){ ?>
-							src='<?php echo "./../image/".$ttgoodies[0]['imageobject'] ?>'
+						<!-- <img src='./../upload/no_img.png' class='card-img-top' alt='Image'> -->
+						<img <?php if (is_file("./../upload/".$ttgoodies[0]['imageobject'])){ ?>
+							src='<?php echo "./../upload/".$ttgoodies[0]['imageobject'] ?>'
 							<?php 
 							} 
 							else{ ?> src = "./../image/no_img.png"<?php } ?> 

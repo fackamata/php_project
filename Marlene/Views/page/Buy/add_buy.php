@@ -7,7 +7,7 @@ $image = $goodie['imageobject'];
 
 ?>
 
-<h1 class="h1 text-center m-5">Page d'achat de l'object  <?php echo ' '.$goodie["nomobject"] ?></h1>
+<h1 class="h1 text-center m-5">Page d'achat de : <?php echo ' '.$goodie["nomobject"] ?></h1>
 
 
 <div class="container">
@@ -44,14 +44,13 @@ $image = $goodie['imageobject'];
         </div>
     </div>
 </div>
-
-<form action="<?php echo "./home.php?ctrl=buy&fct=new_buy"?>" 
+<form action="<?php echo MARLENE_PATH."home.php/?ctrl=buy&fct=new_buy&id=".$goodie['idobject'] ?>"
       method="post" class="d-flex justify-content-evenly align-items-center">
       
 <div class="d-flex justify-content-center">
   <div class="form-group">
-    <label for="quantitebuy">Quantité :</label>
-    <input class="form-control" name="quantitebuy" id="idquantitebuy" value="1" readonly>
+    <label for="quantiteachat">Quantité :</label>
+    <input class="form-control" name="quantiteachat" id="idquantitebuy" value="1" readonly>
   </div>
   <p id="incremente" class="btn">+</p>
 </div>

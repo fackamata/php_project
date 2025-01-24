@@ -1,8 +1,8 @@
-const FIRST = document.getElementById('firstpass');
+const FIRST = document.getElementById('motdepasse');
 const SECOND = document.getElementById('motdepasseclient');
 const VALIDATE = document.getElementById('validate');
 const BTN_VALIDATE = document.getElementById('submit');
-const PSEUDOCONFIRM = document.getElementById('pseudoconfirm');
+const PSEUDOCONFIRMCLIENT = document.getElementById('pseudoconfirm');
 
 // console.log("on est dans client check en js");
 
@@ -26,7 +26,7 @@ function check_passwd_form(){
 function pseudoexiste(){
     pseudo.some((item) => {
         MSGBOX = document.getElementById('msgconfirmpseudo');
-        if (item['pseudoartiste'] == PSEUDOCONFIRM.value){
+        if (item['pseudoclient'] == PSEUDOCONFIRM.value){
             console.log("Non");
             MSGBOX.innerHTML = "Pseudo déjà utilisé";
             BTN_VALIDATE.disabled = true;
@@ -42,4 +42,4 @@ function pseudoexiste(){
 
 FIRST.addEventListener('input', check_passwd_form);
 SECOND.addEventListener('input', check_passwd_form);
-PSEUDOCONFIRM.addEventListener('input', pseudoexiste);
+PSEUDOCONFIRMCLIENT.addEventListener('input', pseudoexiste);

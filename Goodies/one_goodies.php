@@ -17,7 +17,7 @@ session_start();
   <body>
     <?php include "./../View/templates/navbar.php" ?> <!-- Intégration de la navbar a la page -->
     <div class="container">
-		<h1 class="h1 my-5 text-center">A propos de ce Goodie</h1>
+		<h1 class="h1 my-5 text-center">A propos de cet object</h1>
 		
 		<div class="d-flex py-4 flex-md-row flex-sm-column justify-content-evenly align-items-center">
 			<?php
@@ -28,14 +28,14 @@ session_start();
 				foreach($goodies as $goodie) {
 					?>
 					<img
-						<?php if (is_file("./../image/".$goodie['imageobject'])){ ?>
-							src='<?php echo "./../image/".$goodie['imageobject'] ?>'
+						<?php if (is_file("./../upload/".$goodie['imageobject'])){ ?>
+							src='<?php echo "./../upload/".$goodie['imageobject'] ?>'
 							<?php 
 						} 
 						else{ ?>
 							src = "./../upload/img_obj_01.png" ;
 							<?php
-						} ?> class='card-img-top' alt='Image Goodies'
+						} ?> class='card-img-top' alt='Image Goodies' style='max-width: 50%; max-height: 400px;'
 					>
 
 					<div class="p-5">
@@ -49,8 +49,18 @@ session_start();
 					</div>
 
 					<div class="d-flex flex-column">
-						<a href="./../Goodies/edit_goodies.php?idobject=<?php echo $goodies[0]["idobject"] ?>" 
-							class='btn text-warning border-warning btn-outline-info m-1' >Modifier ce goodie</a>
+						<?php
+						if( isset($_SESSION['pseudoclient']) && $_SESSION['pseudoclient'] == 'serrante' ) // Afficher bouton admin Terry
+							{
+							?>
+							<li class="nav-item px-2 text-muted">
+							</br>
+								<a href="./../Goodies/edit_goodies.php?idobject=<?php echo $goodies[0]["idobject"] ?>" 
+									class='btn text-warning border-warning btn-outline-info m-1' >Modifier ce goodie</a>
+							</li>
+						<?php
+							} 
+						?>
 						</br>
 						<a href="./../Goodies/all_goodies.php" 
 							class='btn btn-outline-info m-1'>Revenir aux goodies</a>
@@ -71,8 +81,6 @@ session_start();
 	</div>
 	</br>
 	<a href="./../Goodies/all_goodies.php" class='card-link'>Revenir aux goodies</a>
-	</br>
-	<a href="./../index.php">Retour à l'acceuil</a>
 
 	<?php include "./../View/templates/footer.php" ?>	<!-- Intégration du footer a la page -->
     

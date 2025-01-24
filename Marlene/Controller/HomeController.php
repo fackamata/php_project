@@ -20,6 +20,17 @@ function index_home(): array
     ];
 }
     
+/**
+ * fonction pour envoyer la bonne page en fonction de l'uri
+ *      - la liste de tous les clients
+ *      - la page à afficher
+ *      - le titre de la page
+*/
+function return_home(): array
+{
+    header("location: ".SRV_PATH);
+}
+    
 
 /**
  * fonction vérifie que le bon utilisateur soit connecté au serveur

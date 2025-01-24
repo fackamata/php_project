@@ -3,13 +3,13 @@ require './../config.php';  //Import d'un fichier de config contenant un chemin 
 require_once BASE_PATH.'/fonctionsBDD/Artistes.php';  //Import du fichier contenant les fonctions BDD associé aux Artistes
 require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contenant les fonctions BDD associé aux Exposition dans les galeries
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
-preg_match("@(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}@", $_POST['firstpass'], $resultat);
-if(!$resultat){
-    header('Location: ./add_artiste.php?regex=error');
+preg_match("@(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}@", $_POST['firstpass'], $resultatpasswd); //Expression Regex vérification du mot de passe
+preg_match("#[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}#", $_POST['emailartiste'], $resultatmail); //Expression Regex vérification de l'adresse mail
+if(!$resultatpasswd){ //Condition de vérification regex
+    header('Location: ./add_artiste.php?regexpasswd=error');
+}
+else if(!$resultatmail){//Condition de vérification regex
+    header('Location: ./add_artiste.php?regexmail=error');
 }
 else{
     //Initialisation des variables de la fonction BDD avec pg_escape_string pour clean l'entrée string

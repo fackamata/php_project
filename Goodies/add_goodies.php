@@ -1,6 +1,7 @@
 <?php
 require './../config.php';
 require_once './../fonctionsBDD/Goodies.php';
+require_once './../fonctionsBDD/Artworks.php';
 
 ?>
 <html lang="fr">
@@ -12,7 +13,9 @@ require_once './../fonctionsBDD/Goodies.php';
 
         </head>
         <body>
-            <?php include "./../View/templates/navbar.php" ?>    <!-- Intégration de la navbar a la page -->
+            <?php include "./../View/templates/navbar.php";
+            $listoeuvre = get_all_artwork(); //Récupère la liste des galeries pour que l'artiste sélectionne sa galerie d'exposition
+            ?>    <!-- Intégration de la navbar a la page -->
             <h1 class="h1 m-5 text-center">Page d'ajout des goodies</h1>
         <div class="container">
         <!-- formulaire -->
@@ -27,9 +30,19 @@ require_once './../fonctionsBDD/Goodies.php';
                 <input type="entier" class="form-control" name="prixobject" required>
             <div class="form-group">
             </div>
+            <div class="form-group">
+                <label for="refidoeuvre">Selectionner une oeuvre : </label>
+                <select name='refidoeuvre' class="form-select" required>
+                    <option value='' selected></option>
+                    <?php foreach ($listoeuvre as $oeuvre) {
+                            echo "<option value='".$oeuvre['idoeuvre']."'>".$oeuvre['nomoeuvre']."</option>";
+                        }?>
+                </select>
+            <div class="form-group">
+            <!-- </div> 
                 <label for="refidoeuvre">Numéro de l'oeuvre référante :</label>
                 <input type="entier" class="form-control" name="refidoeuvre" required>
-            <div class="form-group">
+            <div class="form-group"> -->
             </div>
                 <label for="paysobject">Descritpion object :</label>
                 <input type="text" class="form-control" name="descriptionobject" required>

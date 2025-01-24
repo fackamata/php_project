@@ -26,9 +26,14 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
 
       <form action="./save_artiste.php" method="post" enctype="multipart/form-data">
       <?php 
-        if(isset($_GET['regex'])){ //Condition d'affichage d'une erreur de login précédente
+        if(isset($_GET['regexpasswd'])){ //Condition d'affichage d'une erreur de login précédente
           echo "<div class='alert alert-danger' role='alert'>
               Le mot de passe ne correspond pas aux exigences rappel : 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial, 8 caratères minimum
+          </div>";
+        }
+        if(isset($_GET['regexmail'])){ //Condition d'affichage d'une erreur de login précédente
+          echo "<div class='alert alert-danger' role='alert'>
+              L'adresse mail n'est pas au format standard !
           </div>";
         }
       ?>
@@ -68,7 +73,7 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
         </div>
         <div class="form-group">
           <label for="emailartiste">email artiste :</label>
-          <input type="text" class="form-control" name="emailartiste" >
+          <input type="email" class="form-control" pattern="^[a-zA-Z0-9\W]+@[a-zA-Z0-9\W]+\.[a-zA-Z]{2,}$" title="Entrez une adresse mail valide" name="emailartiste" required>
         </div>
         <div class="form-group">
           <label for="descriptionartiste">Description artiste :</label>
@@ -76,11 +81,11 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
         </div>
         <div class="form-group">
           <label for="firstpass">mot de passe :</label>
-          <input type="password" class="form-control" name="firstpass" id="firstpass"  title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
+          <input type="password" class="form-control" name="firstpass" id="firstpass" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}" title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
         </div>
         <div class="form-group">
           <label for="secondpass">Confirmer le passe :</label>
-          <input type="password" class="form-control" name="secondpass" id="secondpass"  title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
+          <input type="password" class="form-control" name="secondpass" id="secondpass" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}" title="Une majuscule, une minusclue, un chiffre, un caractère spéciale 8 caractères minimum" required>
           <p id='validate'></p>
         </div>
 
@@ -91,5 +96,3 @@ require_once BASE_PATH.'/fonctionsBDD/Galery.php'; //Import du fichier contenant
     <?php include "./../View/templates/footer.php";?> <!-- Inclus le pied de page-->
   </body>
 </html>
-
-pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W]).{8,}"

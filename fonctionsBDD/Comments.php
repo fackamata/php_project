@@ -14,7 +14,7 @@ function get_info_comment(string $idoeuvre): array{
        artistes.idartiste = oeuvres.refidartiste WHERE oeuvres.idoeuvre = :idoeuvre");
        $stmt->bindParam(':idoeuvre', $idoeuvre);
        $stmt->execute();
-       $res = $stmt->fetchAll();
+       $res = $stmt->fetchAll();  //Conditionnement en tableau
     }
     catch  (PDOException $e) { //Si échec
       print "Erreur pour retourner les infos de l'artiste : " . $e->getMessage();

@@ -4,7 +4,8 @@
     $clients = $data["clients"];
     $image_client = $clients["imageclient"];
     $artiste_favorit = $data["artiste_preferer"];
-    // var_dump($artiste_favorit);
+    $achats = $data["achats"];
+    // var_dump($clients    );
     $idclient= $clients["idclient"];
 ?>
 <div class="container">
@@ -13,21 +14,21 @@
     <div class="d-flex py-4 flex-md-row flex-sm-column justify-content-evenly align-items-center">
         <img
             <?php 
-            if (is_file(SRV_PATH."image/".$image_client)){
+            // if (is_file( SRV_PATH."upload/".$image_client)){
                 ?>
-                src='<?php echo $image_client ?>'
+                src='<?php echo SRV_PATH."upload/".$image_client ?>'
                 <?php 
-            } else{
+            // } else{
                 ?>
                 src = "https://picsum.photos/200" ;
                 <?php
-            }
+            // }
             ?>
-            class="img-thumbnail"
+            class="img-thumbnail cover"
             alt="<?php echo "image de ".$clients['pseudoclient'];?>"
-            <?php //echo SRV_PATH."image/".$imgclient;?>
         >
-
+            <!-- <img src="<?php echo SRV_PATH."upload/".$image_client ?>" 
+            alt="" srcset=""> -->
         <div class="p-5">
             <h2 class="h4">
                 <?php echo $clients['nomclient'].' '.$clients['prenomclient'];?>
@@ -41,7 +42,6 @@
             <p><?php echo "Ville : ".$clients['villeclient'];?>
             </p>
         </div>
-
         <div class="d-flex flex-column">
             <a href="<?php echo "?ctrl=client&fct=display_update_client&id=".$idclient;?>"
                 class="btn btn-outline-info m-1">
@@ -62,14 +62,6 @@ if (count($artiste_favorit) > 0){
     ?>
 
     <h3 class="m-5 text-center">Liste de mes artistes préféré</h3>
-
-    <!-- <div class ="d-flex justify-content-end">
-        <a href="<?php echo MARLENE_PATH."home.php/?ctrl=client&fct=display_add_client" ?>" 
-                            class="btn btn-success mx-3" 
-                            role="button" >
-                            Créer Client
-        </a>
-    </div> -->
     
     <div class="d-flex flex-wrap justify-content-evenly mb-5 ">
 
@@ -82,7 +74,7 @@ if (count($artiste_favorit) > 0){
 
                     <img
                         <?php 
-                        if (is_file(SRV_PATH."image/".$image_artiste)){
+                        if (is_file(SRV_PATH."upload/".$image_artiste)){
                             ?>
                             src='<?php echo $image_artiste ?>'
                             <?php 
@@ -106,13 +98,80 @@ if (count($artiste_favorit) > 0){
                         <div class="d-flex justify-content-around">
 
                             <a href="<?php echo SRV_PATH."Artistes/show_artiste.php/?idartiste=".$id_art ?>" 
-                            class="btn btn-primary">Voir</a>
+                            class="btn btn-outline-info">Voir</a>
                             <a href="<?php 
                                         echo SRV_PATH."Marlene/home.php/?ctrl=preferredartiste&fct=remove_preferredartiste&idclient=".$idclient."&idartiste=".$id_art
                                     ?>" 
                                 role="button" 
                             >
                             <img src="<?php echo MARLENE_PATH."assets/img/delete.png"?>" alt="suppression">
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            
+        <?php } 
+        ?>
+    </div>  
+<?php
+
+}
+?>
+
+<!-- partie pour afficher les achat effectué -->
+
+<?php
+if (count($achats) > 0){
+    ?>
+
+    <h3 class="m-5 text-center">Liste de mes achats</h3>
+
+    <div class="d-flex flex-wrap justify-content-evenly mb-5 ">
+
+        <?php
+        for ($i = 0; $i < count($achats); $i++) {
+            $id_object = $achats[$i]["idobject"];
+            $id_oeuvre = $achats[$i]["refidoeuvre"];
+            $image_object = $achats[$i]["imageobject"];
+            // var_dump($achats[0]);
+            ?> 
+            <div class="card m-2">
+
+                    <img
+                        <?php 
+                        if (is_file(SRV_PATH."upload/".$image_object)){
+                            ?>
+                            src='<?php echo $image_object ?>'
+                            <?php 
+                        } else{
+                            ?>
+                            src = "https://picsum.photos/200" ;
+                            <?php
+                        }
+                        ?>
+                        class="card-img-top"
+                        alt="<?php echo "image de ".$achats[$i]['nomobject'];?>"
+                    >
+
+                    <h5 class="card-title text-center"><?php echo $achats[$i]['quantiteachat']." - ".$achats[$i]['nomobject']?></h5>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap g-3 justify-content-around">
+
+                            <p class="card-text">
+                                <?php $date = $achats[$i]['dateachat'] ;
+                                $date = date('D M d Y H:i:s', strtotime($date));
+                                echo $date;
+                                ?>
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-around">
+
+                            <a href="<?php echo SRV_PATH."Goodies/one_goodies.php?idobject=".$id_object ?>" 
+                            class="btn btn-outline-info">Object</a>
+
+                            <a href="<?php echo SRV_PATH."Oeuvres/show_artwork.php?idoeuvre=".$id_oeuvre ?>" 
+                            class="btn btn-outline-info">Oeuvre
                             </a>
                         </div>
                     </div>

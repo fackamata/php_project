@@ -23,22 +23,21 @@ require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contena
             $idclient = $_SESSION['idclient'];
         }
     ?>
-    
-    <div class='card' style='width: 18rem;'>
+    <h1 class="h1 my-5 text-center"><?php echo $artiste["pseudoartiste"]?></h1>
+    <div class="d-flex py-4 px-5 mx-5 flex-md-row flex-sm-column justify-content-around align-items-center">
         <?php if($artiste['imageartiste']){  //Vérification de l'upload du fichier image, si erreur alors utilisation d'une image aléatoire
-                echo "<img src='./../upload/".$artiste['imageartiste']."' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";
+                echo "<img src='./../upload/".$artiste['imageartiste']."' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$artiste['pseudoartiste']."'>";
             }
             else{
-                echo "<img src='https://picsum.photos/200' class='card-img-top' alt='".$artiste['pseudoartiste']."'>";  //Lien de l'image aléatoire
+                echo "<img src='https://picsum.photos/200' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$artiste['pseudoartiste']."'>";  //Lien de l'image aléatoire
             }
             ?>
                 <!-- Carte d'un artiste -->
-				<div class='card-body'>
-					<h5 class='card-title'><?php echo $artiste["pseudoartiste"]?></h5>
+				<div class="d-flex px-5 mx-5 flex-column">
 					<p class='card-text'><?php echo $artiste['nomartiste']?></p>
 					<p class='card-text'><?php echo $artiste['prenomartiste']?></p>
 					<p class='card-text'><?php echo $artiste['descriptionartiste']?></p>
-                    <p class='card-text'><a href='./../Galery/one_galery.php?idgalerie=<?php echo $galerie['idgalerie'] ?>'><?php echo $galerie['nomgalerie'] ?> </a></p>;
+                    <p class='card-text'><a href='./../../Galery/one_galery.php?idgalerie=<?php echo $galerie['idgalerie'] ?>'><?php echo $galerie['nomgalerie'] ?> </a></p>
 				</div>
 				<ul class='list-group list-group-flush'>
 					<li class='list-group-item'><?php echo $artiste['paysartiste']?></li>
@@ -63,31 +62,30 @@ require_once BASE_PATH.'/fonctionsBDD/Exposer.php';  //Import du fichier contena
                     
 				</ul>
 	</div>
+    <div class="d-flex flex-wrap justify-content-evenly mb-5 ">
     <?php
         $idartiste = pg_escape_string($_GET['idartiste']);
         $collection=get_info_artwork_by_artist($idartiste); //Récupération des infos de toutes les oeuvres d'un artiste
         foreach ($collection as $oeuvre){
             //Création d'une carte par oeuvre
-            $html = "<div class='card mb-3' style='max-width: 540px;'>
-            <div class='row g-0'>
-            <div class='col-md-4'>";
+            $html = "<div class='card-deck m-4 text-center' style='width: 30rem;'>";
             if($oeuvre['imageoeuvre']){
-                $html = $html."<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                $html = $html."<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$oeuvre['nomoeuvre']."'>";
             }
             else{
-                $html = $html."<img src='https://picsum.photos/200' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
+                $html = $html."<img src='https://picsum.photos/200' class='img-fluid' style='max-width: 100%; max-height: 400px;' alt='".$oeuvre['nomoeuvre']."'>";
             }
-            $html = $html."</div>
-                <div class='col-md-8'>
-                <div class='card-body'>
+            $html = $html."
+                <div class='card-body py-4'>
                 <h5 class='card-title'>".$oeuvre['nomoeuvre']."</h5>
-                <p class='card-text'>".$oeuvre['descriptionoeuvre']."</p>
+                <p class='card-text overflow-y-auto' style='height: 8em;''>".$oeuvre['descriptionoeuvre']."</p>
                 <p class='card-text'><small class='text-body-secondary'>".$oeuvre['dateoeuvre']."</small></p>
                 <form method='GET' action='./../Oeuvres/show_artwork.php'><input type='hidden' name='idoeuvre' value='".$oeuvre['idoeuvre']."'/><input type='submit' value='Voir'/></form>";
-            $html = $html."</div></div></div></div>";
+            $html = $html."</div></div>";
             echo $html;
         }
-        include "./../View/templates/footer.php"; //Inclus le pied de page
         ?>
+    </div>
+        <?php include "./../View/templates/footer.php";?> <!--Inclus le pied de page-->
 </body>
 </html>

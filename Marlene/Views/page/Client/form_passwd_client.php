@@ -35,14 +35,15 @@
                 <input type="text" class="form-control" name="old_passwd" >
             </div>
             <div class="mb-3">
-                <label for="first_new_passwd" class="form-label">Nouveau mot de passe :</label>
-                <input type="password" class="form-control" name="first_new_passwd">
+                <label for="motdepasse" class="form-label">Nouveau mot de passe :</label>
+                <input type="password" class="form-control" id="firstpass" name="motdepasse">
             </div>
             <div class="mb-3">
                 <label for="motdepasseclient" class="form-label">Confirmer mot de passe :</label>
-                <input type="password" class="form-control" name="motdepasseclient">
+                <input type="password" class="form-control" name="motdepasseclient" id="motdepasseclient">
+                <p id='validate'></p>
             </div>
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="submit" id="submit" class="btn btn-primary">Valider</button>
         </form>
         
 </div>

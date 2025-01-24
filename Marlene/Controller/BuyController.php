@@ -109,6 +109,23 @@ function update_buy(int $id): void
 
 
 
+function display_add_buy_admin(): array
+{
+
+    require_once __DIR__."/../Modeles/Clients.php";
+    require_once __DIR__."/../Modeles/Goodies.php";
+    $clients = get_all_clients();
+    $object = get_all_goody();    
+    // var_dump($clients);
+    return [
+        'page' => 'add_buy_admin',
+        'title' => "Ajout achat admin",
+        'clients' => $clients,
+        'plus_js' => true,
+        'objects' => $object
+    ];  
+}
+
 function display_add_buy($idgoodie): array
 {
     
@@ -131,6 +148,50 @@ function remove_buy($id):void
     // index();
     index_buy();
 }
+
+
+function new_buy($idobject):void
+{
+    // var_dump($_GET);
+    $data = $_POST;
+    $idclient = $_SESSION['idclient'];
+    $data['idobject'] = intval($idobject);
+    $data['idclient'] = $idclient;
+    
+    var_dump($data);
+    try {
+        add_new_buy($data);
+        echo 'achat ajouter';
+        
+    } catch (\Throwable $th) {
+        
+        echo "probleme lors de l'enregistrement de l'object acheter : ".$th->getMessage();
+    }
+    header("location: ".SRV_PATH."Marlene/home.php/?ctrl=client&fct=display_show_client&id=".$idclient );
+
+}
+
+function new_buy_admin():void
+{
+    $data = $_POST;
+    $idobject = $data["idobject"];
+    $data['idobject'] = $idobject;
+    $data['idclient'] = $data["idclient"];
+    
+    try {
+        add_new_buy($data);
+        echo 'achat ajouter';
+        
+    } catch (\Throwable $th) {
+        
+        echo "probleme lors de l'enregistrement de l'object acheter : ".$th->getMessage();
+    }
+    header("location: ".SRV_PATH."Goodies/one_goodies.php/?idobject=".$idobject );
+
+    var_dump($_POST);
+    echo "on est dans la fonction new buy";
+}
+
 
 
 /**

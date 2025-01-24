@@ -21,9 +21,72 @@ function get_all_buys(): array
 {
   $connex = connectionBDD(); // on se connect
   try {
-    $sql = "SELECT * FROM acheter ORDER BY idacheter";
+    
+    $sql = "SELECT
+              -- ou on sélectionne uniquement ceux qu'on veux
+              acheter.idacheter AS idacheter,
+              acheter.quantiteachat AS quantiteachat,
+              clients.pseudoclient AS pseudoclient,
+              objects.nomobject AS nomobject
+            FROM acheter
+            INNER JOIN clients
+              ON clients.idclient = acheter.refidclientachat 
+            JOIN objects
+              ON objects.idobject = acheter.refidobjectachat  
+            ORDER BY acheter.idacheter DESC;
+        ";
+      
     $res = $connex->query($sql);
     $resu = $res->fetchall();
+
+  } catch (PDOException $e) { // si échec
+    print "Erreur pour retourner tous les achats : " . $e->getMessage();
+    $resu = [];
+    die(""); // Arrêt du script - sortie.
+  }
+  disconnectionBDD($connex);
+  return $resu;
+}
+
+
+/**
+ *      fonction qui retourne toutes les informations de tous les achats 
+ *      ( fonction SELECT  )
+ * 
+ * @return array $resu list de toutes les informations de tous les achats
+*/
+function get_all_buys_for_client($idclient): array
+{
+  $connex = connectionBDD(); // on se connect
+  try {
+    
+    // $sql = "SELECT
+    
+    $sql = $connex->prepare(
+    // $sql = $connex->query(
+        "SELECT
+              *
+              -- ou on sélectionne uniquement ceux qu'on veux
+              -- acheter.quantiteachat AS quantiteachat,
+              -- acheter.dateachat AS dateachat,
+              -- objects.nomobject AS nomobject
+              -- objects.imageobject AS imageobject
+              -- objects.prixobject AS prixobject
+            FROM acheter
+            INNER JOIN clients
+              ON clients.idclient = acheter.refidclientachat 
+            JOIN objects
+              ON objects.idobject = acheter.refidobjectachat  
+            WHERE clients.idclient = :refidclientachat
+            ORDER BY acheter.dateachat DESC;
+        ");
+      
+    $sql->bindParam(':refidclientachat', $idclient, PDO::PARAM_INT);
+    // $res = $connex->query($sql);
+    $sql->execute();
+    // $resu = $sql->fetch();
+    $resu = $sql->fetchall();
+
   } catch (PDOException $e) { // si échec
     print "Erreur pour retourner tous les achats : " . $e->getMessage();
     $resu = [];
@@ -96,7 +159,7 @@ function add_new_buy(array $data): int
     // $res = $connex->query($sql);
     $id = $sql->fetchColumn(); 		// récupération de la valeur l'élément RETURNING contenu dans $res
   } catch (PDOException $e) { // si échec
-    print "Erreur pour ajouter le buys " . $data['nom'] . "  : " . $e->getMessage();
+    print "Erreur pour ajouter l'achat : " . $e->getMessage();
     $id = 0;
     die(""); // Arrêt du script - sortie.
   }

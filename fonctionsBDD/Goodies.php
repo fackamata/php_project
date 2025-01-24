@@ -23,27 +23,6 @@ function get_all_goodies(){
     return $resu;
 }
 
-// function get_goodies_by_name($nomobject){
-//     /**
-//      * Récupère dans la base de donnée toutes les infos des objets portant le nom passer en paramètre.
-//     * 
-//     */
-//     $connex=connectionBDD(); //Connexion à la BDD
-//     try {
-//     $sql="SELECT * FROM objetcs WHERE nomobject = '".$nomobject."'"; // Requette envoyer à la BDD pour récupérer des infos
-//     print $sql;
-//     $res=$connex->query($sql);
-//     $resu=$res->fetchAll();
-//     }
-//     catch (Exception $e) { //Si échec
-//         print "Erreur pour retourner les infos de l'objet : " . $e->getMessage();
-//         $resu = [];
-//         die(""); //Arrêt du script
-//     }
-//     disconnectionBDD($connex); //Deconnexion de la BDD
-//     return $resu;
-// }
-
 function get_goodies_by_id($idobject){
     /**
      * Récupère dans la base de donnée toutes les infos de l'objet ayant l'id passer en paramètre et les infos de l'oeuvre
@@ -146,5 +125,26 @@ function edit_goodies($nomobject, $prixobject, $descriptionobject, $imageobject,
     }
     disconnectionBDD($connex); //Deconnexion de la BDD
 }
+
+// function get_goodies_by_name($nomobject){
+//     /**
+//      * Récupère dans la base de donnée toutes les infos des objets portant le nom passer en paramètre.
+//     * 
+//     */
+//     $connex=connectionBDD(); //Connexion à la BDD
+//     try {
+//     $sql="SELECT * FROM objetcs WHERE nomobject = '".$nomobject."'"; // Requette envoyer à la BDD pour récupérer des infos
+//     print $sql;
+//     $res=$connex->query($sql);
+//     $resu=$res->fetchAll();
+//     }
+//     catch (Exception $e) { //Si échec
+//         print "Erreur pour retourner les infos de l'objet : " . $e->getMessage();
+//         $resu = [];
+//         die(""); //Arrêt du script
+//     }
+//     disconnectionBDD($connex); //Deconnexion de la BDD
+//     return $resu;
+// }
 
 ?>

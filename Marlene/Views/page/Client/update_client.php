@@ -39,10 +39,6 @@ $client = $data["clients"];
                 value=<?php echo $client['villeclient'];?> 
                 name="villeclient" >
         </div> 
-        <!-- <div class="form-group">
-            <label for="imageclient">Image de profil :</label>
-            <input type="file" class="form-control" name="imageclient" >
-        </div> -->
         <div class="form-group">
             <label for="emailclient">Emailclient :</label>
             <input type="text" class="form-control" 

@@ -1,8 +1,7 @@
 <?php
-require './../config.php';
-require_once BASE_PATH.'/fonctionsBDD/Comments.php';
-require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; // déclaration du fichier contenant des fonctions liées à l'utilisation de la BDD pouvant être appelées
-//require_once 'fonctionSys.php'; // déclaration du fichier contenant des fonctions orientées système (filtrage)
+require './../config.php';  //Import d'un fichier de config contenant un chemin de base nommé BASE_PATH
+require_once BASE_PATH.'/fonctionsBDD/Comments.php'; //Import du fichier contenant les fonctions BDD associé aux Commentaires
+require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; //Import du fichier contenant les fonctions BDD associé aux Oeuvres
 
 ?>
 <html>
@@ -14,15 +13,14 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; // déclaration du fichier 
 	</head>
 	<body>
         <?php
-			session_start();
-			include "./../View/templates/navbar.php";
-			$comments = get_info_comment($_POST["id_oeuvre"]);
-			$oeuvre = get_info_artwork($_POST['id_oeuvre']);
+			session_start();  //Lance la session sur le navigateur
+			include "./../View/templates/navbar.php";  //Inclus la barre de navigation du site
+			$comments = get_info_comment($_POST["id_oeuvre"]);  //Récupère les commentaires d'une oeuvre
+			$oeuvre = get_info_artwork($_POST['id_oeuvre']);  //Récupère les infos d'une oeuvre
 			?>
+            <!-- Affichage de l'oeuvre en question -->
 			<div class='card mb-3' style='max-width: 540px;'>
-            <div class='row g-0'>
-                <div class='col-md-4'>
-					<?php if($oeuvre['imageoeuvre']){
+					<?php if($oeuvre['imageoeuvre']){ //Test d'existence d'une image, remplcement par une image aléatoire si absente
 						echo "<img src='./../upload/".$oeuvre['imageoeuvre']."' class='img-fluid rounded-start' alt='".$oeuvre['nomoeuvre']."'>";
 					}
 					else{
@@ -31,17 +29,14 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; // déclaration du fichier 
                     ?>
                 </div>
 	
-                <div class='col-md-8'>
-                    <div class='card-body'>
+                <div class="d-flex px-5 py-3 mx-5 flex-column">
                         <h5 class='card-title'><?php echo $oeuvre['nomoeuvre'] ?></h5>
                         <h4 class='card-title'><?php echo $oeuvre['pseudoartiste'] ?></h4>
                         <p class='card-text'><?php echo $oeuvre['descriptionoeuvre'] ?></p>
                         <p class='card-text'><small class='text-body-secondary'><?php echo $oeuvre['dateoeuvre'] ?></small></p>
                     </div>
-                </div>
-            </div>
-        	</div>
 			<?php
+            //Affichage des commentaires en liste
 			foreach ($comments as $comment){
                 $html = "<div class='card container'>
                     <div class='card-header'>
@@ -56,7 +51,7 @@ require_once BASE_PATH.'/fonctionsBDD/Artworks.php'; // déclaration du fichier 
                     </div>";
                     echo $html;
             }
-		include "./../View/templates/footer.php";
+		include "./../View/templates/footer.php"; //Inclus le pied de page
 		?>
     </body>
 </html>
